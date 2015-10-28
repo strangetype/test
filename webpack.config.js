@@ -8,7 +8,7 @@ var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 var config = {
   context: path.join(__dirname, 'app'), // source directory
-  entry: ['./main'], // main.js file location
+  entry: ['app/main'], // main.js file location
   output: {
     root: path.resolve(__dirname, 'app'),
     path: path.join(__dirname, 'build') // output directory
