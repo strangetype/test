@@ -11,7 +11,7 @@ var config = {
   entry: ['main'], // main.js file location
   output: {
     root: path.resolve(__dirname, 'app'),
-    path: path.join(__dirname, 'build') // output directory
+    path: path.join(__dirname, 'build/js') // output directory
   },
 
 

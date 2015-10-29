@@ -8,12 +8,11 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
-    "react": "^0.13.3",
+    "react": "0.13.3",
+    "react-intl": "^1.2.0",
     "jquery": "^2.1.4",
     "react-router": "^0.13.3",
     "reflux": "^0.2.7",
@@ -22,6 +21,7 @@
     "numeral": "^1.5.3"
   },
   "resolutions": {
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "intl": "^1.0.0"
   }
 }

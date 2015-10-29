@@ -28,14 +28,12 @@ gulp.task('build', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['app/**'], ['build']);
-  gulp.watch('./assets/stylesheets/*.scss', ['styles']);
-  gulp.watch('./assets/stylesheets/**/*.scss', ['styles']);
+  gulp.watch(['app/**'], ['build', 'styles']);
 });
 
 gulp.task('styles', function () {
   console.log('build css');
-  return sass('app/style/**.scss', {style: 'expanded'})
+  return sass('app/style/app.scss', {style: 'expanded'})
       .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
       .pipe(rename({suffix: '.min'}))
       .pipe(minifycss())
