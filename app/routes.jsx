@@ -4,7 +4,7 @@ var ReactRouter = require('react-router');
 
 var { Route, DefaultRoute, Router } = ReactRouter;
 
-var MainLayout = require('layouts/MainLayout');
+var MainLayout = require('layouts/Main');
 
 var routes = (
     <Route name="app" path="app" handler = {MainLayout} >
