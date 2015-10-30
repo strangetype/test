@@ -1,24 +1,72 @@
 var React = require('react');
 
 var Component = React.createClass({
-    render: function() {
 
-        var options = [
-            'option1',
-            'option2',
-            'option3',
-            'option4'
-        ];
+    imagesCount: 9,
+    ci1: 0,
+    ci2: 1,
+    bkg1: null,
+    bkg2: null,
+
+    componentDidMount: function() {
+
+        this.bkg1 = this.refs.background.getDOMNode();
+        this.bkg1.style.opacity = 1;
+        this.bkg1.style.transition = 'opacity 1s';
+
+        this.bkg2 = this.refs._background.getDOMNode();
+        this.bkg2.style.opacity = 0;
+        this.bkg2.style.transition = 'opacity 1s';
+
+        setInterval(()=>{
+            this.bkgChange();
+            this.forceUpdate();
+        },5000);
+    },
+
+    _order: 1,
+
+    bkgChange: function() {
+        if (this._order===1) {
+            this.bkg1.style.opacity = 0;
+            this.bkg2.style.opacity = 1;
+
+            this.ci2 = this.ci2+2;
+            if (this.ci2>this.imagesCount) this.ci2 = 1;
+
+            this._order = 2;
+
+        } else {
+            this.bkg1.style.opacity = 1;
+            this.bkg2.style.opacity = 0;
+
+            this.ci1 = this.ci1+2;
+            if (this.ci1>this.imagesCount) this.ci1 = 0;
+
+            this._order = 1;
+        }
+    },
+
+    render: function() {
 
         return (
             <div className="layout-main">
-                <div className = "header">
-                    {options.map((opt)=>{
-                        return <button className="header-menu-btn">{opt}</button>
-                    })}
+                <img ref="background" className="main-image" src ={"images/main"+this.ci1+".jpg"}/>
+                <img ref="_background" className="main-image" src ={"images/main"+this.ci2+".jpg"}/>
+                <div className = "left-menu">
+                    <ul>
+                        <li>Галлерея</li>
+                        <li>Стоимость</li>
+                        <li>Контакты</li>
+                    </ul>
                 </div>
-                <img className = "main-image" src="images/main.jpg" ></img>
+                <img className="camera-logo" src="images/camera.png" />
+                <div className="photographer-title">
+                    <h1 >Мария Тропина</h1>
+                    <h2 >детский фотограф</h2>
+                </div>
             </div>
+
         );
     }
 });
