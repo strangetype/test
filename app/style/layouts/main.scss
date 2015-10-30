@@ -11,24 +11,47 @@
     font-weight: bold;
 
     ul {
-      margin: 5em;
-      margin-top: 15em;
+      margin: 100px;
       list-style: none;
       li {
-        margin: 1em;
+        margin: 1em 1em 1em 0;
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.5s;
+        color: #444;
+        &:hover {
+          color: #000;
+        }
       }
     }
   }
 
   .camera-logo {
-    position: absolute;
-    left: 90px; top: 80px;
+    margin: 100px;
     width: 100px;
   }
 
   .main-image {
     position: absolute;
     width: 100%;
+  }
+
+  .points {
+    width: 100%;
+    top: 50px;
+    text-align: center;
+    .point {
+      display: inline-block;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid #fff;
+      width: 10px; height: 10px;
+      transition: background 1s;
+      margin: 5px;
+      &.point--active {
+        background: rgba(255,255,255,0.5);
+      }
+    }
   }
 
   .photographer-title {
