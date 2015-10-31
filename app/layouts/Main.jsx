@@ -6,7 +6,7 @@ var Component = React.createClass({
 
     imagesCount: 15,
     ci1: 0,
-    ci2: 15,
+    ci2: 1,
     bkg1: null,
     bkg2: null,
     activeImage: 0,
@@ -30,22 +30,26 @@ var Component = React.createClass({
 
     bkgChange: function() {
         if (this._order===1) {
-            this.ci2 = this.ci2+2;
-            if (this.ci2>this.imagesCount) this.ci2 = 1;
             this.activeImage = this.ci2;
             this.forceUpdate();
             this.bkg1.style.opacity = 0;
             this.bkg2.style.opacity = 1;
             this._order = 2;
+            setTimeout(()=>{
+                this.ci1 = this.ci1+2;
+                if (this.ci1>this.imagesCount) this.ci1 = 0;
+            },1500);
 
         } else {
-            this.ci1 = this.ci1+2;
-            if (this.ci1>this.imagesCount) this.ci1 = 0;
             this.activeImage = this.ci1;
             this.forceUpdate();
             this.bkg1.style.opacity = 1;
             this.bkg2.style.opacity = 0;
             this._order = 1;
+            setTimeout(()=>{
+                this.ci2 = this.ci2+2;
+                if (this.ci2>this.imagesCount) this.ci2 = 1;
+            },1500);
         }
     },
 
