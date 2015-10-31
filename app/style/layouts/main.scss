@@ -21,6 +21,11 @@
         &:hover {
           text-shadow: 0 0 3px #555;
         }
+        &.separator {
+          height: 3px;
+          width: 50px;
+          background: #fff;
+        }
       }
     }
   }
@@ -54,7 +59,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.8) 100%);
+    background: radial-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.6) 100%);
   }
 
   .points {

@@ -4,9 +4,9 @@ var _ = require('lodash');
 
 var Component = React.createClass({
 
-    imagesCount: 19,
+    imagesCount: 15,
     ci1: 0,
-    ci2: 19,
+    ci2: 15,
     bkg1: null,
     bkg2: null,
     activeImage: 0,
@@ -70,7 +70,8 @@ var Component = React.createClass({
                     <ul>
                         <li>Дети</li>
                         <li>Портреты</li>
-                        <li>Семейные фото</li>
+                        <li>Семейные</li>
+                        <li className="separator"></li>
                         <li>Стоимость</li>
                         <li>Контакты</li>
                     </ul>
