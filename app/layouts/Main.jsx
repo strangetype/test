@@ -5,52 +5,46 @@ var _ = require('lodash');
 var Component = React.createClass({
 
     imagesCount: 15,
-    ci1: 0,
-    ci2: 1,
-    bkg1: null,
-    bkg2: null,
     activeImage: 0,
+    nextImage: 1,
+    prevImage: 15,
+    interval: 10000,
+    blocked: false,
+    imagesTimer: null,
 
     componentDidMount: function() {
-
-        this.bkg1 = this.refs.background.getDOMNode();
-        this.bkg1.style.opacity = 1;
-        this.bkg1.style.transition = 'opacity 1s';
-
-        this.bkg2 = this.refs._background.getDOMNode();
-        this.bkg2.style.opacity = 0;
-        this.bkg2.style.transition = 'opacity 1s';
-
-        setInterval(()=>{
-            this.bkgChange();
-        },5000);
+        this.pushImagesChanging();
     },
 
     _order: 1,
 
-    bkgChange: function() {
-        if (this._order===1) {
-            this.activeImage = this.ci2;
-            this.forceUpdate();
-            this.bkg1.style.opacity = 0;
-            this.bkg2.style.opacity = 1;
-            this._order = 2;
-            setTimeout(()=>{
-                this.ci1 = this.ci1+2;
-                if (this.ci1>this.imagesCount) this.ci1 = 0;
-            },1500);
+    pushImagesChanging: function() {
+        clearTimeout(this.imagesTimer);
+        this.imagesTimer = setTimeout(()=>{
+            this.nextBkg();
+        },this.interval);
+    },
 
-        } else {
-            this.activeImage = this.ci1;
-            this.forceUpdate();
-            this.bkg1.style.opacity = 1;
-            this.bkg2.style.opacity = 0;
-            this._order = 1;
-            setTimeout(()=>{
-                this.ci2 = this.ci2+2;
-                if (this.ci2>this.imagesCount) this.ci2 = 1;
-            },1500);
-        }
+    nextBkg: function() {
+        this.pushImagesChanging();
+        this.nextImage += 1;
+        this.activeImage += 1;
+        this.prevImage += 1;
+        if (this.nextImage>this.imagesCount) this.nextImage = 0;
+        if (this.activeImage>this.imagesCount) this.activeImage = 0;
+        if (this.prevImage>this.imagesCount) this.prevImage = 0;
+        this.forceUpdate();
+    },
+
+    prevBkg: function() {
+        this.pushImagesChanging();
+        this.nextImage -= 1;
+        this.activeImage -= 1;
+        this.prevImage -= 1;
+        if (this.nextImage<0) this.nextImage = this.imagesCount;
+        if (this.activeImage<0) this.activeImage = this.imagesCount;
+        if (this.prevImage<0) this.prevImage = this.imagesCount;
+        this.forceUpdate();
     },
 
     render: function() {
@@ -63,20 +57,28 @@ var Component = React.createClass({
 
         return (
             <div className="layout-main">
-                <img ref="background" className="main-image" src ={"images/main"+this.ci1+".jpg"}/>
-                <img ref="_background" className="main-image" src ={"images/main"+this.ci2+".jpg"}/>
+
+                {points.map((i)=>{
+                    var st = {
+                        opacity: 0
+                    };
+                    if (this.activeImage === i) st.opacity = 1;
+                    if (!(this.nextImage === i || this.prevImage === i || this.activeImage === i)) return null;
+                    return <img className="main-image" style={st} src ={"images/main"+i+".jpg"}/>;
+                })}
+
+
                 <div className="main-image-shadow"></div>
-                <div className="logo">
-                    <img className="camera-logo" src="images/camera.png" />
-                    <img className="camera-wreath-logo" src="images/camera-wreath.png" />
-                </div>
                 <div className = "left-menu">
                     <ul>
-                        <li>Дети</li>
-                        <li>Портреты</li>
-                        <li>Семейные</li>
+                        <li>Главная</li>
                         <li className="separator"></li>
-                        <li>Стоимость</li>
+                        <li>Портфолио</li>
+                        <li className="separator"></li>
+                        <li>Услуги</li>
+                        <li className="separator"></li>
+                        <li>Отзывы</li>
+                        <li className="separator"></li>
                         <li>Контакты</li>
                     </ul>
                 </div>
@@ -85,10 +87,9 @@ var Component = React.createClass({
                     <img className="framing" src="images/framing.png" />
                     <h2 >детский фотограф</h2>
                 </div>
-                <div className="points">
-                    {points.map((p)=>{
-                        return <div className = {(p===this.activeImage) ? "point point--active" : "point"} ></div>
-                    })}
+                <div className = "arrows">
+                    <div onClick={this.prevBkg} className="left-arrow"></div>
+                    <div onClick={this.nextBkg} className="right-arrow"></div>
                 </div>
             </div>
 

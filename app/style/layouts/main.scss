@@ -5,7 +5,7 @@
   background: #000;
   .left-menu {
     position: absolute;
-    left: 60px; top: 200px;
+    left: 60px; top: 50px;
     font-weight: bold;
     ul {
       list-style: none;
@@ -13,13 +13,14 @@
         margin: 1em 1em 1em 0;
         font-size: 15px;
         cursor: pointer;
-        transition: color 0.5s;
-        color: #fff;
+        transition: color 0.5s, text-shadow 0.5s;
+        color: #eee;
         text-shadow: 0 0 3px #000;
         font-family: Calibri;
         text-transform: uppercase;
         &:hover {
-          text-shadow: 0 0 3px #555;
+          color: #fff;
+          text-shadow: 0 0 10px #fff;
         }
         &.separator {
           height: 1px;
@@ -51,7 +52,7 @@
   .main-image {
     position: absolute;
     width: 100%;
-
+    transition: opacity 1s;
   }
 
   .main-image-shadow {
@@ -103,4 +104,40 @@
     text-shadow: 0 0 2px #000;
     text-align: center;
   }
+
+  .arrows {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 350px;
+    .left-arrow, .right-arrow {
+      position: absolute;
+      top: 0;
+      cursor: pointer;
+      color: #ccc;
+      text-shadow: 0 0 2px #000;
+      transition: text-shadow 0.5s, color 0.5s;
+      &:hover {
+        color: #fff;
+        text-shadow: 0 0 10px #fff;
+      }
+      &:before {
+        font-family: consolas;
+        font-size: 50px;
+      }
+    }
+    .left-arrow {
+      left: 80px;
+      &:before {
+        content: '<';
+      }
+    }
+    .right-arrow {
+      right: 80px;
+      &:before {
+        content: '>';
+      }
+    }
+  }
+
 }
