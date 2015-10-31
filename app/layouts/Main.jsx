@@ -4,9 +4,9 @@ var _ = require('lodash');
 
 var Component = React.createClass({
 
-    imagesCount: 9,
+    imagesCount: 19,
     ci1: 0,
-    ci2: 9,
+    ci2: 19,
     bkg1: null,
     bkg2: null,
     activeImage: 0,
@@ -61,22 +61,29 @@ var Component = React.createClass({
             <div className="layout-main">
                 <img ref="background" className="main-image" src ={"images/main"+this.ci1+".jpg"}/>
                 <img ref="_background" className="main-image" src ={"images/main"+this.ci2+".jpg"}/>
-                <div className = "left-menu">
+                <div className="main-image-shadow"></div>
+                <div className="logo">
                     <img className="camera-logo" src="images/camera.png" />
-                    <div className="points">
-                        {points.map((p)=>{
-                            return <div className = {(p===this.activeImage) ? "point point--active" : "point"} ></div>
-                        })}
-                    </div>
+                    <img className="camera-wreath-logo" src="images/camera-wreath.png" />
+                </div>
+                <div className = "left-menu">
                     <ul>
-                        <li>Галлерея</li>
+                        <li>Дети</li>
+                        <li>Портреты</li>
+                        <li>Семейные фото</li>
                         <li>Стоимость</li>
                         <li>Контакты</li>
                     </ul>
                 </div>
                 <div className="photographer-title">
                     <h1 >Мария Тропина</h1>
+                    <img className="framing" src="images/framing.png" />
                     <h2 >детский фотограф</h2>
+                </div>
+                <div className="points">
+                    {points.map((p)=>{
+                        return <div className = {(p===this.activeImage) ? "point point--active" : "point"} ></div>
+                    })}
                 </div>
             </div>
 

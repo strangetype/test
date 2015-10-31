@@ -1,76 +1,100 @@
 .layout-main {
-  position: relative;
+  position: absolute;
   width: 100%; height: 100%;
+  overflow: hidden;
+  background: #000;
   .left-menu {
     position: absolute;
-    left: 0; top: 0;
-    background: rgba(255,255,255,0.5);
-    width: 300px;
-    height: 2000px;
-    color: #333;
+    left: 60px; top: 200px;
     font-weight: bold;
-
     ul {
-      margin: 100px;
       list-style: none;
       li {
         margin: 1em 1em 1em 0;
-        font-size: 20px;
+        font-size: 15px;
         cursor: pointer;
         transition: color 0.5s;
-        color: #444;
+        color: #fff;
+        text-shadow: 0 0 3px #000;
+        font-family: Calibri;
+        text-transform: uppercase;
         &:hover {
-          color: #000;
+          text-shadow: 0 0 3px #555;
         }
       }
     }
   }
 
-  .camera-logo {
-    margin: 100px;
-    width: 100px;
+  .logo {
+    position: absolute;
+    margin: auto;
+    left: 50px;
+    top: 50px;
+    .camera-logo {
+      position: absolute;
+      width: 50px;
+      top: 20px;
+      left: 25px;
+    }
+    .camera-wreath-logo {
+      position: absolute;
+      width: 100px;
+    }
   }
 
   .main-image {
     position: absolute;
     width: 100%;
+
+  }
+
+  .main-image-shadow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0.8) 100%);
   }
 
   .points {
-    width: 100%;
-    top: 50px;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
     text-align: center;
     .point {
       display: inline-block;
       border-radius: 50%;
       background: rgba(0,0,0,0.5);
-      border: 1px solid #fff;
       width: 10px; height: 10px;
-      transition: background 1s;
+      transition: background 1s, box-shadow 1s;
       margin: 5px;
       &.point--active {
-        background: rgba(255,255,255,0.5);
+        background: rgba(255,255,255,1);
+        box-shadow: 0 0 10px #fff;
       }
     }
   }
 
   .photographer-title {
     h1 {
-      font-size: 50px;
-      color: #333;
-      text-align: center;
+      font-size: 30px;
       text-transform: uppercase;
     }
     h2 {
-      color: #333;
-      text-align: center;
-      letter-spacing: 0.5em;
+      letter-spacing: 0.45em;
       text-transform: uppercase;
+      font-size: 15px;
+    }
+    .framing {
+      margin-top: -15px;
     }
     position: absolute;
-    top: 50px;
-    right: 50px;
-    background: rgba(255,255,255,0.5);
-    padding: 20px 30px;
+    top: 30px;
+    right: 0;
+    padding: 20px 50px 20px 100px;
+    color: #fff;
+    text-shadow: 0 0 2px #000;
+    text-align: center;
   }
 }
