@@ -1,0 +1,64 @@
+.layout-gallery {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding: 60px 10px 10px 210px;
+  box-sizing: border-box;
+  .category {
+    position: relative;
+    display: inline-block;
+    width: 350px;
+    height: 350px;
+    margin: 10px;
+    overflow: hidden;
+    cursor: pointer;
+
+    animation: category-show 0.5s;
+
+    .category-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      color: #444;
+      font-family: calibri;
+      font-size: 22px;
+      box-sizing: border-box;
+      text-align: right;
+      padding: 1em;
+      transition: bottom 0.1s;
+    }
+    .category-image {
+      height: 100%;
+    }
+
+    .category-border {
+      border: 0px solid #fff;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      transition: border-width 0.1s;
+    }
+
+    &:hover {
+      .category-title {
+        bottom: 1em;
+      }
+      .category-border {
+        border-width: 10px;
+      }
+    }
+  }
+}
+
+@keyframes category-show {
+  0% {opacity: 0; transform: scale(0.7)}
+  100% {opacity: 1; transform: scale(1)}
+}

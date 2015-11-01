@@ -17,12 +17,18 @@
         color: #eee;
         text-shadow: 0 0 3px #000;
         font-family: Calibri;
+        >span {
+          font-family: Calibri;
+        }
         text-transform: uppercase;
-        &:hover {
+        &:hover, &.active {
           color: #fff;
           text-shadow: 0 0 10px #fff;
         }
-        &.separator {
+        &.active {
+          list-style: circle;
+        }
+        .separator {
           height: 1px;
           width: 8em;
           background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,0));
@@ -52,7 +58,7 @@
   .main-image {
     position: absolute;
     width: 100%;
-    transition: opacity 1s;
+    transition: opacity 1s, filter 1s;
   }
 
   .main-image-shadow {
@@ -137,6 +143,20 @@
       &:before {
         content: '>';
       }
+    }
+  }
+
+  .hide-on-blur {
+    transition: opacity 1s;
+    opacity: 1;
+  }
+
+  &.layout-main--blured {
+    .main-image {
+      filter: blur(5px);
+    }
+    .hide-on-blur {
+      opacity: 0;
     }
   }
 

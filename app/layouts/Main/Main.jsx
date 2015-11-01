@@ -1,6 +1,8 @@
 var React = require('react');
-
+var cx = require('classnames');
 var _ = require('lodash');
+
+var LayoutGallery = require('layouts/Gallery/Gallery');
 
 var Component = React.createClass({
 
@@ -11,6 +13,12 @@ var Component = React.createClass({
     interval: 10000,
     blocked: false,
     imagesTimer: null,
+
+    getInitialState: function() {
+        return {
+            isBlured: false
+        }
+    },
 
     componentDidMount: function() {
         this.pushImagesChanging();
@@ -47,6 +55,25 @@ var Component = React.createClass({
         this.forceUpdate();
     },
 
+    routes: [
+        {name: 'main', title: 'Главная'},
+        {name: 'gallery', title: 'Галерея'},
+        {name: 'services', title: 'Сервисы'},
+        {name: 'feedback', title: 'Отзывы'},
+        {name: 'contacts', title: 'Контакты'}
+    ],
+
+    currentRoute: 'main',
+
+    goTo: function(name) {
+        this.currentRoute = name;
+        if (name==='main') {
+            this.setState({isBlured: false});
+        } else {
+            this.setState({isBlured: true});
+        }
+    },
+
     render: function() {
 
         var points = [];
@@ -55,8 +82,12 @@ var Component = React.createClass({
             points.push(i);
         }
 
+        var mainLayoutClass = cx('layout-main', {
+            'layout-main--blured': this.state.isBlured
+        });
+
         return (
-            <div className="layout-main">
+            <div className={mainLayoutClass}>
 
                 {points.map((i)=>{
                     var st = {
@@ -67,29 +98,30 @@ var Component = React.createClass({
                     return <img className="main-image" style={st} src ={"images/main"+i+".jpg"}/>;
                 })}
 
-
                 <div className="main-image-shadow"></div>
-                <div className = "left-menu">
-                    <ul>
-                        <li>Главная</li>
-                        <li className="separator"></li>
-                        <li>Портфолио</li>
-                        <li className="separator"></li>
-                        <li>Услуги</li>
-                        <li className="separator"></li>
-                        <li>Отзывы</li>
-                        <li className="separator"></li>
-                        <li>Контакты</li>
-                    </ul>
-                </div>
-                <div className="photographer-title">
+                <div className="photographer-title hide-on-blur">
                     <h1 >Мария Тропина</h1>
                     <img className="framing" src="images/framing.png" />
                     <h2 >детский фотограф</h2>
                 </div>
-                <div className = "arrows">
+                <div className = "arrows hide-on-blur">
                     <div onClick={this.prevBkg} className="left-arrow"></div>
                     <div onClick={this.nextBkg} className="right-arrow"></div>
+                </div>
+
+                {(this.currentRoute==="gallery") && <LayoutGallery />}
+
+                <div className = "left-menu">
+                    <ul>
+                        {this.routes.map((r)=>{
+                            var c = '';
+                            if (r.name===this.currentRoute) c = "active";
+                            return <li className={c} onClick={this.goTo.bind(this,r.name)} >
+                                {r.title}
+                                <div className="separator"></div>
+                            </li>
+                        })}
+                    </ul>
                 </div>
             </div>
 
