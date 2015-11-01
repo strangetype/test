@@ -33,6 +33,10 @@ var Component = React.createClass({
         },this.interval);
     },
 
+    stopImagesChanging: function() {
+        clearTimeout(this.imagesTimer);
+    },
+
     nextBkg: function() {
         this.pushImagesChanging();
         this.nextImage += 1;
@@ -68,8 +72,10 @@ var Component = React.createClass({
     goTo: function(name) {
         this.currentRoute = name;
         if (name==='main') {
+            this.pushImagesChanging();
             this.setState({isBlured: false});
         } else {
+            this.stopImagesChanging();
             this.setState({isBlured: true});
         }
     },

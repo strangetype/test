@@ -21,6 +21,9 @@
 
     animation: category-show 0.5s;
 
+    border: 2px solid #fff;
+    box-sizing: border-box;
+
     .category-title {
       position: absolute;
       bottom: 0;
@@ -32,8 +35,8 @@
       font-size: 22px;
       box-sizing: border-box;
       text-align: right;
-      padding: 1em;
-      transition: bottom 0.1s;
+      padding: 1em 2em;
+      transition: transform 0.1s;
     }
     .category-image {
       width: 100%;
@@ -46,25 +49,27 @@
       left: 0;
       top: 0;
       box-sizing: border-box;
+      box-shadow: inset 0 0 10px #aaa;
     }
 
     .category-border {
-      border: 2px solid #fff;
-      transition: border-width 0.1s;
+      border: 10px solid #fff;
+      transform: scale(1.2);
+      transition: transform 0.1s;
     }
 
     &:hover {
       .category-title {
-        bottom: 1em;
+        transform: translateY(-1em);
       }
       .category-border {
-        border-width: 10px;
+        transform: scale(1);
       }
     }
   }
 }
 
 @keyframes category-show {
-  0% {opacity: 0; transform: scale(0.7)}
+  0% {opacity: 0; transform: scale(0.9)}
   100% {opacity: 1; transform: scale(1)}
 }
