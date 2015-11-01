@@ -26,7 +26,6 @@ var Component = React.createClass({
                             <h2 className="category-title">
                                 {c.title}
                             </h2>
-                            <div className="category-border"></div>
                         </div>
                     );
                 })}

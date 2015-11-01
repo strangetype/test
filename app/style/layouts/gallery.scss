@@ -22,7 +22,9 @@
     animation: category-show 0.5s;
 
     border: 2px solid #fff;
+
     box-sizing: border-box;
+    transition: transform 0.1s;
 
     .category-title {
       position: absolute;
@@ -36,35 +38,13 @@
       box-sizing: border-box;
       text-align: right;
       padding: 1em 2em;
-      transition: transform 0.1s;
     }
     .category-image {
       width: 100%;
     }
 
-    .category-border {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      box-sizing: border-box;
-      box-shadow: inset 0 0 10px #aaa;
-    }
-
-    .category-border {
-      border: 10px solid #fff;
-      transform: scale(1.2);
-      transition: transform 0.1s;
-    }
-
     &:hover {
-      .category-title {
-        transform: translateY(-1em);
-      }
-      .category-border {
-        transform: scale(1);
-      }
+      transform: scale(1.02);
     }
   }
 }
