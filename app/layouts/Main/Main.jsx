@@ -113,12 +113,12 @@ var Component = React.createClass({
 
                 <div className = "left-menu">
                     <ul>
-                        {this.routes.map((r)=>{
+                        {this.routes.map((r,i)=>{
                             var c = '';
                             if (r.name===this.currentRoute) c = "active";
                             return <li className={c} onClick={this.goTo.bind(this,r.name)} >
                                 {r.title}
-                                <div className="separator"></div>
+                                {(i!==this.routes.length-1) && <div className="separator"></div>}
                             </li>
                         })}
                     </ul>

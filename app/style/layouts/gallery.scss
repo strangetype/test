@@ -5,14 +5,17 @@
   height: 100%;
   width: 100%;
   overflow: auto;
-  padding: 60px 10px 10px 210px;
+  padding: 1% 10px 1% 210px;
   box-sizing: border-box;
+
+  @include scrollbars(0, transparent, transparent);
+
   .category {
     position: relative;
     display: inline-block;
-    width: 350px;
-    height: 350px;
-    margin: 10px;
+    width: 46%;
+    height: 46%;
+    margin: 1% 2%;
     overflow: hidden;
     cursor: pointer;
 
@@ -33,17 +36,20 @@
       transition: bottom 0.1s;
     }
     .category-image {
-      height: 100%;
+      width: 100%;
     }
 
     .category-border {
-      border: 0px solid #fff;
       position: absolute;
       width: 100%;
       height: 100%;
       left: 0;
       top: 0;
       box-sizing: border-box;
+    }
+
+    .category-border {
+      border: 2px solid #fff;
       transition: border-width 0.1s;
     }
 
