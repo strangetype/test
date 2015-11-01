@@ -3,6 +3,7 @@ var cx = require('classnames');
 var _ = require('lodash');
 
 var LayoutGallery = require('layouts/Gallery/Gallery');
+var LayoutGallery2 = require('layouts/Gallery2/Gallery2');
 
 var Component = React.createClass({
 
@@ -68,9 +69,11 @@ var Component = React.createClass({
     ],
 
     currentRoute: 'main',
+    currentRoute2: null,
 
     goTo: function(name) {
         this.currentRoute = name;
+        this.currentRoute2 = null;
         if (name==='main') {
             this.pushImagesChanging();
             this.setState({isBlured: false});
@@ -78,6 +81,11 @@ var Component = React.createClass({
             this.stopImagesChanging();
             this.setState({isBlured: true});
         }
+    },
+
+    goTo2: function(name,i) {
+        this.currentRoute2 = name+i;
+        this.forceUpdate();
     },
 
     render: function() {
@@ -115,7 +123,8 @@ var Component = React.createClass({
                     <div onClick={this.nextBkg} className="right-arrow"></div>
                 </div>
 
-                {(this.currentRoute==="gallery") && <LayoutGallery />}
+                {(this.currentRoute==="gallery") && <LayoutGallery onSelect = {this.goTo2.bind(this,'gallery')} />}
+                {(this.currentRoute2==="gallery1") && <LayoutGallery2 />}
 
                 <div className = "left-menu">
                     <ul>

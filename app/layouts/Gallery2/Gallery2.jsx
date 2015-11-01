@@ -11,17 +11,14 @@ var Component = React.createClass({
     },
 
     categories: [
-        {title: 'Младенцы', img: 'images/categories/1.jpg'},
-        {title: 'Дети', img: 'images/categories/2.jpg'},
-        {title: 'Семейные', img: 'images/categories/3.jpg'},
-        {title: 'Фотокниги', img: 'images/categories/4.jpg'}
+        {title: 'младенцы', img: 'images/categories2/1.jpg'},
+        {title: 'дети 1-3', img: 'images/categories2/2.jpg'},
+        {title: 'дети 1-7', img: 'images/categories2/3.jpg'},
+        {title: 'дети 7-13', img: 'images/categories2/4.jpg'}
     ],
 
     choose: function(id) {
         this.setState({selected: id});
-        if (typeof(this.props.onSelect)==='function') {
-            this.props.onSelect(id);
-        }
     },
 
     render: function() {
@@ -41,7 +38,9 @@ var Component = React.createClass({
                         'category--active': this.state.selected === i
                     });
 
-                    var st = {transformOrigin: transformOrigins[i]};
+                    var st = {};
+                    if (this.state.selected!==false)
+                        st = {transformOrigin: transformOrigins[i]};
 
                     return (
                         <div onClick={this.choose.bind(this,i)} style={st} className={className}>

@@ -24,7 +24,7 @@
     border: 2px solid #fff;
 
     box-sizing: border-box;
-    transition: transform 0.1s;
+    transition: transform 0.1s, opacity 0.5s;
 
     .category-title {
       position: absolute;
@@ -44,7 +44,19 @@
     }
 
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.04);
+    }
+  }
+
+  &.layout-gallery--fade-out {
+    .category {
+      transition: transform 0.5s, opacity 0.5s;
+      opacity: 0;
+      transform: scale(0);
+      &.category--active {
+        opacity: 0;
+        transform: scale(2);
+      }
     }
   }
 }
