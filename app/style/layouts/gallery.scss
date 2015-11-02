@@ -1,4 +1,4 @@
-.layout-gallery {
+.layout-categories {
   position: absolute;
   top: 0;
   left: 0;
@@ -48,14 +48,14 @@
     }
   }
 
-  &.layout-gallery--fade-out {
+  &.layout-categories--fade-out {
     .category {
       transition: transform 0.5s, opacity 0.5s;
       opacity: 0;
-      transform: scale(0);
+      transform: scale(0.8) translateY(50%);
       &.category--active {
         opacity: 0;
-        transform: scale(2);
+        transform: scale(2) translateY(0);
       }
     }
   }

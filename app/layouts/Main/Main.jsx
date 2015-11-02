@@ -2,8 +2,10 @@ var React = require('react');
 var cx = require('classnames');
 var _ = require('lodash');
 
-var LayoutGallery = require('layouts/Gallery/Gallery');
-var LayoutGallery2 = require('layouts/Gallery2/Gallery2');
+var {Navigation} = require('react-router');
+
+var LayoutCategories= require('layouts/Gallery/Categories');
+var LayoutSubCategories = require('layouts/Gallery/SubCategories');
 
 var Component = React.createClass({
 
@@ -15,10 +17,26 @@ var Component = React.createClass({
     blocked: false,
     imagesTimer: null,
 
+    mixins: [
+        Navigation,
+        React.addons.LinkedStateMixin
+    ],
+
     getInitialState: function() {
         return {
-            isBlured: false
+            isBlured: false,
+            nextScreen: null,
+            prevScreen: null
         }
+    },
+
+    getDefaultProps: function() {
+
+    },
+
+    componentWillMount: function() {
+        this.currentRoute = this.context.router.getCurrentPathname().split('/');
+        this._triggerByRoute();
     },
 
     componentDidMount: function() {
@@ -63,33 +81,73 @@ var Component = React.createClass({
     routes: [
         {name: 'main', title: 'Главная'},
         {name: 'gallery', title: 'Галерея'},
-        {name: 'services', title: 'Сервисы'},
+        {name: 'services', title: 'Услуги'},
         {name: 'feedback', title: 'Отзывы'},
         {name: 'contacts', title: 'Контакты'}
     ],
 
-    currentRoute: 'main',
-    currentRoute2: null,
+    currentRoute: [],
 
-    goTo: function(name) {
-        this.currentRoute = name;
-        this.currentRoute2 = null;
-        if (name==='main') {
-            this.pushImagesChanging();
-            this.setState({isBlured: false});
-        } else {
-            this.stopImagesChanging();
-            this.setState({isBlured: true});
+    _compareRoutes: function(newRoute) {
+        var result = false;
+        _.forEach(newRoute,(r,i)=>{
+            if (r!==this.currentRoute[i]) result = true;
+        });
+        if (newRoute.length!==this.currentRoute.length) result = true;
+        return result;
+    },
+
+    componentDidUpdate: function() {
+        var newRoute = this.context.router.getCurrentPathname().split('/');
+        if (this._compareRoutes(newRoute)) {
+            this.currentRoute = newRoute;
+            this._triggerByRoute();
         }
     },
 
-    goTo2: function(name,i) {
-        this.currentRoute2 = name+i;
-        this.forceUpdate();
+    _triggerByRoute: function() {
+        if (!this.currentRoute[2]) {
+            this.pushImagesChanging();
+            this.setState({
+                isBlured: false
+            });
+            this.changeScreen(null);
+        } else {
+            this.stopImagesChanging();
+            this.setState({isBlured: true});
+            if (this.currentRoute[2]==='gallery') {
+                if (this.props.params && this.props.params.category) {
+                    this.changeScreen('subCategories');
+                } else {
+                    this.changeScreen('categories');
+                }
+            }
+        }
+
+    },
+
+    changeScreenTimer: null,
+
+    changeScreen: function(screen) {
+        clearTimeout(this.changeScreenTimer);
+        _.forEach(this.refs,(ref,name)=>{
+            if (name!==screen) {
+                if (typeof(ref.fadeOut)==='function') ref.fadeOut();
+            } else {
+                ref.fadeIn();
+            }
+        });
+        this.setState({nextScreen: screen});
+        this.changeScreenTimer = setTimeout(()=>{
+            this.setState({prevScreen: screen});
+        },1000);
+    },
+
+    categoryChoose: function(categoryName) {
+        this.context.router.transitionTo('gallery-subCategories',{'category': categoryName}, {});
     },
 
     render: function() {
-
         var points = [];
 
         for (var i=0; i<=this.imagesCount; i++) {
@@ -123,15 +181,19 @@ var Component = React.createClass({
                     <div onClick={this.nextBkg} className="right-arrow"></div>
                 </div>
 
-                {(this.currentRoute==="gallery") && <LayoutGallery onSelect = {this.goTo2.bind(this,'gallery')} />}
-                {(this.currentRoute2==="gallery1") && <LayoutGallery2 />}
+                {(this.state.nextScreen==='categories' || this.state.prevScreen==='categories') && <LayoutCategories ref="categories" onSelect = {this.categoryChoose} />}
+                {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories ref="subCategories" />}
 
                 <div className = "left-menu">
                     <ul>
                         {this.routes.map((r,i)=>{
                             var c = '';
-                            if (r.name===this.currentRoute) c = "active";
-                            return <li className={c} onClick={this.goTo.bind(this,r.name)} >
+                            if (r.name===this.currentRoute[2]) {
+                                c = "active";
+                            } else {
+                                if (i===0 && !this.currentRoute[2]) c = "active";
+                            };
+                            return <li className={c} onClick={this.context.router.transitionTo.bind(this,r.name)} >
                                 {r.title}
                                 {(i!==this.routes.length-1) && <div className="separator"></div>}
                             </li>

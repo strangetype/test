@@ -6,7 +6,8 @@ var Component = React.createClass({
 
     getInitialState: function() {
         return {
-            selected: false
+            selected: false,
+            isFadeOut: false
         }
     },
 
@@ -18,13 +19,19 @@ var Component = React.createClass({
     ],
 
     choose: function(id) {
-        this.setState({selected: id});
+        this.setState({selected: id, isFadeOut: true});
+    },
+
+    fadeOut: function() {
+        this.setState({
+            isFadeOut: true
+        });
     },
 
     render: function() {
 
-        var layoutClass = cx('layout-gallery',{
-            'layout-gallery--fade-out': this.state.selected!==false
+        var layoutClass = cx('layout-categories',{
+            'layout-categories--fade-out': this.state.isFadeOut!==false
         });
 
         var transformOrigins = [
@@ -39,7 +46,7 @@ var Component = React.createClass({
                     });
 
                     var st = {};
-                    if (this.state.selected!==false)
+                    if (this.state.selected===i)
                         st = {transformOrigin: transformOrigins[i]};
 
                     return (
