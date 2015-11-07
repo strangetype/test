@@ -9,6 +9,8 @@ var LayoutSubCategories = require('layouts/Gallery/SubCategories');
 var LayoutGallery = require('layouts/Gallery/Gallery');
 var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
+var http = require('superagent');
+
 var Component = React.createClass({
 
     imagesCount: 15,
@@ -39,6 +41,10 @@ var Component = React.createClass({
     componentWillMount: function() {
         this.currentRoute = this.context.router.getCurrentPathname().split('/');
         this._triggerByRoute();
+
+        http.get('BE/file.txt').end((a,b,c,d)=>{
+            console.log(a,b,c,d);
+        });
     },
 
     componentDidMount: function() {
