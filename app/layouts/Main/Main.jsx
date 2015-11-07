@@ -6,6 +6,8 @@ var {Navigation} = require('react-router');
 
 var LayoutCategories= require('layouts/Gallery/Categories');
 var LayoutSubCategories = require('layouts/Gallery/SubCategories');
+var LayoutGallery = require('layouts/Gallery/Gallery');
+var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
 var Component = React.createClass({
 
@@ -116,11 +118,17 @@ var Component = React.createClass({
             this.stopImagesChanging();
             this.setState({isBlured: true});
             if (this.currentRoute[2]==='gallery') {
-                if (this.props.params && this.props.params.category) {
-                    this.changeScreen('subCategories');
-                } else {
-                    this.changeScreen('categories');
+                if (this.props.params) {
+                    if (this.props.params.category && !this.props.params.photoId) {
+                        this.changeScreen('photos');
+                        return;
+                    }
+                    if (this.props.params.category && this.props.params.photoId) {
+                        this.changeScreen('photoPreview');
+                        return;
+                    }
                 }
+                this.changeScreen('categories');
             }
         }
 
@@ -144,7 +152,19 @@ var Component = React.createClass({
     },
 
     categoryChoose: function(categoryName) {
-        this.context.router.transitionTo('gallery-subCategories',{'category': categoryName}, {});
+        if (categoryName==='childs') {
+            this.changeScreen('subCategories');
+        } else {
+            this.context.router.transitionTo('gallery-photos',{'category': categoryName});
+        }
+    },
+
+    subCategoryChoose: function(categoryName) {
+        this.context.router.transitionTo('gallery-photos',{'category': categoryName});
+    },
+
+    photoChoose: function(id) {
+        this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: id});
     },
 
     render: function() {
@@ -182,7 +202,9 @@ var Component = React.createClass({
                 </div>
 
                 {(this.state.nextScreen==='categories' || this.state.prevScreen==='categories') && <LayoutCategories ref="categories" onSelect = {this.categoryChoose} />}
-                {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories ref="subCategories" />}
+                {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories ref="subCategories" onSelect = {this.subCategoryChoose} />}
+                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery ref="photos" onSelect={this.photoChoose} />}
+                {(this.state.nextScreen==='photoPreview' || this.state.prevScreen==='photoPreview') && <LayoutPhotoPreview ref="photoPreview" />}
 
                 <div className = "left-menu">
                     <ul>

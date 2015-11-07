@@ -12,14 +12,17 @@ var Component = React.createClass({
     },
 
     categories: [
-        {title: 'младенцы', img: 'images/categories2/1.jpg'},
-        {title: 'дети 1-3', img: 'images/categories2/2.jpg'},
-        {title: 'дети 1-7', img: 'images/categories2/3.jpg'},
-        {title: 'дети 7-13', img: 'images/categories2/4.jpg'}
+        {title: 'младенцы', name: 'babies', img: 'images/categories2/1.jpg'},
+        {title: 'дети 1-3', name: 'childs13', img: 'images/categories2/2.jpg'},
+        {title: 'дети 1-7', name: 'childs17', img: 'images/categories2/3.jpg'},
+        {title: 'дети 7-13', name: 'childs713', img: 'images/categories2/4.jpg'}
     ],
 
-    choose: function(id) {
+    choose: function(id,name) {
         this.setState({selected: id, isFadeOut: true});
+        if (typeof(this.props.onSelect)==='function') {
+            this.props.onSelect(name);
+        }
     },
 
     fadeOut: function() {
@@ -50,7 +53,7 @@ var Component = React.createClass({
                         st = {transformOrigin: transformOrigins[i]};
 
                     return (
-                        <div onClick={this.choose.bind(this,i)} style={st} className={className}>
+                        <div onClick={this.choose.bind(this,i,c.name)} style={st} className={className}>
                             <img className="category-image" src={c.img} />
                             <h2 className="category-title">
                                 {c.title}

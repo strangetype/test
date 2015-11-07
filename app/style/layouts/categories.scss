@@ -1,0 +1,67 @@
+.layout-categories {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding: 1% 10px 1% 210px;
+  box-sizing: border-box;
+
+  @include scrollbars(0, transparent, transparent);
+
+  .category {
+    position: relative;
+    display: inline-block;
+    width: 46%;
+    height: 46%;
+    margin: 1% 2%;
+    overflow: hidden;
+    cursor: pointer;
+
+    animation: category-show 0.5s;
+
+    border: 2px solid #fff;
+
+    box-sizing: border-box;
+    transition: transform 0.1s, opacity 0.5s;
+
+    .category-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      color: #444;
+      font-family: calibri;
+      font-size: 22px;
+      box-sizing: border-box;
+      text-align: right;
+      padding: 1em 2em;
+    }
+    .category-image {
+      width: 100%;
+    }
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+
+  &.layout-categories--fade-out {
+    .category {
+      transition: transform 0.5s, opacity 0.5s;
+      opacity: 0;
+      transform: scale(0.9) translateY(10%);
+      &.category--active {
+        opacity: 0;
+        transform: scale(2) translateY(0);
+      }
+    }
+  }
+}
+
+@keyframes category-show {
+  0% {opacity: 0; transform: scale(0.9)}
+  100% {opacity: 1; transform: scale(1)}
+}

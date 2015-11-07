@@ -1,0 +1,14 @@
+.layout-photo-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  padding: 0 0 0 210px;
+  box-sizing: border-box;
+
+  &.layout-gallery--fade-out {
+
+  }
+}
