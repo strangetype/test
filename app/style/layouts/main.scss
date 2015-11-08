@@ -7,6 +7,7 @@
     position: absolute;
     left: 60px; top: 50px;
     font-weight: bold;
+    transition: opacity 0.5s;
     ul {
       list-style: none;
       li {
@@ -35,6 +36,9 @@
           margin-left: -1em;
         }
       }
+    }
+    &.left-menu--hidden {
+      opacity: 0;
     }
   }
 

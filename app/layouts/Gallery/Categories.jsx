@@ -11,12 +11,13 @@ var Component = React.createClass({
         }
     },
 
-    categories: [
-        {title: 'Младенцы', name: 'babies', img: 'images/categories/1.jpg'},
-        {title: 'Дети', name: 'childs', img: 'images/categories/2.jpg'},
-        {title: 'Семейные', name: 'family', img: 'images/categories/3.jpg'},
-        {title: 'Фотокниги', name: 'books', img: 'images/categories/4.jpg'}
-    ],
+    _getWindowHeight: function()  {
+        return window.innerHeight || document.body.clientHeight;
+    },
+
+    _getWindowWidth: function()  {
+        return window.innerWidth || document.body.clientWidth;
+    },
 
     fadeIn: function() {
         this.setState({isFadeOut: false});
@@ -26,10 +27,16 @@ var Component = React.createClass({
         this.setState({isFadeOut: true});
     },
 
-    choose: function(id,name) {
+    choose: function(category,id) {
+        var el = this.refs['category_'+id].getDOMNode();
+        var y = (el.offsetTop)/(this._getWindowHeight()-el.offsetHeight);
+        y = y*100;
+        var x = ((el.offsetLeft-210))/(this._getWindowWidth()-el.offsetWidth-210);
+        x = x*100;
+        el.style.transformOrigin = x+'% '+y+'%';
         this.setState({selected: id, isFadeOut: true},()=>{
             if (typeof(this.props.onSelect)==='function') {
-                this.props.onSelect(name);
+                this.props.onSelect(category,id);
             }
         });
     },
@@ -37,27 +44,22 @@ var Component = React.createClass({
     render: function() {
 
         var layoutClass = cx('layout-categories',{
+            'layout-categories--4': this.props.categories.length<=4,
+            'layout-categories--6': this.props.categories.length>4,
             'layout-categories--fade-out': this.state.isFadeOut!==false
         });
 
-        var transformOrigins = [
-            '0 0', '100% 0', '0 100%', '100% 100%'
-        ];
 
         return (
             <div className={layoutClass}>
-                {this.categories.map((c,i)=>{
+                {this.props.categories.map((c,i)=>{
                     var className = cx('category',{
                         'category--active': this.state.selected === i
                     });
 
-                    var st = {};
-                    if (i===this.state.selected)
-                        st = {transformOrigin: transformOrigins[i]};
-
                     return (
-                        <div onClick={this.choose.bind(this,i,c.name)} style={st} className={className}>
-                            <img className="category-image" src={c.img} />
+                        <div onClick={this.choose.bind(this,c,i)} ref={'category_'+i} className={className}>
+                            <img className="category-image" src={c.imgSrc} />
                             <h2 className="category-title">
                                 {c.title}
                             </h2>

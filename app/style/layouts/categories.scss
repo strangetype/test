@@ -48,6 +48,14 @@
     }
   }
 
+  &.layout-categories--6 {
+    .category {
+      width: 30%;
+      height: 46%;
+      margin: 1% 1%;
+    }
+  }
+
   &.layout-categories--fade-out {
     .category {
       transition: transform 0.5s, opacity 0.5s;

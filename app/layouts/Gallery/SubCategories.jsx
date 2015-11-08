@@ -11,17 +11,24 @@ var Component = React.createClass({
         }
     },
 
-    categories: [
-        {title: 'младенцы', name: 'babies', img: 'images/categories2/1.jpg'},
-        {title: 'дети 1-3', name: 'childs13', img: 'images/categories2/2.jpg'},
-        {title: 'дети 1-7', name: 'childs17', img: 'images/categories2/3.jpg'},
-        {title: 'дети 7-13', name: 'childs713', img: 'images/categories2/4.jpg'}
-    ],
+    _getWindowHeight: function()  {
+        return window.innerHeight || document.body.clientHeight;
+    },
 
-    choose: function(id,name) {
+    _getWindowWidth: function()  {
+        return window.innerWidth || document.body.clientWidth;
+    },
+
+    choose: function(category,id) {
+        var el = this.refs['category_'+id].getDOMNode();
+        var y = (el.offsetTop-this.getDOMNode().scrollTop)/(this._getWindowHeight()-el.offsetHeight);
+        y = y*100;
+        var x = ((el.offsetLeft-210))/(this._getWindowWidth()-el.offsetWidth-210);
+        x = x*100;
+        el.style.transformOrigin = x+'% '+y+'%';
         this.setState({selected: id, isFadeOut: true});
         if (typeof(this.props.onSelect)==='function') {
-            this.props.onSelect(name);
+            this.props.onSelect(category,id);
         }
     },
 
@@ -34,6 +41,8 @@ var Component = React.createClass({
     render: function() {
 
         var layoutClass = cx('layout-categories',{
+            'layout-categories--4': this.props.subCategories.length<=4,
+            'layout-categories--6': this.props.subCategories.length>4,
             'layout-categories--fade-out': this.state.isFadeOut!==false
         });
 
@@ -43,18 +52,14 @@ var Component = React.createClass({
 
         return (
             <div className={layoutClass}>
-                {this.categories.map((c,i)=>{
+                {this.props.subCategories.map((c,i)=>{
                     var className = cx('category',{
                         'category--active': this.state.selected === i
                     });
 
-                    var st = {};
-                    if (this.state.selected===i)
-                        st = {transformOrigin: transformOrigins[i]};
-
                     return (
-                        <div onClick={this.choose.bind(this,i,c.name)} style={st} className={className}>
-                            <img className="category-image" src={c.img} />
+                        <div onClick={this.choose.bind(this,c,i)} ref={'category_'+i} className={className}>
+                            <img className="category-image" src={c.imgSrc} />
                             <h2 className="category-title">
                                 {c.title}
                             </h2>

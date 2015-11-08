@@ -10,15 +10,6 @@ var Component = React.createClass({
         }
     },
 
-    componentWillMount: function() {
-
-    },
-
-    componentDidMount: function() {
-        this.photoHeight = this.refs.bkg.getDOMNode().offsetWidth/4;
-        this.forceUpdate();
-    },
-
     fadeIn: function() {
         this.setState({isFadeOut: false});
     },
@@ -27,17 +18,33 @@ var Component = React.createClass({
         this.setState({isFadeOut: true});
     },
 
+    onClose: function() {
+        if (typeof(this.props.onClose)==='function') this.props.onClose();
+    },
+
+    prev: function() {
+        if (typeof(this.props.onPrev)==='function') this.props.onPrev();
+    },
+
+    next: function() {
+        if (typeof(this.props.onNext)==='function') this.props.onNext();
+    },
 
     render: function() {
 
-        var layoutClass = cx('layout-gallery',{
+        var layoutClass = cx('layout-photo-preview',{
             'layout-photo-preview--fade-out': this.state.isFadeOut!==false
         });
 
 
         return (
             <div className={layoutClass}>
-                <img src='images/photos/1.jpg' />
+                <img className="photo" src={this.props.photo.imgSrc} />
+                <div className = "arrows">
+                    {!this.props.disableLeft && <div onClick={this.prev} className="left-arrow"></div>}
+                    {!this.props.disableRight && <div onClick={this.next} className="right-arrow"></div>}
+                </div>
+                <div onClick={this.onClose} className="close-button"></div>
             </div>
         );
     }

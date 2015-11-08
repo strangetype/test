@@ -17,7 +17,7 @@ var Component = React.createClass({
     activeImage: 0,
     nextImage: 1,
     prevImage: 15,
-    interval: 10000,
+    interval: 5000,
     blocked: false,
     imagesTimer: null,
 
@@ -25,6 +25,13 @@ var Component = React.createClass({
         Navigation,
         React.addons.LinkedStateMixin
     ],
+
+    data: null,
+    subCategories: [],
+    photos: [],
+    photo: null,
+    isLastPhoto: false,
+    isFirstPhoto: false,
 
     getInitialState: function() {
         return {
@@ -39,12 +46,19 @@ var Component = React.createClass({
     },
 
     componentWillMount: function() {
-        this.currentRoute = this.context.router.getCurrentPathname().split('/');
-        this._triggerByRoute();
+        http
+            .get('BE/data.json')
+            .accept('application/json')
+            .end((a,res)=>{
+                setTimeout(()=>{
+                    this.data = res.body;
 
-        http.get('BE/file.txt').end((a,b,c,d)=>{
-            console.log(a,b,c,d);
-        });
+                    this.currentRoute = this.context.router.getCurrentPathname().split('/');
+                    this._triggerByRoute();
+
+                    this.forceUpdate();
+                },Math.round(Math.random()*3000));
+            });
     },
 
     componentDidMount: function() {
@@ -113,7 +127,32 @@ var Component = React.createClass({
         }
     },
 
+    _findCategory: function(category) {
+        var id = _.findIndex(this.data.categories,(c)=>{
+            return c.name===category;
+        });
+        var result = null;
+        if (id===-1) {
+            _.forEach(this.data.categories,(c)=>{
+                if (c.subCategories && c.subCategories.length) {
+                    id = _.findIndex(c.subCategories,(sc)=>{
+                        return sc.name===category;
+                    });
+                    if (id!==-1) {
+                        result = c.subCategories[id];
+                    }
+                }
+            });
+        } else {
+            result = this.data.categories[id];
+        }
+        return result;
+    },
+
     _triggerByRoute: function() {
+        this.isFirstPhoto = false;
+        this.isLastPhoto = false;
+
         if (!this.currentRoute[2]) {
             this.pushImagesChanging();
             this.setState({
@@ -126,11 +165,27 @@ var Component = React.createClass({
             if (this.currentRoute[2]==='gallery') {
                 if (this.props.params) {
                     if (this.props.params.category && !this.props.params.photoId) {
-                        this.changeScreen('photos');
+                        var c = this._findCategory(this.props.params.category);
+                        if (c) {
+                            this.photos = c.photos;
+                            this.changeScreen('photos');
+                        }
                         return;
                     }
                     if (this.props.params.category && this.props.params.photoId) {
-                        this.changeScreen('photoPreview');
+                        var c = this._findCategory(this.props.params.category);
+                        if (c) {
+                            this.photos = c.photos;
+                            var pid = _.findIndex(c.photos,(p)=>{
+                                return p.id === this.props.params.photoId;
+                            });
+                            if (pid!==-1) {
+                                this.photo = c.photos[pid];
+                                if (!c.photos[pid+1]) this.isLastPhoto = true;
+                                if (!c.photos[pid-1]) this.isFirstPhoto = true;
+                                this.changeScreen('photoPreview');
+                            }
+                        }
                         return;
                     }
                 }
@@ -157,43 +212,96 @@ var Component = React.createClass({
         },1000);
     },
 
-    categoryChoose: function(categoryName) {
-        if (categoryName==='childs') {
+    categoryChoose: function(category,id) {
+        if (category && category.subCategories && category.subCategories.length) {
+            this.subCategories = category.subCategories;
             this.changeScreen('subCategories');
         } else {
-            this.context.router.transitionTo('gallery-photos',{'category': categoryName});
+            this.context.router.transitionTo('gallery-photos',{'category': category.name});
         }
     },
 
-    subCategoryChoose: function(categoryName) {
-        this.context.router.transitionTo('gallery-photos',{'category': categoryName});
+    subCategoryChoose: function(category,id) {
+        this.context.router.transitionTo('gallery-photos',{'category': category.name});
     },
 
-    photoChoose: function(id) {
-        this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: id});
+    photoChoose: function(photo) {
+        this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: photo.id});
+    },
+
+    closePhoto: function() {
+        this.context.router.transitionTo('gallery-photos',{'category': this.props.params.category});
+    },
+
+    showNextPhoto: function() {
+        this.isFirstPhoto = false;
+        this.isLastPhoto = false;
+        var c = this._findCategory(this.props.params.category);
+        var id = _.findIndex(c.photos,(p)=>{
+            return p.id===this.props.params.photoId
+        });
+        if (id!==-1) {
+            id = id+1;
+            if (c.photos[id]) {
+                var p = c.photos[id];
+                if (!c.photos[id+1]) this.isLastPhoto = true;
+                this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: p.id});
+            }
+        }
+    },
+
+    showPrevPhoto: function() {
+        this.isFirstPhoto = false;
+        this.isLastPhoto = false;
+        var c = this._findCategory(this.props.params.category);
+        var id = _.findIndex(c.photos,(p)=>{
+            return p.id===this.props.params.photoId
+        });
+        if (id!==-1) {
+            id = id-1;
+            if (c.photos[id]) {
+                var p = c.photos[id];
+                if (!c.photos[id-1]) this.isFirstPhoto = true;
+                this.context.router.transitionTo('gallery-photo', {
+                    'category': this.props.params.category,
+                    photoId: p.id
+                });
+            }
+        }
     },
 
     render: function() {
-        var points = [];
+        if (!this.data) return (
+            <div style={{
+                    fontFamily: 'calibri',
+                    color: "#666",
+                    position: "absolute",
+                    left: 0, right: 0, top: 0, bottom: 0,
+                    margin: "auto",
+                    width: "10em",
+                    height: "2em"
+                }}>loading...</div>
+        );
 
-        for (var i=0; i<=this.imagesCount; i++) {
-            points.push(i);
-        }
 
         var mainLayoutClass = cx('layout-main', {
             'layout-main--blured': this.state.isBlured
         });
 
+        var leftMenuClass = cx('left-menu', {
+            'left-menu--hidden': this.state.nextScreen==='photoPreview' || this.state.prevScreen==='photoPreview'
+        });
+
         return (
             <div className={mainLayoutClass}>
 
-                {points.map((i)=>{
+                {this.data.bkgPhotos.map((p,i)=>{
                     var st = {
                         opacity: 0
                     };
                     if (this.activeImage === i) st.opacity = 1;
                     if (!(this.nextImage === i || this.prevImage === i || this.activeImage === i)) return null;
-                    return <img className="main-image" style={st} src ={"images/main"+i+".jpg"}/>;
+                    return <img className="main-image" style={st} src ={p.imgSrc}/>;
                 })}
 
                 <div className="main-image-shadow"></div>
@@ -207,12 +315,11 @@ var Component = React.createClass({
                     <div onClick={this.nextBkg} className="right-arrow"></div>
                 </div>
 
-                {(this.state.nextScreen==='categories' || this.state.prevScreen==='categories') && <LayoutCategories ref="categories" onSelect = {this.categoryChoose} />}
-                {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories ref="subCategories" onSelect = {this.subCategoryChoose} />}
-                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery ref="photos" onSelect={this.photoChoose} />}
-                {(this.state.nextScreen==='photoPreview' || this.state.prevScreen==='photoPreview') && <LayoutPhotoPreview ref="photoPreview" />}
+                {(this.state.nextScreen==='categories' || this.state.prevScreen==='categories') && <LayoutCategories categories={this.data.categories} ref="categories" onSelect = {this.categoryChoose} />}
+                {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories subCategories={this.subCategories} ref="subCategories" onSelect = {this.subCategoryChoose} />}
+                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
 
-                <div className = "left-menu">
+                <div className = {leftMenuClass}>
                     <ul>
                         {this.routes.map((r,i)=>{
                             var c = '';
@@ -228,6 +335,18 @@ var Component = React.createClass({
                         })}
                     </ul>
                 </div>
+
+                {(this.state.nextScreen==='photoPreview' || this.state.prevScreen==='photoPreview') && <LayoutPhotoPreview
+                    onClose={this.closePhoto}
+                    onNext={this.showNextPhoto}
+                    onPrev={this.showPrevPhoto}
+
+                    disableLeft={this.isFirstPhoto}
+                    disableRight={this.isLastPhoto}
+
+                    photo={this.photo}
+                    ref="photoPreview" />}
+
             </div>
 
         );

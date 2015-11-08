@@ -1,0 +1,156 @@
+{
+  "bkgPhotos": [
+    {"imgSrc": "images/main0.jpg"},
+    {"imgSrc": "images/main1.jpg"},
+    {"imgSrc": "images/main2.jpg"},
+    {"imgSrc": "images/main3.jpg"},
+    {"imgSrc": "images/main4.jpg"},
+    {"imgSrc": "images/main5.jpg"},
+    {"imgSrc": "images/main6.jpg"},
+    {"imgSrc": "images/main7.jpg"},
+    {"imgSrc": "images/main8.jpg"},
+    {"imgSrc": "images/main9.jpg"},
+    {"imgSrc": "images/main10.jpg"},
+    {"imgSrc": "images/main11.jpg"},
+    {"imgSrc": "images/main12.jpg"},
+    {"imgSrc": "images/main13.jpg"},
+    {"imgSrc": "images/main14.jpg"},
+    {"imgSrc": "images/main15.jpg"}
+  ],
+  "categories": [
+    {
+      "name": "childs",
+      "title": "Дети",
+      "imgSrc": "images/categories/1.jpg",
+      "subCategories": [
+        {"name": "babies", "title": "Младенцы", "imgSrc": "images/categories2/1.jpg",
+          "photos": [
+            {"id": "1", "imgSrc": "images/photos/0.jpg"},
+            {"id": "2", "imgSrc": "images/photos/1.jpg"},
+            {"id": "3", "imgSrc": "images/photos/2.jpg"},
+            {"id": "4", "imgSrc": "images/photos/3.jpg"},
+            {"id": "5", "imgSrc": "images/photos/4.jpg"}
+          ]},
+        {"name": "childs(1-3)", "title": "Дети 1-3", "imgSrc": "images/categories2/2.jpg",
+          "photos": [
+            {"id": "6", "imgSrc": "images/photos/5.jpg"},
+            {"id": "7", "imgSrc": "images/photos/6.jpg"},
+            {"id": "8", "imgSrc": "images/photos/7.jpg"},
+            {"id": "9", "imgSrc": "images/photos/8.jpg"},
+            {"id": "10", "imgSrc": "images/photos/9.jpg"}
+          ]},
+        {"name": "childs(3-7)", "title": "Дети 3-7", "imgSrc": "images/categories2/3.jpg",
+          "photos": [
+            {"id": "11", "imgSrc": "images/photos/10.jpg"},
+            {"id": "12", "imgSrc": "images/photos/11.jpg"},
+            {"id": "13", "imgSrc": "images/photos/12.jpg"},
+            {"id": "14", "imgSrc": "images/photos/13.jpg"},
+            {"id": "15", "imgSrc": "images/photos/14.jpg"}
+          ]},
+        {"name": "childs(7-13)", "title": "Дети 7-13", "imgSrc": "images/categories2/4.jpg",
+          "photos": [
+            {"id": "16", "imgSrc": "images/photos/15.jpg"},
+            {"id": "17", "imgSrc": "images/photos/16.jpg"},
+            {"id": "18", "imgSrc": "images/photos/17.jpg"},
+            {"id": "19", "imgSrc": "images/photos/18.jpg"},
+            {"id": "20", "imgSrc": "images/photos/19.jpg"}
+          ]}
+      ]
+    },
+    {
+      "name": "portrait",
+      "title": "Портреты",
+      "imgSrc": "images/categories/2.jpg",
+      "subCategories": [
+        {"name": "prt1", "title": "portraits1", "imgSrc": "images/photos/10.jpg",
+          "photos": [
+            {"id": "999", "imgSrc": "images/photos/15.jpg"},
+            {"id": "998", "imgSrc": "images/photos/16.jpg"},
+            {"id": "997", "imgSrc": "images/photos/17.jpg"},
+            {"id": "996", "imgSrc": "images/photos/18.jpg"},
+            {"id": "995", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt2", "title": "portraits2", "imgSrc": "images/photos/11.jpg",
+          "photos": [
+            {"id": "994", "imgSrc": "images/photos/15.jpg"},
+            {"id": "993", "imgSrc": "images/photos/16.jpg"},
+            {"id": "992", "imgSrc": "images/photos/17.jpg"},
+            {"id": "991", "imgSrc": "images/photos/18.jpg"},
+            {"id": "990", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt3", "title": "portraits3", "imgSrc": "images/photos/12.jpg",
+          "photos": [
+            {"id": "524", "imgSrc": "images/photos/15.jpg"},
+            {"id": "528", "imgSrc": "images/photos/16.jpg"},
+            {"id": "468", "imgSrc": "images/photos/17.jpg"},
+            {"id": "547", "imgSrc": "images/photos/18.jpg"},
+            {"id": "684", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt4", "title": "portraits4", "imgSrc": "images/photos/13.jpg",
+          "photos": [
+            {"id": "252", "imgSrc": "images/photos/15.jpg"},
+            {"id": "246", "imgSrc": "images/photos/16.jpg"},
+            {"id": "278", "imgSrc": "images/photos/17.jpg"},
+            {"id": "269", "imgSrc": "images/photos/18.jpg"},
+            {"id": "200", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt5", "title": "portraits5", "imgSrc": "images/photos/14.jpg",
+          "photos": [
+            {"id": "125", "imgSrc": "images/photos/15.jpg"},
+            {"id": "135", "imgSrc": "images/photos/16.jpg"},
+            {"id": "128", "imgSrc": "images/photos/17.jpg"},
+            {"id": "126", "imgSrc": "images/photos/18.jpg"},
+            {"id": "175", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt6", "title": "portraits6", "imgSrc": "images/photos/15.jpg",
+          "photos": [
+            {"id": "1125", "imgSrc": "images/photos/15.jpg"},
+            {"id": "3589", "imgSrc": "images/photos/16.jpg"},
+            {"id": "5876", "imgSrc": "images/photos/17.jpg"},
+            {"id": "2348", "imgSrc": "images/photos/18.jpg"},
+            {"id": "5288", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt7", "title": "portraits7", "imgSrc": "images/photos/16.jpg",
+          "photos": [
+            {"id": "477", "imgSrc": "images/photos/15.jpg"},
+            {"id": "444", "imgSrc": "images/photos/16.jpg"},
+            {"id": "467", "imgSrc": "images/photos/17.jpg"},
+            {"id": "423", "imgSrc": "images/photos/18.jpg"},
+            {"id": "400", "imgSrc": "images/photos/19.jpg"}
+          ]},
+        {"name": "prt8", "title": "portraits8", "imgSrc": "images/photos/17.jpg",
+          "photos": [
+            {"id": "700", "imgSrc": "images/photos/15.jpg"},
+            {"id": "52864", "imgSrc": "images/photos/16.jpg"},
+            {"id": "584647", "imgSrc": "images/photos/17.jpg"},
+            {"id": "568548", "imgSrc": "images/photos/18.jpg"},
+            {"id": "854h", "imgSrc": "images/photos/19.jpg"}
+          ]}
+      ]
+    },
+    {
+      "name": "family",
+      "title": "Семейные",
+      "imgSrc": "images/categories/3.jpg",
+      "photos": [
+        {"id": "26", "imgSrc": "images/photos/5.jpg"},
+        {"id": "27", "imgSrc": "images/photos/1.jpg"},
+        {"id": "28", "imgSrc": "images/photos/6.jpg"},
+        {"id": "29", "imgSrc": "images/photos/15.jpg"},
+        {"id": "30", "imgSrc": "images/photos/4.jpg"}
+      ]
+    },
+    {
+      "name": "books",
+      "title": "Фотокниги",
+      "imgSrc": "images/categories/4.jpg",
+      "photos": [
+        {"id": "31", "imgSrc": "images/photos/20.jpg"},
+        {"id": "32", "imgSrc": "images/photos/17.jpg"},
+        {"id": "33", "imgSrc": "images/photos/2.jpg"},
+        {"id": "34", "imgSrc": "images/photos/8.jpg"},
+        {"id": "35", "imgSrc": "images/photos/4.jpg"}
+      ]
+    }
+  ]
+}
