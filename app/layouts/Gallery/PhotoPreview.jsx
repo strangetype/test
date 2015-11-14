@@ -39,7 +39,7 @@ var Component = React.createClass({
 
         return (
             <div className={layoutClass}>
-                <img className="photo" src={this.props.photo.imgSrc} />
+                <img className="photo" src={'images/photos/'+this.props.photo} />
                 <div className = "arrows">
                     {!this.props.disableLeft && <div onClick={this.prev} className="left-arrow"></div>}
                     {!this.props.disableRight && <div onClick={this.next} className="right-arrow"></div>}

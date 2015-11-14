@@ -59,7 +59,7 @@ var Component = React.createClass({
 
                     return (
                         <div onClick={this.choose.bind(this,c,i)} ref={'category_'+i} className={className}>
-                            <img className="category-image" src={c.imgSrc} />
+                            <img className="category-image" src={'images/photos/'+c.imgSrc} />
                             <h2 className="category-title">
                                 {c.title}
                             </h2>

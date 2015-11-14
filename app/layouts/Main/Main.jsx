@@ -46,13 +46,13 @@ var Component = React.createClass({
     },
 
     componentWillMount: function() {
+        console.log('main');
         http
             .get('BE/data.json')
             .accept('application/json')
             .end((a,res)=>{
                 setTimeout(()=>{
                     this.data = res.body;
-
                     this.currentRoute = this.context.router.getCurrentPathname().split('/');
                     this._triggerByRoute();
 
@@ -167,7 +167,7 @@ var Component = React.createClass({
             this.setState({isBlured: true});
             if (this.currentRoute[2]==='gallery') {
                 if (this.props.params) {
-                    if (this.props.params.category && !this.props.params.photoId) {
+                    if (this.props.params.category && !(this.props.params.photoId || this.props.params.photoId==0)) {
                         var c = this._findCategory(this.props.params.category);
                         if (c) {
                             this.photos = c.photos;
@@ -175,19 +175,17 @@ var Component = React.createClass({
                         }
                         return;
                     }
-                    if (this.props.params.category && this.props.params.photoId) {
+                    if (this.props.params.category && (this.props.params.photoId || this.props.params.photoId==0)) {
                         var c = this._findCategory(this.props.params.category);
+                        var id = parseInt(this.props.params.photoId);
                         if (c) {
                             this.photos = c.photos;
-                            var pid = _.findIndex(c.photos,(p)=>{
-                                return p.id === this.props.params.photoId;
-                            });
-                            if (pid!==-1) {
-                                this.photo = c.photos[pid];
-                                if (!c.photos[pid+1]) this.isLastPhoto = true;
-                                if (!c.photos[pid-1]) this.isFirstPhoto = true;
-                                this.changeScreen('photoPreview');
-                            }
+                            this.photo = c.photos[id];
+                            console.log(id);
+                            if (!c.photos[id+1]) this.isLastPhoto = true;
+                            if (!c.photos[id-1]) this.isFirstPhoto = true;
+                            console.log(this.isLastPhoto, this.isFirstPhoto);
+                            this.changeScreen('photoPreview');
                         }
                         return;
                     }
@@ -228,8 +226,8 @@ var Component = React.createClass({
         this.context.router.transitionTo('gallery-photos',{'category': category.name});
     },
 
-    photoChoose: function(photo) {
-        this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: photo.id});
+    photoChoose: function(photo,id) {
+        this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: id});
     },
 
     closePhoto: function() {
@@ -240,36 +238,31 @@ var Component = React.createClass({
         this.isFirstPhoto = false;
         this.isLastPhoto = false;
         var c = this._findCategory(this.props.params.category);
-        var id = _.findIndex(c.photos,(p)=>{
-            return p.id===this.props.params.photoId
-        });
-        if (id!==-1) {
-            id = id+1;
-            if (c.photos[id]) {
-                var p = c.photos[id];
-                if (!c.photos[id+1]) this.isLastPhoto = true;
-                this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: p.id});
-            }
+        var id = parseInt(this.props.params.photoId);
+        id = id+1;
+        if (c.photos[id]) {
+            if (!c.photos[id+1]) this.isLastPhoto = true;
+            this.context.router.transitionTo('gallery-photo',{
+                'category': this.props.params.category,
+                photoId: id
+            });
         }
+
     },
 
     showPrevPhoto: function() {
         this.isFirstPhoto = false;
         this.isLastPhoto = false;
         var c = this._findCategory(this.props.params.category);
-        var id = _.findIndex(c.photos,(p)=>{
-            return p.id===this.props.params.photoId
-        });
-        if (id!==-1) {
-            id = id-1;
-            if (c.photos[id]) {
-                var p = c.photos[id];
-                if (!c.photos[id-1]) this.isFirstPhoto = true;
-                this.context.router.transitionTo('gallery-photo', {
-                    'category': this.props.params.category,
-                    photoId: p.id
-                });
-            }
+        var id = parseInt(this.props.params.photoId);
+        id = id-1;
+        if (c.photos[id]) {
+            var p = c.photos[id];
+            if (!c.photos[id-1]) this.isFirstPhoto = true;
+            this.context.router.transitionTo('gallery-photo', {
+                'category': this.props.params.category,
+                photoId: id
+            });
         }
     },
 
@@ -304,7 +297,7 @@ var Component = React.createClass({
                     };
                     if (this.activeImage === i) st.opacity = 1;
                     if (!(this.nextImage === i || this.prevImage === i || this.activeImage === i)) return null;
-                    return <img key={i} className="main-image" style={st} src ={p.imgSrc}/>;
+                    return <img key={i} className="main-image" style={st} src ={'images/photos/'+p}/>;
                 })}
 
                 <div className="main-image-shadow"></div>

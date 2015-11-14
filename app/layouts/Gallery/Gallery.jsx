@@ -55,7 +55,7 @@ var Component = React.createClass({
                 <div ref="bkg" className="photos-bkg">
                     {this.props.photos.map((p,i)=>{
                         return (
-                            <div onClick={this.choose.bind(this,p,i)} className="photo" style={{width: '50%', height: '200px', backgroundImage: "url("+p.imgSrc+")"}}></div>
+                            <div onClick={this.choose.bind(this,p,i)} className="photo" style={{width: '50%', height: '200px', backgroundImage: "url(images/photos/"+p+")"}}></div>
                         );
                     })}
                 </div>
