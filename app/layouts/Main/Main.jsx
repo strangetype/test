@@ -304,7 +304,7 @@ var Component = React.createClass({
                     };
                     if (this.activeImage === i) st.opacity = 1;
                     if (!(this.nextImage === i || this.prevImage === i || this.activeImage === i)) return null;
-                    return <img className="main-image" style={st} src ={p.imgSrc}/>;
+                    return <img key={i} className="main-image" style={st} src ={p.imgSrc}/>;
                 })}
 
                 <div className="main-image-shadow"></div>

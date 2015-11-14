@@ -1,18 +1,21 @@
 <?php
 $Auth = new AdminAuth();
+$Chiper = new Chiper();
 $isAuth = $Auth->authCheck();
 
 if ($isAuth) {
     if ( !empty( $_FILES ) ) {
 
         $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];
-        $uploadPath = IMAGES_PATH.$_FILES[ 'file' ][ 'name' ];
+        $newFileName = $Chiper->GUID();
+        $uploadPath = PHOTOS_PATH.$newFileName;
         move_uploaded_file( $tempPath, $uploadPath );
 
         $RESPONSE['isUploaded'] = true;
         $RESPONSE['file'] = $_FILES[ 'file' ];
         $RESPONSE['post'] = $_POST;
         $RESPONSE['request'] = $_REQUEST;
+        $RESPONSE['newFileName'] = $newFileName;
 
     } else {
         $RESPONSE['error'] = 2;

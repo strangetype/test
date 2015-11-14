@@ -23,18 +23,20 @@
     "jsx-loader": "^0.13.2",
     "node-libs-browser": "^0.5.3",
     "proxy-middleware": "^0.11.1",
-    "react": "0.13.3",
+    "react": "^0.14.0",
     "style-loader": "^0.12.4",
     "superagent-mock": "^1.7.0",
     "webpack": "^1.12.2",
     "clean-css": "^3.4.5"
   },
   "dependencies": {
-    "react": "0.13.3",
     "classnames": "^2.1.5",
     "lodash": "^3.10.1",
     "q": "^1.4.1",
     "superagent": "^1.4.0",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^1.12.0",
+    "react": "^0.14.0",
+    "react-cropper": "0.5.0",
+    "file-uploader": "^1.0.0"
   }
 }
