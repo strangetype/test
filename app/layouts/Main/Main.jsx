@@ -59,6 +59,9 @@ var Component = React.createClass({
                     this.forceUpdate();
                 },Math.round(Math.random()*3000));
             });
+        http.get('BE/index.php').end((a,b)=>{
+            console.log(a,b);
+        });
     },
 
     componentDidMount: function() {

@@ -13,6 +13,8 @@ var node_modules = path.resolve(__dirname, 'node_modules');
 
 var config = require('./webpack.config.js');
 
+var exec = require('child_process').execFile;
+
 gulp.task('build', function () {
   var compiler = webpack(config);
   compiler.run(function (err, stats) {
@@ -41,10 +43,16 @@ gulp.task('styles', function () {
 });
 
 gulp.task('server', function () {
+  var openServer = exec('D:/openserver/OpenServer/Open Server x64.exe');
+
+  process.on('SIGHUP', function() {
+      openServer.kill();
+  });
+
+
+  /*
   connect.server({
     port: 5000,
-    //https://github.com/AveVlad/gulp-connect/issues/27
-    //TODO: use plugin for proxy
     middleware: function (connect, o) {
       return [(function () {
         var url = require('url');
@@ -55,7 +63,7 @@ gulp.task('server', function () {
       })()];
     }
   });
+  */
 });
 
-gulp.task('default', ['server', 'watch', 'build', 'styles']);
-
+gulp.task('default', ['server', 'build', 'styles', 'watch']);
