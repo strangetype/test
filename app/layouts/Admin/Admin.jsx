@@ -6,27 +6,23 @@ var {Navigation} = require('react-router');
 
 var http = require('superagent');
 
+var BE = require('utils/BE');
+
 var Cropper = require('react-cropper');
 
-function dataURItoBlob(dataURI) {
-    // convert base64/URLEncoded data component to raw binary data held in a string
+var dataURItoBlob = function (dataURI) {
     var byteString;
     if (dataURI.split(',')[0].indexOf('base64') >= 0)
         byteString = atob(dataURI.split(',')[1]);
     else
         byteString = unescape(dataURI.split(',')[1]);
-
-    // separate out the mime component
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    // write the bytes of the string to a typed array
     var ia = new Uint8Array(byteString.length);
     for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
-
     return new Blob([ia], {type:mimeString});
-}
+};
 
 var Component = React.createClass({
     mixins: [
@@ -38,14 +34,17 @@ var Component = React.createClass({
     getInitialState: function() {
         return {
             data_uri: 'images/van.jpg',
-            uploaded: ''
+            cropped: '',
+            photos: []
         }
     },
 
     componentWillMount: function() {
 
+        BE.getData();
+
         console.log('admin');
-        /*
+
          http.post('BE/index.php')
          .set('Content-Type', 'application/json')
          //.type('json')
@@ -56,7 +55,7 @@ var Component = React.createClass({
          console.log(JSON.parse(b.text));
 
          });
-         */
+
 
 
 
@@ -66,12 +65,22 @@ var Component = React.createClass({
             .send({action: 'admin-is-auth'})
             .end((a,b)=>{
                 console.log(JSON.parse(b.text));
-
             });
     },
 
-    componentDidMount: function() {
 
+    componentDidMount: function() {
+        http.get('BE/index.php').set('action','get-photos').end((a,b)=>{
+            var res = JSON.parse(b.text);
+            this.setState({photos: res.photos})
+        });
+    },
+
+    updatePhotos: function() {
+        http.get('BE/index.php').set('action','get-photos').end((a,b)=>{
+            var res = JSON.parse(b.text);
+            this.setState({photos: res.photos})
+        });
     },
 
     upload: function(){
@@ -99,6 +108,7 @@ var Component = React.createClass({
                 this.setState({
                     uploaded: res.newFileName
                 });
+                this.updatePhotos();
             });
     },
 
@@ -121,6 +131,24 @@ var Component = React.createClass({
         console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
     },
 
+    deletePhoto: function(id) {
+        http
+            .post('BE/index.php')
+            .set('action','admin-delete-photo')
+            .send({data:{id: id}})
+            .end((a,b,c)=>{
+                console.log(a,b,c);
+                var res = JSON.parse(b.text);
+                console.log('res: ', res);
+                this.updatePhotos();
+            });
+    },
+
+    _crop: function() {
+        //var u = this.refs.cropper.getCroppedCanvas().toDataURL();
+        //this.refs.croppedImg.getDOMNode().src = u;
+    },
+
     render: function() {
 
 
@@ -130,19 +158,27 @@ var Component = React.createClass({
                 <Cropper
                     ref='cropper'
                     src={this.state.data_uri}
-                    style={{height: 400, width: '100%'}}
+                    style={{height: 400, width: '50%'}}
 
                     guides={false}
                     toggleDragModeOnDblclick = {true}
                     cropBoxResizable = {true}
                     crop={this._crop} />
 
+
+
                 <form onSubmit={this.handleSubmit} encType="multipart/form-data">
                     <input type="file" onChange={this.handleFile} />
                 </form>
 
-                <button onClick={this.upload} >upload</button><br/>
-                <img src={'images/photos/'+this.state.uploaded} />
+                <button onClick={this.upload} >upload</button>
+                <hr />
+                <div>
+                    {this.state.photos.map((ph)=>{
+                        return <img src={"images/photos/"+ph} onClick={this.deletePhoto.bind(this,ph)} />
+                    })}
+                </div>
+
             </div>
         );
     }
