@@ -9,7 +9,7 @@ var LayoutSubCategories = require('layouts/Gallery/SubCategories');
 var LayoutGallery = require('layouts/Gallery/Gallery');
 var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
-var http = require('superagent');
+var BE = require('utils/BE');
 
 var Component = React.createClass({
 
@@ -26,7 +26,7 @@ var Component = React.createClass({
         React.addons.LinkedStateMixin
     ],
 
-    data: null,
+    data: BE.data,
     subCategories: [],
     photos: [],
     photo: null,
@@ -46,21 +46,11 @@ var Component = React.createClass({
     },
 
     componentWillMount: function() {
-        console.log('main');
-        http
-            .get('BE/data.json')
-            .accept('application/json')
-            .end((a,res)=>{
-                setTimeout(()=>{
-                    this.data = res.body;
-                    this.currentRoute = this.context.router.getCurrentPathname().split('/');
-                    this._triggerByRoute();
-
-                    this.forceUpdate();
-                },Math.round(Math.random()*3000));
-            });
-        http.get('BE/index.php').set('action','get-photos').end((a,b)=>{
-            console.log(a,b);
+        BE.getData().then((data)=>{
+            this.data = BE.data;
+            this.imagesCount = BE.data.bkgPhotos.length-1;
+            this.prevImage = BE.data.bkgPhotos.length-1;
+            this.forceUpdate();
         });
     },
 

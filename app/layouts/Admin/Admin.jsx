@@ -40,23 +40,21 @@ var Component = React.createClass({
     },
 
     componentWillMount: function() {
-
-        BE.getData();
-
-        console.log('admin');
-
-         http.post('BE/index.php')
-         .set('Content-Type', 'application/json')
-         //.type('json')
-         .send({action: 'admin-authorisation',
-         data: {username: 'maria', password: '123456'}
-         })
-         .end((a,b)=>{
-         console.log(JSON.parse(b.text));
-
-         });
+        BE.getData().then((data)=>{
+            BE.saveData(data);
+        });
 
 
+        http.post('BE/index.php')
+            .set('Content-Type', 'application/json')
+            //.type('json')
+            .send({action: 'admin-authorisation',
+                data: {username: 'maria', password: '123456'}
+            })
+            .end((a,b)=>{
+                console.log(JSON.parse(b.text));
+
+            });
 
 
         http.post('BE/index.php')
@@ -70,46 +68,21 @@ var Component = React.createClass({
 
 
     componentDidMount: function() {
-        http.get('BE/index.php').set('action','get-photos').end((a,b)=>{
-            var res = JSON.parse(b.text);
-            this.setState({photos: res.photos})
-        });
+        this.updatePhotos();
     },
 
     updatePhotos: function() {
-        http.get('BE/index.php').set('action','get-photos').end((a,b)=>{
-            var res = JSON.parse(b.text);
-            this.setState({photos: res.photos})
+        BE.getPhotos().then((ph)=>{
+            this.setState({photos: ph})
         });
     },
 
     upload: function(){
-        //console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
-        //getCropBoxData
-
-
         var dataURL = this.refs.cropper.getCroppedCanvas().toDataURL();
         var blob = dataURItoBlob(dataURL);
-        var fd = new FormData(document.forms[0]);
-        fd.append("file", blob);
-
-        //var formData = new FormData();
-        //formData.append('file',this._files[0]);
-
-
-
-        http.post('BE/index.php')
-        .set('action', 'admin-upload-photo')
-        .send(fd)
-        .end((a,b,c)=>{
-                console.log(a,b,c);
-                var res = JSON.parse(b.text);
-                console.log('res: ', res);
-                this.setState({
-                    uploaded: res.newFileName
-                });
-                this.updatePhotos();
-            });
+        BE.uploadPhoto(blob).then(()=>{
+            this.updatePhotos();
+        });
     },
 
     _files: null,
@@ -132,16 +105,21 @@ var Component = React.createClass({
     },
 
     deletePhoto: function(id) {
-        http
-            .post('BE/index.php')
-            .set('action','admin-delete-photo')
-            .send({data:{id: id}})
-            .end((a,b,c)=>{
-                console.log(a,b,c);
-                var res = JSON.parse(b.text);
-                console.log('res: ', res);
-                this.updatePhotos();
-            });
+        BE.deletePhoto(id).then(()=>{
+            this.updatePhotos();
+        });
+    },
+
+    addToBkg: function(id) {
+        BE.addPhotoToBkg(id).then(()=>{
+            alert('resolved and added');
+        });
+    },
+
+    removeFromBkg: function(id) {
+        BE.removePhotoFromBkg(id).then(()=>{
+            alert('resolved and remoced!');
+        });
     },
 
     _crop: function() {
@@ -165,8 +143,6 @@ var Component = React.createClass({
                     cropBoxResizable = {true}
                     crop={this._crop} />
 
-
-
                 <form onSubmit={this.handleSubmit} encType="multipart/form-data">
                     <input type="file" onChange={this.handleFile} />
                 </form>
@@ -175,7 +151,12 @@ var Component = React.createClass({
                 <hr />
                 <div>
                     {this.state.photos.map((ph)=>{
-                        return <img src={"images/photos/"+ph} onClick={this.deletePhoto.bind(this,ph)} />
+                        return <div>
+                            <img style={{width: "30%", height: "30%"}} src={"images/photos/"+ph}  />
+                            <button onClick={this.addToBkg.bind(this,ph)}>add to bkg</button>
+                            <button onClick={this.removeFromBkg.bind(this,ph)}>remove from bkg</button>
+                            <button onClick={this.deletePhoto.bind(this,ph)}>delete</button>
+                        </div>
                     })}
                 </div>
 
