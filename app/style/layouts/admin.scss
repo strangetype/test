@@ -1,3 +1,73 @@
 .layout-admin {
+
+  .btn {
+    background: #333;
+    border: 1px solid #444;
+    padding: 0.5em 1em;
+    margin: 2em;
+    color: #fff;
+  }
+
+  .admin-loading {
+    margin: 1em;
+  }
+
   color: #fff;
+  * {
+    font-family: calibri;
+  }
+
+  .top-menu {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    background: #333;
+    z-index: 5;
+    button {
+      padding: 1em;
+      border: none;
+      background: #333;
+      color: #fff;
+      font-size: 14px;
+      outline: 0;
+      text-transform: uppercase;
+      &:hover, &.active {
+        background: #000;
+      }
+    }
+  }
+
+  .admin-body {
+    margin-top: 3em;
+  }
+
+  .admin-all-photos {
+    .admin-photos-container {
+      text-align: center;
+      line-height: 0;
+      border-top: 1px solid #444;
+      .admin-photo-item {
+        position: relative;
+        display: inline-block;
+        border: 1px solid #444;
+        width: 300px;
+        height: 250px;
+        overflow: hidden;
+        img {
+          width: 100%;
+        }
+        .admin-photo-delete {
+          position: absolute;
+          top: 0; right: 0;
+          margin: 1em;
+          display: none;
+        }
+        &:hover {
+          .admin-photo-delete{
+            display: block;
+          }
+        }
+      }
+    }
+  }
 }

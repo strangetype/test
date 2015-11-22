@@ -24,10 +24,8 @@ var BE = {
         var resolver = Q.defer();
         http.get('BE/data.json')
             .end((a,b)=>{
-                setTimeout(()=>{
-                    this.data = b.body;
-                    resolver.resolve(b.body);
-                },1000);
+                this.data = b.body;
+                resolver.resolve(b.body);
             });
         return resolver.promise;
     },
@@ -76,9 +74,12 @@ var BE = {
         });
         return resolver.promise;
     },
-    uploadPhoto: function(file) {
+    uploadPhoto: function(file,type) {
         var resolver = Q.defer();
         var fd = new FormData();
+        if (type==='dataURI') {
+            file = this._dataURItoBlob(file);
+        }
         fd.append('file',file);
         http
             .post(this.url).set('action','admin-upload-photo')
@@ -116,6 +117,49 @@ var BE = {
         this.saveData(this.data).then((a)=>{
             resolver.resolve(this.data);
         });
+        return resolver.promise;
+    },
+    addCategory: function(name,title,imgSrc) {
+        var resolver = Q.defer();
+        var repeated = false;
+        var newCategory = {name: name, title: title, imgSrc: imgSrc, photos: []};
+        _.forEach(this.data.categories,(cat)=>{
+            if (cat.name===name) {
+                console.warn('try to create repeating category');
+                repeated = true;
+            }
+        });
+        if (repeated) {
+            resolver.reject(newCategory, 'repeated_category');
+        } else {
+            this.data.categories.push(newCategory);
+            this.saveData(this.data).then((a)=>{
+                resolver.resolve(this.data,newCategory);
+            });
+        }
+        return resolver.promise;
+    },
+    changeCategory: function(originalName,category) {
+        console.info(originalName,category);
+        var resolver = Q.defer();
+        var cat = null;
+        _.forEach(this.data.categories,(c,id)=>{
+            console.log(c);
+            if (c.name===originalName) {
+                cat = this.data.categories[id];
+            }
+        });
+        if (cat) {
+            cat.name = category.name || cat.name;
+            cat.title = category.title || cat.title;
+            cat.imgSrc = category.imgSrc || cat.imgSrc;
+            this.saveData(this.data).then((a)=>{
+                resolver.resolve(this.data,cat);
+            });
+        } else {
+            console.warn('no such category to change');
+            resolver.reject(this.data,cat,'no_such_category');
+        }
         return resolver.promise;
     }
 };

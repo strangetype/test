@@ -5,6 +5,7 @@ var { Route, DefaultRoute, Router } = ReactRouter;
 
 var MainLayout = require('layouts/Main/Main');
 var AdminLayout = require('layouts/Admin/Admin');
+var TestLayout = require('layouts/Test/Test');
 
 var routes = (
     <Route name="app" path="main"  >
@@ -21,6 +22,7 @@ var routes = (
         <Route name="contacts" handler = {MainLayout} ></Route>
 
         <Route handler = {AdminLayout} name="admin"></Route>
+        <Route handler = {TestLayout} name="test"></Route>
     </Route>
 );
 
