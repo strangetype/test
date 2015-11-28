@@ -1,0 +1,92 @@
+.layout-admin {
+  .admin-categories {
+    .admin-category {
+      position: relative;
+      width: 90%;
+      background: #111;
+      margin: 10px 0;
+      min-height: 10em;
+      .admin-category-image {
+        width: 25%;
+        border: 5px solid #333;
+        box-sizing: border-box;
+        cursor: pointer;
+        &:hover {
+          border-color: #fff;
+        }
+      }
+      .admin-category-info {
+        position: absolute;
+        left: 25%;
+        width: 75%;
+        top: 0;
+        padding: 1em;
+        line-height: 1;
+        box-sizing: border-box;
+        .admin-category-field-value {
+          border: none;
+          background: none;
+          color: #fff;
+          border-bottom: 1px solid #666;
+          outline: 0;
+        }
+        .admin-category-field-name {
+          color: #aaa;
+          margin-top: 1em;
+        }
+      }
+    }
+    .admin-subcategories-toggle, .admin-photos-toggle {
+      position: absolute;
+      top: 0;
+      right: 20%;
+      background: linear-gradient(to bottom, #222, #111);
+      border-bottom: none;
+      border-color: #333;
+      outline: 0;
+    }
+    .admin-photos-toggle {
+      right: 40%;
+    }
+  }
+
+  .admin-subcategories {
+    margin-left: 15%;
+    .admin-subcategory {
+      position: relative;
+      width: 100%;
+      background: #222;
+      margin: 10px 0;
+      min-height: 10em;
+      .admin-subcategory-image {
+        width: 25%;
+        border: 5px solid #333;
+        box-sizing: border-box;
+        cursor: pointer;
+        &:hover {
+          border-color: #fff;
+        }
+      }
+      .admin-subcategory-info {
+        position: absolute;
+        left: 25%;
+        width: 75%;
+        top: 0;
+        padding: 1em;
+        line-height: 1;
+        box-sizing: border-box;
+        .admin-subcategory-field-value {
+          border: none;
+          background: none;
+          color: #fff;
+          border-bottom: 1px solid #666;
+          outline: 0;
+        }
+        .admin-subcategory-field-name {
+          color: #aaa;
+          margin-top: 1em;
+        }
+      }
+    }
+  }
+}

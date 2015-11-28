@@ -3,10 +3,15 @@ var cx = require('classnames');
 var _ = require('lodash');
 var {Navigation} = require('react-router');
 var BE = require('utils/BE');
+var Reflux = require('reflux');
 
 var ImgUploader = require('components/ImgUploader');
+
+var PhotosChooser = require('layouts/Admin/PhotosChooser');
 var AllPhotos = require('layouts/Admin/AllPhotos');
 var Categories = require('layouts/Admin/Categories');
+
+var AdminController = require('controllers/AdminController');
 
 var menu = [
     {tab: 'allPhotos',title: 'все фото'},
@@ -20,12 +25,16 @@ var menu = [
 var Component = React.createClass({
     mixins: [
         Navigation,
-        React.addons.LinkedStateMixin
+        React.addons.LinkedStateMixin,
+        Reflux.listenTo(AdminController.openPhotosChooser,'openPhotosChooser'),
+        Reflux.listenTo(AdminController.openPhotosChooser.completed,'closePhotosChooser'),
+        Reflux.listenTo(AdminController.openPhotosChooser.failed,'closePhotosChooser')
     ],
 
     getInitialState: function() {
         return {
-            tab: 'allPhotos'
+            tab: 'allPhotos',
+            photosChooserOpened: false
         }
     },
 
@@ -47,8 +56,16 @@ var Component = React.createClass({
         this.setState({tab: tab});
     },
 
+    openPhotosChooser: function() {
+        this.setState({photosChooserOpened: true});
+    },
+
+    closePhotosChooser: function() {
+        this.setState({photosChooserOpened: false});
+    },
+
     render: function() {
-        if (!this.data) return <img className="admin-loading" src="images/admin-loading.gif" />;
+        if (!this.data) return <img className="admin-loading admin-margin-1" src="images/admin-loading.gif" />;
 
         return (
             <div className="layout-admin" >
@@ -61,6 +78,7 @@ var Component = React.createClass({
                     {(this.state.tab==='allPhotos') && <AllPhotos />}
                     {(this.state.tab==='categories') && <Categories />}
                 </div>
+                {(this.state.photosChooserOpened) && <PhotosChooser />}
             </div>
         );
     }

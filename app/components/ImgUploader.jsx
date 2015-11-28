@@ -64,13 +64,13 @@ var Component = React.createClass({
                     <input type="file" id="fileinput" onChange={this.handleFile}/>
                 </label>}
 
-                {(this.state.img) && <label className="btn new-img" for="fileinputnew" >
+                {(this.state.img) && <label className="btn admin-margin-1 new-img" for="fileinputnew" >
                     выбрать другое фото
                     <input type="file" id="fileinputnew" onChange={this.handleFile}/>
                 </label>}
 
-                {(this.state.img) &&<button className="btn done" onClick={this.submit}>готово</button>}
-                <button className="btn close" onClick={this.close} >закрыть</button>
+                {(this.state.img) &&<button className="btn admin-margin-1 done" onClick={this.submit}>готово</button>}
+                <button className="btn close admin-margin-1" onClick={this.close} >закрыть</button>
             </div>
         );
     }

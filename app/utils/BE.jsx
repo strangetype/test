@@ -130,7 +130,7 @@ var BE = {
             }
         });
         if (repeated) {
-            resolver.reject(newCategory, 'repeated_category');
+            resolver.reject('repeated_category');
         } else {
             this.data.categories.push(newCategory);
             this.saveData(this.data).then((a)=>{
@@ -139,12 +139,46 @@ var BE = {
         }
         return resolver.promise;
     },
+    addSubcategory: function(ownerName,name,title,imgSrc) {
+        console.log(ownerName,name,title,imgSrc);
+        var resolver = Q.defer();
+        var repeated = false;
+        var newSubcategory = {name: name, title: title, imgSrc: imgSrc, photos: []};
+        var id = null;
+        _.forEach(this.data.categories,(c,i)=>{
+            if (c.name===ownerName) {
+                id = i;
+                if (c.subCategories && c.subCategories.length) {
+                    _.forEach(c.subCategories,(sc)=>{
+                        if (sc.name===name) {
+                            console.warn('try to create repeating subcategory');
+                            repeated = true;
+                        }
+                    });
+                }
+            }
+        });
+        if (!id && id!==0) {
+            resolver.reject('no_such_owner_category');
+        } else {
+            if (repeated) {
+                resolver.reject('repeated_subscategory');
+            } else {
+                if (!this.data.categories[id].subCategories) {
+                    this.data.categories[id].subCategories = [];
+                }
+                this.data.categories[id].subCategories.push(newSubcategory);
+                this.saveData(this.data).then((a)=>{
+                    resolver.resolve(this.data,newSubcategory);
+                });
+            }
+        }
+        return resolver.promise;
+    },
     changeCategory: function(originalName,category) {
-        console.info(originalName,category);
         var resolver = Q.defer();
         var cat = null;
         _.forEach(this.data.categories,(c,id)=>{
-            console.log(c);
             if (c.name===originalName) {
                 cat = this.data.categories[id];
             }
@@ -160,6 +194,70 @@ var BE = {
             console.warn('no such category to change');
             resolver.reject(this.data,cat,'no_such_category');
         }
+        return resolver.promise;
+    },
+    changeSubcategory: function(originalName,subcategory) {
+        var resolver = Q.defer();
+        var scat = null;
+        _.forEach(this.data.categories,(c,i)=>{
+            if (c.subCategories && c.subCategories.length) {
+                _.forEach(c.subCategories, (sc,id)=>{
+                    if (sc.name===originalName) {
+                        scat = this.data.categories[i].subCategories[id];
+                    }
+                });
+            }
+        });
+        if (scat) {
+            scat.name = subcategory.name || scat.name;
+            scat.title = subcategory.title || scat.title;
+            scat.imgSrc = subcategory.imgSrc || scat.imgSrc;
+            this.saveData(this.data).then((a)=>{
+                resolver.resolve(this.data);
+            });
+        } else {
+            console.warn('no such subcategory to change');
+            resolver.reject(this.data,scat,'no_such_category');
+        }
+        return resolver.promise;
+    },
+    deleteCategory: function(categoryName) {
+        var resolver = Q.defer();
+        _.remove(this.data.categories,function(cat){
+            return cat.name===categoryName;
+        });
+        this.saveData(this.data).then((a)=>{
+            resolver.resolve(this.data);
+        }).catch(()=>{
+            resolver.reject('response_error');
+        });
+        return resolver.promise;
+    },
+    deleteSubcategory: function(scname) {
+        var resolver = Q.defer();
+        var id = null;
+        _.forEach(this.data.categories,(c,i)=>{
+            if (c.subCategories && c.subCategories.length) {
+                _.forEach(c.subCategories, (sc,j)=>{
+                    if (sc.name===scname) {
+                        id = i;
+                    }
+                });
+            }
+        });
+        if (id || id===0) {
+            _.remove(this.data.categories[id].subCategories,function(sc){
+                return sc.name===scname;
+            });
+            this.saveData(this.data).then((a)=>{
+                resolver.resolve(this.data);
+            }).catch(()=>{
+                resolver.reject('response_error');
+            });
+        } else {
+            resolver.reject('cant_find_cat_with_such_scat');
+        }
+
         return resolver.promise;
     }
 };

@@ -2,9 +2,10 @@ var React = require('react');
 var cx = require('classnames');
 var _ = require('lodash');
 var {Navigation} = require('react-router');
-var BE = require('utils/BE');
 
+var BE = require('utils/BE');
 var ImgUploader = require('components/ImgUploader');
+var AdminController = require('controllers/AdminController');
 
 var Component = React.createClass({
     mixins: [
@@ -46,29 +47,32 @@ var Component = React.createClass({
         this.setState({uploadOpened: false});
     },
 
-    deletePhoto: function(ph,id) {
-        this.setState({loading: true});
-        this.refs['img_'+id].getDOMNode().src = 'images/admin-loading.gif';
-        this.refs['delbtn_'+id].getDOMNode().style.display = 'none';
-        BE.deletePhoto(ph).then(()=>{
-            this.updatePhotos();
-        });
+    close: function() {
+        AdminController.openPhotosChooser.failed();
+    },
+
+    select: function(ph) {
+        AdminController.openPhotosChooser.completed(ph);
     },
 
     render: function() {
-        if (!this.state.photos.length) return <img className="admin-loading" src="images/admin-loading.gif" />;
+        if (!this.state.photos.length) return <div className="admin-photos-chooser" >
+            <h3>Выбор фото: </h3>
+            <img className="admin-loading" src="images/admin-loading.gif" />
+        </div>;
 
         return (
-            <div className="admin-all-photos" >
+            <div className="admin-photos-chooser" >
+                <h3>Выбор фото: </h3>
                 <div className="actions">
                     <button className="btn admin-margin-1" onClick={this.openUploader} >добавить фото</button>
+                    <button className="btn admin-margin-1" onClick={this.close} >закрыть</button>
                     {(this.state.loading) && <img className="admin-loading" src="images/admin-loading.gif" />}
                 </div>
                 <div className="admin-photos-container">
                     {this.state.photos.map((ph,id)=>{
-                        return <div className="admin-photo-item">
+                        return <div onClick={this.select.bind(this,ph)} className="admin-photo-item">
                             <img ref={'img_'+id} src={'images/photos/'+ph} />
-                            <button ref={'delbtn_'+id} onClick={this.deletePhoto.bind(this,ph,id)} className="btn admin-photo-delete" >x</button>
                         </div>;
                     })}
                 </div>

@@ -4,8 +4,20 @@
     background: #333;
     border: 1px solid #444;
     padding: 0.5em 1em;
-    margin: 2em;
     color: #fff;
+  }
+
+  .admin-btn-delete {
+    position: absolute;
+    right: 0; top: 0;
+  }
+
+  .admin-margin-1 {
+    margin: 1em;
+  }
+
+  .admin-margin-05 {
+    margin: 1em;
   }
 
   .admin-loading {
@@ -41,33 +53,13 @@
     margin-top: 3em;
   }
 
-  .admin-all-photos {
-    .admin-photos-container {
-      text-align: center;
-      line-height: 0;
-      border-top: 1px solid #444;
-      .admin-photo-item {
-        position: relative;
-        display: inline-block;
-        border: 1px solid #444;
-        width: 300px;
-        height: 250px;
-        overflow: hidden;
-        img {
-          width: 100%;
-        }
-        .admin-photo-delete {
-          position: absolute;
-          top: 0; right: 0;
-          margin: 1em;
-          display: none;
-        }
-        &:hover {
-          .admin-photo-delete{
-            display: block;
-          }
-        }
-      }
-    }
+  .admin-error-message {
+    font-size: 11px;
+    color: #fcc;
+    padding: 0.5em;
+    border: 1px solid #f99;
+    background: #433;
+    display: inline-block;
   }
+
 }
