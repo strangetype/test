@@ -121,7 +121,8 @@ var AdminPhotosGallery = React.createClass({
                                      loadingPlaceholderSrc = "images/admin-loading.gif"
                                      src={'images/photos/'+ph} />
                             <div className = "admin-gallery-item-menu">
-                                <button className="btn" onClick={this.changePhoto.bind(this,ph)}>другое фото</button>
+                                <div><img className="admin-item-mini-img" src={'images/photos_mini/'+ph} /></div>
+                                <div><button className="btn" onClick={this.changePhoto.bind(this,ph)}>другое фото</button></div>
                             </div>
                             <button onClick={this.removePhoto.bind(this,ph)} className="btn admin-btn-delete">x</button>
                         </div>;

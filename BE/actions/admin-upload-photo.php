@@ -9,7 +9,55 @@ if ($isAuth) {
         $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];
         $newFileName = $Chiper->getUniqueId();
         $uploadPath = PHOTOS_PATH.$newFileName;
+        $uploadMiniPath =  PHOTOS_MINI_PATH.$newFileName;
         move_uploaded_file( $tempPath, $uploadPath );
+
+
+        $size = getimagesize ( $uploadPath );
+        $fileWidth = $size[0];
+        $fileHeight = $size[1];
+        $fileSmallerSize = $fileWidth;
+        if ($fileWidth>$fileHeight) $fileSmallerSize = $fileHeight;
+
+        $dx = ceil(($fileWidth - $fileSmallerSize)/2);
+        $dy = ceil(($fileHeight - $fileSmallerSize)/2);
+
+        $thumb = imagecreatetruecolor(100, 100);
+        switch ($size["mime"]) {
+            case 'image/jpeg':
+                $source = imagecreatefromjpeg($uploadPath);
+            break;
+            case 'image/png':
+                $source = imagecreatefrompng($uploadPath);
+            break;
+            case 'image/gif':
+                $source = imagecreatefromgif($uploadPath);
+            break;
+            default:
+            break;
+        }
+        imagecopyresized(
+            $thumb, $source,
+            0, 0,
+            $dx, $dy,
+            100, 100,
+            $fileSmallerSize, $fileSmallerSize
+        );
+
+        switch ($size["mime"]) {
+            case 'image/jpeg':
+                imagejpeg($thumb, $uploadMiniPath);
+            break;
+            case 'image/png':
+                imagepng($thumb, $uploadMiniPath);
+            break;
+            case 'image/gif':
+                imagegif($thumb, $uploadMiniPath);
+            break;
+            default:
+            break;
+        }
+
 
         $RESPONSE['isUploaded'] = true;
         $RESPONSE['file'] = $_FILES[ 'file' ];
