@@ -9,6 +9,7 @@ var ImgUploader = require('components/ImgUploader');
 
 var PhotosChooser = require('layouts/Admin/PhotosChooser');
 var PhotosGallery = require('layouts/Admin/PhotosGallery');
+var MainCollection = require('layouts/Admin/MainCollection');
 var AllPhotos = require('layouts/Admin/AllPhotos');
 var Categories = require('layouts/Admin/Categories');
 
@@ -90,6 +91,7 @@ var Component = React.createClass({
                 <div className="admin-body">
                     {(this.state.tab==='allPhotos') && <AllPhotos />}
                     {(this.state.tab==='categories') && <Categories />}
+                    {(this.state.tab==='main') && <MainCollection />}
                 </div>
                 {(this.state.photosGalleryOpened) && <PhotosGallery categoryName = {this.state.galleryCategory} />}
                 {(this.state.photosChooserOpened) && <PhotosChooser  />}

@@ -66,9 +66,9 @@ var Component = React.createClass({
 
         return (
             <div className="admin-photos-chooser" >
-                <h3>Выбор фото: </h3>
+                <h3>Выберите фото: </h3>
                 <div className="actions">
-                    <button className="btn admin-margin-1" onClick={this.openUploader} >добавить фото</button>
+                    <button className="btn admin-margin-1" onClick={this.openUploader} >загрузить фото</button>
                     <button className="btn admin-margin-1" onClick={this.close} >закрыть</button>
                     {(this.state.loading) && <img className="admin-loading" src="images/admin-loading.gif" />}
                 </div>
@@ -83,7 +83,7 @@ var Component = React.createClass({
                                      src={'images/photos/'+ph} />
                         </div>;
                     })}
-                    {(!this.state.photos.length) && <h3>Нет фото</h3>}
+                    {(!this.state.photos.length) && <h2>Не загружено ни одного фото</h2>}
                 </div>
                 {(this.state.uploadOpened) && <ImgUploader onSubmit={this.upload} onClose={this.closeUploader} />}
             </div>

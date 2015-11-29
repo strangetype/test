@@ -2,7 +2,7 @@ var React = require('react');
 var cx = require('classnames');
 var _ = require('lodash');
 var BE = require('utils/BE');
-
+var AutoImg = require('components/AutoImg');
 var ImgUploader = require('components/ImgUploader');
 
 var Component = React.createClass({
@@ -65,7 +65,7 @@ var Component = React.createClass({
     render: function() {
 
         if (this.state.deleting) return  <div className="admin-subcategory">
-            <img className="admin-subcategory-image"  src={'images/photos/'+this.props.subcategory.imgSrc} />
+            <AutoImg className="admin-subcategory-image"  src={'images/photos/'+this.props.subcategory.imgSrc} />
             <div className="admin-subcategory-info">
                 <div> <img src="images/admin-loading.gif" /> </div>
             </div>
@@ -73,7 +73,9 @@ var Component = React.createClass({
 
         return (
             <div className="admin-subcategory">
-                <img onClick={this.imgSelect} className="admin-subcategory-image"  src={'images/photos/'+this.props.subcategory.imgSrc} />
+                <div onClick={this.imgSelect} >
+                    <AutoImg className="admin-subcategory-image"  src={'images/photos/'+this.props.subcategory.imgSrc} />
+                </div>
                 <div className="admin-subcategory-info">
                     <div className="admin-subcategory-field-name" >Название: </div>
                     <input type="text" className="admin-subcategory-field-value" onChange={this.change.bind(this,'title')} value={this.state.title} />

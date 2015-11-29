@@ -63,7 +63,7 @@ var Component = React.createClass({
         return (
             <div className="admin-all-photos" >
                 <div className="actions">
-                    <button className="btn admin-margin-1" onClick={this.openUploader} >добавить фото</button>
+                    <button className="btn admin-margin-1" onClick={this.openUploader} >загрузить</button>
                     {(this.state.loading) && <img className="admin-loading" src="images/admin-loading.gif" />}
                 </div>
                 <div className="admin-photos-container">
@@ -78,6 +78,7 @@ var Component = React.createClass({
                             <button ref={'delbtn_'+id} onClick={this.deletePhoto.bind(this,ph,id)} className="btn admin-photo-delete" >x</button>
                         </div>;
                     })}
+                    {(!this.state.photos.length) && <h2>Не загружено ни одного фото</h2>}
                 </div>
                 {(this.state.uploadOpened) && <ImgUploader onSubmit={this.upload} onClose={this.closeUploader} />}
             </div>

@@ -10,10 +10,11 @@ var AutoImg = React.createClass({
 
     getInitialState: function() {
         return {
-            imgStyle: {width: 1, height: 1},
+            imgStyle: {width: 1, height: 1, visibility: 'hidden'},
             size: {w: 0, h: 0},
             loaded: false,
-            processing: false
+            processing: false,
+            isNoPhoto: false
         }
     },
 
@@ -25,11 +26,17 @@ var AutoImg = React.createClass({
         var imgStyle = this.state.imgStyle;
         imgStyle.width = e.target.naturalWidth*c;
         imgStyle.height = e.target.naturalHeight*c;
+        imgStyle.visibility = 'visible';
         this.setState({
             imgStyle: imgStyle,
             size: {w: e.target.naturalWidth, h: e.target.naturalHeight},
-            loaded: true
+            loaded: true,
+            isNoPhoto: false
         });
+    },
+
+    setPlaceholder: function(e) {
+        this.setState({isNoPhoto: true});
     },
 
     render: function() {
@@ -39,7 +46,8 @@ var AutoImg = React.createClass({
             </div>}
             {(!this.state.loaded && this.props.loadingPlaceholderSrc) && <img src={this.props.loadingPlaceholderSrc} />}
             {(this.state.processing && this.props.loadingPlaceholderSrc) && <img style={{position: 'absolute', top: 0, left:0}} src={this.props.loadingPlaceholderSrc} />}
-            <img ref="imgEl" style={this.state.imgStyle} onLoad={this.loaded} src={this.props.src} />
+            <img ref="imgEl" style={this.state.imgStyle} onLoad={this.loaded} onError={this.setPlaceholder} src={this.props.src} />
+            {(this.state.isNoPhoto) && <img style={{width: '100%'}} src='images/img-placeholder.png'/>}
         </div>;
     }
 });

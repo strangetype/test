@@ -18,6 +18,7 @@ var Component = React.createClass({
         return {
             categories: [],
             loading: false,
+            loaded: false,
             newCategoryOpened: false,
             error: null
         }
@@ -26,7 +27,8 @@ var Component = React.createClass({
     componentDidMount: function() {
         BE.getData().then((data)=>{
             this.setState({
-                categories: data.categories
+                categories: data.categories,
+                loaded: true
             });
         });
     },
@@ -193,15 +195,15 @@ var Component = React.createClass({
     },
 
     render: function() {
-        if (!this.state.categories.length) return <img className="admin-loading" src="images/admin-loading.gif" />;
+        if (!this.state.loaded) return <img className="admin-loading" src="images/admin-loading.gif" />;
 
         return (
             <div className="admin-categories" >
                 <div className="actions">
                     {(!this.state.newCategoryOpened) && <button className="btn admin-margin-1" onClick={this.openNewCategory} >создать категорию</button>}
                     {(this.state.newCategoryOpened) && <div>
-                        <label>Имя: </label><input type="text" value={this.newCat.name} onChange={this.changeNewCatField.bind(this,'name')} />
-                        <label>Название: </label><input type="text" value={this.newCat.title} onChange={this.changeNewCatField.bind(this,'title')} />
+                        <label>Имя: </label><input className="admin-input" type="text" value={this.newCat.name} onChange={this.changeNewCatField.bind(this,'name')} />
+                        <label>Название: </label><input className="admin-input" type="text" value={this.newCat.title} onChange={this.changeNewCatField.bind(this,'title')} />
                         <button className="btn admin-margin-1" onClick={this.closeNewCategory} >отмена</button>
                         <button className="btn admin-margin-1" onClick={this.addNewCategory} >создать категорию</button>
                     </div>}

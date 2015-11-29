@@ -5,7 +5,7 @@ var BE = require('utils/BE');
 
 var ImgUploader = require('components/ImgUploader');
 var Subcategory = require('layouts/Admin/Subcategory');
-
+var AutoImg = require('components/AutoImg');
 var shortid = require('shortid');
 
 var Component = React.createClass({
@@ -110,7 +110,7 @@ var Component = React.createClass({
     render: function() {
 
         if (this.state.deleting) return  <div className="admin-category">
-            <img className="admin-category-image"  src={'images/photos/'+this.props.category.imgSrc} />
+            <AutoImg className="admin-category-image"  src={'images/photos/'+this.props.category.imgSrc} />
             <div className="admin-category-info">
                 <div> <img src="images/admin-loading.gif" /> </div>
             </div>
@@ -118,7 +118,9 @@ var Component = React.createClass({
 
         return (
             <div className="admin-category">
-                <img onClick={this.imgSelect} className="admin-category-image"  src={'images/photos/'+this.props.category.imgSrc} />
+                <div onClick={this.imgSelect} >
+                    <AutoImg className="admin-category-image"  src={'images/photos/'+this.props.category.imgSrc} />
+                </div>
                 <div className="admin-category-info">
                     <div className="admin-category-field-name" >Название: </div>
                     <input type="text" className="admin-category-field-value" onChange={this.change.bind(this,'title')} value={this.state.title} />
@@ -136,8 +138,8 @@ var Component = React.createClass({
                 {(this.state.scOpened) && <div className="admin-subcategories">
                     {(!this.state.newSubcategoryOpened) && <button className="btn admin-margin-1" onClick={this.openNewSubcategory} >создать категорию</button>}
                     {(this.state.newSubcategoryOpened) && <div>
-                        <label>Имя: </label><input type="text" value={this.newScat.name} onChange={this.changeNewScatField.bind(this,'name')} />
-                        <label>Название: </label><input type="text" value={this.newScat.title} onChange={this.changeNewScatField.bind(this,'title')} />
+                        <label>Имя: </label><input className="admin-input" type="text" value={this.newScat.name} onChange={this.changeNewScatField.bind(this,'name')} />
+                        <label>Название: </label><input className="admin-input" type="text" value={this.newScat.title} onChange={this.changeNewScatField.bind(this,'title')} />
                         <button className="btn admin-margin-1" onClick={this.closeNewSubcategory} >отмена</button>
                         <button className="btn admin-margin-1" onClick={this.addNewSubcategory} >создать категорию</button>
                     </div>}

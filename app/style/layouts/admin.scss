@@ -1,5 +1,32 @@
 .layout-admin {
 
+  h3 {
+    line-height: 1;
+    padding: 1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  h2 {
+    line-height: 1;
+    padding: 1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #aaa;
+    color: #aaa;
+    font-size: 12px;
+  }
+
+  .admin-input {
+    border: none;
+    background: none;
+    color: #fff;
+    border-bottom: 1px solid #666;
+    outline: 0;
+    margin-left: 1em;
+  }
+
   .btn {
     background: #333;
     border: 1px solid #444;

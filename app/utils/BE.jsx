@@ -109,14 +109,28 @@ var BE = {
         }
         return resolver.promise;
     },
-    removePhotoFromBkg: function(id) {
+    removePhotoFromBkg: function(ph) {
         var resolver = Q.defer();
         _.remove(this.data.bkgPhotos,(p)=>{
-            return p === id;
+            return p === ph;
         });
         this.saveData(this.data).then((a)=>{
             resolver.resolve(this.data);
         });
+        return resolver.promise;
+    },
+    changeBkgPhoto: function(ph,nph) {
+        var resolver = Q.defer();
+        var id = _.indexOf(this.data.bkgPhotos,ph);
+        if (id!==-1) {
+            this.data.bkgPhotos[id] = nph;
+            this.saveData(this.data).then((a)=>{
+                resolver.resolve(this.data);
+            });
+        } else {
+            resolver.reject('no_such_photo_to_change');
+        }
+
         return resolver.promise;
     },
     addCategory: function(name,title,imgSrc) {
@@ -276,7 +290,6 @@ var BE = {
         return photos;
     },
     addPhotoToCategory: function(ph,cname) {
-        debugger;
         var resolver = Q.defer();
         var id = null; sid = null;
         _.forEach(this.data.categories,(c,i)=> {

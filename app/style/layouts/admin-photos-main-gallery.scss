@@ -1,0 +1,73 @@
+.layout-admin {
+  .admin-photos-main-gallery {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    background: #000;
+    z-index: 5;
+    .admin-photos-main-gallery-container {
+      text-align: center;
+      line-height: 0;
+      border-top: 1px solid #444;
+      .admin-main-gallery-photo-item {
+        position: relative;
+        border: 1px solid transparent;
+        width: 90%;
+        overflow: hidden;
+
+        background: #111;
+
+        margin-bottom: 20px;
+        text-align: left;
+
+        min-height: 200px;
+
+        .admin-photo-auto-img {
+          overflow: hidden;
+          position: relative;
+          width: 30%;
+          cursor: pointer;
+          display: inline-block;
+          border: 1px solid transparent;
+          &:hover {
+            border: 1px solid #fff;
+          }
+        }
+
+        .admin-photo-item-size {
+          position: absolute;
+          right: 0;
+          top: 0;
+          padding: 1em;
+          background: rgba(0,0,0,0.6);
+          color: #fff;
+        }
+        .admin-photo-delete {
+          position: absolute;
+          top: 0; right: 0;
+          margin: 1em;
+          display: none;
+        }
+        &:hover {
+          .admin-photo-delete{
+            display: block;
+          }
+        }
+
+        .admin-main-gallery-item-menu {
+          position: absolute;
+          left: 30%;
+          top: 0;
+          padding: 1em;
+          line-height: 3;
+          .admin-item-mini-img {
+            border: 1px solid #444;
+          }
+        }
+      }
+    }
+  }
+}

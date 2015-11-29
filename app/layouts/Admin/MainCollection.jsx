@@ -29,10 +29,10 @@ var AdminPhotosGallery = React.createClass({
 
     updatePhotos: function() {
         if (BE.data) {
-            this.setState({photos: BE.getCategoryPhotos(this.props.categoryName), loaded: true});
+            this.setState({photos: BE.data.bkgPhotos, loaded: true});
         } else {
             BE.getData().then((data)=>{
-                this.setState({photos: BE.getCategoryPhotos(this.props.categoryName), loaded: true});
+                this.setState({photos: data.bkgPhotos, loaded: true});
             });
         }
     },
@@ -40,10 +40,10 @@ var AdminPhotosGallery = React.createClass({
     addPhoto: function() {
         AdminController.openPhotosChooser.triggerPromise().then((ph,id)=>{
             this.setState({loading: true});
-            BE.addPhotoToCategory(ph,this.props.categoryName).then((photos)=>{
+            BE.addPhotoToBkg(ph).then((data)=>{
                 this.setState({
                     loading: false,
-                    photos: photos
+                    photos: data.bkgPhotos
                 });
             }).catch((er)=>{
                 console.warn(er);
@@ -59,10 +59,10 @@ var AdminPhotosGallery = React.createClass({
     changePhoto: function(ph) {
         AdminController.openPhotosChooser.triggerPromise().then((nph,id)=>{
             this.setState({loading: true});
-            BE.changeCategoryPhoto(ph,nph,this.props.categoryName).then((photos)=>{
+            BE.changeBkgPhoto(ph,nph).then((data)=>{
                 this.setState({
                     loading: false,
-                    photos: photos
+                    photos: data.bkgPhotos
                 });
             }).catch((er)=>{
                 console.warn(er);
@@ -75,59 +75,57 @@ var AdminPhotosGallery = React.createClass({
         });
     },
 
-    close: function() {
-        AdminController.openPhotosGallery.close();
-    },
-
-    removePhoto: function(ph) {
-        this.setState({loading: true});
-        BE.deletePhotoFromCategory(ph,this.props.categoryName).then((photos)=>{
-            this.setState({
-                loading: false,
-                photos: photos
-            });
-        }).catch((er)=>{
-            console.warn(er);
-            this.setState({
-                loading: false
+    removePhoto: function(ph,id) {
+        this.setState({loading: true}, ()=>{
+            this.refs['img_'+id].setState({processing: true});
+            BE.removePhotoFromBkg(ph).then((data)=>{
+                this.setState({
+                    loading: false,
+                    photos: data.bkgPhotos
+                });
+            }).catch((er)=>{
+                console.warn(er);
+                this.setState({
+                    loading: false
+                });
             });
         });
+
     },
 
     render: function() {
-        if (!this.state.loaded) return <div className="admin-photos-gallery" >
-            <h3>Фото категории "{this.props.categoryName}"</h3>
+        if (!this.state.loaded) return <div className="admin-photos-main-gallery" >
+            <h3>Фото слайдер главной страницы</h3>
             <img className="admin-loading" src="images/admin-loading.gif" />
         </div>;
 
         return (
-            <div className="admin-photos-gallery" >
-                <h3>Фото категории "{this.props.categoryName}"</h3>
+            <div className="admin-photos-main-gallery" >
+                <h3>Фото слайдер главной страницы</h3>
                 <div className="actions">
                     {(this.state.loading) ? <img className="admin-loading" src="images/admin-loading.gif" />
                     :
                         <div >
                             <button className="btn admin-margin-1" onClick={this.addPhoto} >добавить</button>
-                            <button className="btn admin-margin-1" onClick={this.close} >закрыть</button>
                         </div>}
                 </div>
-                <div className="admin-photos-gallery-container">
+                <div className="admin-photos-main-gallery-container">
                     {this.state.photos.map((ph,id)=>{
-                        return <div key={ph+this.props.categoryName} className="admin-gallery-photo-item">
+                        return <div key={'main_collection'+ph} className="admin-main-gallery-photo-item">
                             <AutoImg ref={'img_'+id}
                                      showSize={true}
                                      showSizeClass="admin-photo-item-size"
                                      className="admin-photo-auto-img"
                                      loadingPlaceholderSrc = "images/admin-loading.gif"
                                      src={'images/photos/'+ph} />
-                            <div className = "admin-gallery-item-menu">
-                                <div><img className="admin-item-mini-img" src={'images/photos_mini/'+ph} /></div>
+                            <div className = "admin-main-gallery-item-menu">
+                                <h2>{id+1}</h2>
                                 <div><button className="btn" onClick={this.changePhoto.bind(this,ph)}>другое фото</button></div>
                             </div>
-                            <button onClick={this.removePhoto.bind(this,ph)} className="btn admin-btn-delete">x</button>
+                            <button onClick={this.removePhoto.bind(this,ph,id)} className="btn admin-btn-delete">x</button>
                         </div>;
                     })}
-                    {(!this.state.photos.length) && <h2>Категория пуста</h2>}
+                    {(!this.state.photos.length) && <h2>Добавьте фото для главной страницы</h2>}
                 </div>
             </div>
         );
