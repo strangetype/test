@@ -1,0 +1,40 @@
+.layout-services {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: 0 0 0 210px;
+  box-sizing: border-box;
+  line-height: 3;
+  color: #fff;
+  text-align: left;
+  @include scrollbars(10px, #222, #444);
+
+  .content-container {
+    opacity: 1;
+    transition: opacity 1s;
+    animation: servicesFadein 1s;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 2em 6em;
+    * {
+      font-family: calibri;
+    }
+    ul {
+      list-style: square;
+    }
+  }
+
+  &.layout-services--fade-out {
+    .content-container {
+      opacity: 0;
+    }
+  }
+}
+
+@keyframes servicesFadein {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}

@@ -74,13 +74,17 @@ var BE = {
         });
         return resolver.promise;
     },
-    uploadPhoto: function(file,type) {
+    uploadPhoto: function(file,type,crop) {
+        var cr = {};
+        if (crop) cr = {x: Math.round(crop.x), y: Math.round(crop.y),
+            w: Math.round(crop.width), h: Math.round(crop.height)};
         var resolver = Q.defer();
         var fd = new FormData();
         if (type==='dataURI') {
             file = this._dataURItoBlob(file);
         }
         fd.append('file',file);
+        fd.append('data',JSON.stringify(cr));
         http
             .post(this.url).set('action','admin-upload-photo')
             .send(fd)

@@ -5,13 +5,11 @@ $isAuth = $Auth->authCheck();
 
 if ($isAuth) {
     if ( !empty( $_FILES ) ) {
-
         $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];
         $newFileName = $Chiper->getUniqueId();
         $uploadPath = PHOTOS_PATH.$newFileName;
         $uploadMiniPath =  PHOTOS_MINI_PATH.$newFileName;
         move_uploaded_file( $tempPath, $uploadPath );
-
 
         $size = getimagesize ( $uploadPath );
         $fileWidth = $size[0];
@@ -21,6 +19,16 @@ if ($isAuth) {
 
         $dx = ceil(($fileWidth - $fileSmallerSize)/2);
         $dy = ceil(($fileHeight - $fileSmallerSize)/2);
+
+        $x = dx; $y = dy;
+        $w = $fileSmallerSize; $h = $fileSmallerSize;
+
+        $DATA = (object) json_decode($_POST['data']);
+
+        if ($DATA->x) $x = $DATA->x;
+        if ($DATA->y) $y = $DATA->y;
+        if ($DATA->w) $w = $DATA->w;
+        if ($DATA->h) $h = $DATA->h;
 
         $thumb = imagecreatetruecolor(100, 100);
         switch ($size["mime"]) {
@@ -39,9 +47,9 @@ if ($isAuth) {
         imagecopyresized(
             $thumb, $source,
             0, 0,
-            $dx, $dy,
+            $x, $y,
             100, 100,
-            $fileSmallerSize, $fileSmallerSize
+            $w, $h
         );
 
         switch ($size["mime"]) {

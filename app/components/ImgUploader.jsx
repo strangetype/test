@@ -22,12 +22,13 @@ var Component = React.createClass({
         });
     },
 
-    _files: null,
+    _file: null,
 
     handleFile: function(e) {
         var self = this;
         var reader = new FileReader();
         var file = e.target.files[0];
+        this._file = file;
         reader.onload = function(upload) {
             self.setState({
                 img: upload.target.result
@@ -37,7 +38,12 @@ var Component = React.createClass({
     },
 
     submit: function() {
-        if (typeof(this.props.onSubmit)==='function') this.props.onSubmit(this.refs.cropper.getCroppedCanvas().toDataURL());
+        if (typeof(this.props.onSubmit)==='function')
+            this.props.onSubmit(
+                this._file,
+                this.refs.cropper.getCroppedCanvas().toDataURL(),
+                this.refs.cropper.getData()
+            );
     },
 
     close: function() {
@@ -55,6 +61,7 @@ var Component = React.createClass({
                         src={this.state.img}
                         style={{height: '100%', width: '100%'}}
                         guides={false}
+                        aspectRatio={1/1}
                         toggleDragModeOnDblclick = {true}
                         cropBoxResizable = {true}
                         />

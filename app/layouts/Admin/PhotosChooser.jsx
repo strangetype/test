@@ -28,10 +28,10 @@ var Component = React.createClass({
         this.updatePhotos();
     },
 
-    upload: function(file) {
+    upload: function(file,fileURI,crop) {
         this.closeUploader();
         this.setState({loading: true});
-        BE.uploadPhoto(file,'dataURI').then(()=>{
+        BE.uploadPhoto(file,'file',crop).then(()=>{
             this.updatePhotos();
         });
     },

@@ -7,6 +7,7 @@ var {Navigation} = require('react-router');
 var LayoutCategories= require('layouts/Gallery/Categories');
 var LayoutSubCategories = require('layouts/Gallery/SubCategories');
 var LayoutGallery = require('layouts/Gallery/Gallery');
+var LayoutServices = require('layouts/Gallery/Services');
 var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
 var BE = require('utils/BE');
@@ -97,7 +98,6 @@ var Component = React.createClass({
         {name: 'main', title: 'Главная'},
         {name: 'gallery', title: 'Галерея'},
         {name: 'services', title: 'Услуги'},
-        {name: 'feedback', title: 'Отзывы'},
         {name: 'contacts', title: 'Контакты'}
     ],
 
@@ -171,16 +171,17 @@ var Component = React.createClass({
                         if (c) {
                             this.photos = c.photos;
                             this.photo = c.photos[id];
-                            console.log(id);
                             if (!c.photos[id+1]) this.isLastPhoto = true;
                             if (!c.photos[id-1]) this.isFirstPhoto = true;
-                            console.log(this.isLastPhoto, this.isFirstPhoto);
                             this.changeScreen('photoPreview');
                         }
                         return;
                     }
                 }
                 this.changeScreen('categories');
+            }
+            if (this.currentRoute[2]==='services') {
+                this.changeScreen('services');
             }
         }
 
@@ -304,6 +305,7 @@ var Component = React.createClass({
                 {(this.state.nextScreen==='categories' || this.state.prevScreen==='categories') && <LayoutCategories categories={this.data.categories} ref="categories" onSelect = {this.categoryChoose} />}
                 {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories subCategories={this.subCategories} ref="subCategories" onSelect = {this.subCategoryChoose} />}
                 {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
+                {(this.state.nextScreen==='services' || this.state.prevScreen==='services') && <LayoutServices ref="services"  />}
 
                 <div className = {leftMenuClass}>
                     <ul>
