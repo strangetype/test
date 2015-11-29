@@ -95,13 +95,11 @@ var AdminPhotosGallery = React.createClass({
 
     render: function() {
         if (!this.state.loaded) return <div className="admin-photos-main-gallery" >
-            <h3>Фото слайдер главной страницы</h3>
             <img className="admin-loading" src="images/admin-loading.gif" />
         </div>;
 
         return (
             <div className="admin-photos-main-gallery" >
-                <h3>Фото слайдер главной страницы</h3>
                 <div className="actions">
                     {(this.state.loading) ? <img className="admin-loading" src="images/admin-loading.gif" />
                     :

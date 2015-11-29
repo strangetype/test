@@ -1,13 +1,7 @@
 .layout-admin {
   .admin-photos-main-gallery {
-    position: fixed;
-    width: 100%;
-    height: 100%;
     overflow: auto;
-    top: 0;
-    left: 0;
     background: #000;
-    z-index: 5;
     .admin-photos-main-gallery-container {
       text-align: center;
       line-height: 0;

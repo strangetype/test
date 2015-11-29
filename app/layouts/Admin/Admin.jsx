@@ -18,10 +18,10 @@ var AdminController = require('controllers/AdminController');
 var menu = [
     {tab: 'allPhotos',title: 'все фото'},
     {tab: 'categories',title: 'категории'},
-    {tab: 'main',title: 'главная'},
-    {tab: 'feedback',title: 'отзывы'},
-    {tab: 'service',title: 'услуги'},
-    {tab: 'contacts',title: 'контакты'}
+    {tab: 'main',title: 'главная'}
+   // {tab: 'feedback',title: 'отзывы'},
+   // {tab: 'service',title: 'услуги'},
+   // {tab: 'contacts',title: 'контакты'}
 ];
 
 var Component = React.createClass({
