@@ -101,6 +101,12 @@ var Component = React.createClass({
         }
     },
 
+    openGallery: function(name) {
+        if (typeof(this.props.onOpenGallery)==='function') {
+            this.props.onOpenGallery(name);
+        }
+    },
+
     render: function() {
 
         if (this.state.deleting) return  <div className="admin-category">
@@ -123,7 +129,7 @@ var Component = React.createClass({
                         {(this.checkChanges()) && <button onClick={this.save} className="btn admin-margin-05">сохранить</button>}
                     </div>}
                     <button className="btn admin-subcategories-toggle" onClick={this.toggleSubcategories}>подкатегории</button>
-                    <button className="btn admin-photos-toggle" onClick={this.toggleSubcategories}>фотографии</button>
+                    <button className="btn admin-photos-toggle" onClick={this.openGallery.bind(this,this.state.name)}>фотографии</button>
                     {(this.state.loading) && <div> <img src="images/admin-loading.gif" /> </div>}
                     <button onClick={this.deleteCategory} className="btn admin-btn-delete">x</button>
                 </div>
@@ -140,6 +146,7 @@ var Component = React.createClass({
                         return <Subcategory onSave={this.saveSubcategory}
                                             onImgSelect={this.subImgSelect}
                                             onDelete={this.deleteSubcategory}
+                                            onOpenGallery = {this.openGallery}
                                             subcategory={sc}
                                             key={sc.name}
                             />

@@ -8,6 +8,7 @@ var Reflux = require('reflux');
 var ImgUploader = require('components/ImgUploader');
 
 var PhotosChooser = require('layouts/Admin/PhotosChooser');
+var PhotosGallery = require('layouts/Admin/PhotosGallery');
 var AllPhotos = require('layouts/Admin/AllPhotos');
 var Categories = require('layouts/Admin/Categories');
 
@@ -27,6 +28,8 @@ var Component = React.createClass({
         Navigation,
         React.addons.LinkedStateMixin,
         Reflux.listenTo(AdminController.openPhotosChooser,'openPhotosChooser'),
+        Reflux.listenTo(AdminController.openPhotosGallery,'openPhotosGallery'),
+        Reflux.listenTo(AdminController.openPhotosGallery.close,'closePhotosGallery'),
         Reflux.listenTo(AdminController.openPhotosChooser.completed,'closePhotosChooser'),
         Reflux.listenTo(AdminController.openPhotosChooser.failed,'closePhotosChooser')
     ],
@@ -34,7 +37,9 @@ var Component = React.createClass({
     getInitialState: function() {
         return {
             tab: 'allPhotos',
-            photosChooserOpened: false
+            photosChooserOpened: false,
+            photosGalleryOpened: false,
+            galleryCategory: null
         }
     },
 
@@ -64,6 +69,14 @@ var Component = React.createClass({
         this.setState({photosChooserOpened: false});
     },
 
+    openPhotosGallery: function(cname) {
+        this.setState({photosGalleryOpened: true, galleryCategory: cname});
+    },
+
+    closePhotosGallery: function() {
+        this.setState({photosGalleryOpened: false});
+    },
+
     render: function() {
         if (!this.data) return <img className="admin-loading admin-margin-1" src="images/admin-loading.gif" />;
 
@@ -78,7 +91,8 @@ var Component = React.createClass({
                     {(this.state.tab==='allPhotos') && <AllPhotos />}
                     {(this.state.tab==='categories') && <Categories />}
                 </div>
-                {(this.state.photosChooserOpened) && <PhotosChooser />}
+                {(this.state.photosGalleryOpened) && <PhotosGallery categoryName = {this.state.galleryCategory} />}
+                {(this.state.photosChooserOpened) && <PhotosChooser  />}
             </div>
         );
     }

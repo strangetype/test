@@ -7,18 +7,27 @@
       .admin-photo-item {
         position: relative;
         display: inline-block;
-        border: 1px solid #444;
-        width: 300px;
-        height: 250px;
+        border: 1px solid transparent;
+        width: 20%;
         overflow: hidden;
-        img {
-          width: 100%;
+        .admin-photo-item-size {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          padding: 1em;
+          background: rgba(0,0,0,0.6);
+          color: #fff;
         }
+
         .admin-photo-delete {
           position: absolute;
           top: 0; right: 0;
-          margin: 1em;
           display: none;
+          border: 1px solid transparent;
+          background: #a66;
+          &:hover {
+            border: 1px solid #fff;
+          }
         }
         &:hover {
           .admin-photo-delete{

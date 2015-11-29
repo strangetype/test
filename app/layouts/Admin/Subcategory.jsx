@@ -55,6 +55,13 @@ var Component = React.createClass({
         });
     },
 
+    openGallery: function() {
+        if (typeof(this.props.onOpenGallery)==='function') {
+            this.props.onOpenGallery(this.state.name);
+        }
+    },
+
+
     render: function() {
 
         if (this.state.deleting) return  <div className="admin-subcategory">
@@ -72,6 +79,7 @@ var Component = React.createClass({
                     <input type="text" className="admin-subcategory-field-value" onChange={this.change.bind(this,'title')} value={this.state.title} />
                     <div className="admin-subcategory-field-name" >Имя: </div>
                     <input type="text" className="admin-subcategory-field-value" onChange={this.change.bind(this,'name')} value={this.state.name} />
+                    <button className="btn admin-photos-toggle" onClick={this.openGallery}>фотографии</button>
                     {(!this.state.loading) && <div>
                         {(this.checkChanges()) && <button onClick={this.revert} className="btn admin-margin-05">отмена</button>}
                         {(this.checkChanges()) && <button onClick={this.save} className="btn admin-margin-05">сохранить</button>}

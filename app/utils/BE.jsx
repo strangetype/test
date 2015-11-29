@@ -257,9 +257,161 @@ var BE = {
         } else {
             resolver.reject('cant_find_cat_with_such_scat');
         }
-
+        return resolver.promise;
+    },
+    getCategoryPhotos: function(cname) {
+        var photos = [];
+        _.forEach(this.data.categories,(c)=>{
+            if (c.name===cname && c.photos) {
+                photos = c.photos;
+            }
+            if (c.subCategories && c.subCategories.length) {
+                _.forEach(c.subCategories, (sc)=>{
+                    if (sc.name===cname && sc.photos) {
+                        photos = sc.photos;
+                    }
+                });
+            }
+        });
+        return photos;
+    },
+    addPhotoToCategory: function(ph,cname) {
+        debugger;
+        var resolver = Q.defer();
+        var id = null; sid = null;
+        _.forEach(this.data.categories,(c,i)=> {
+            if (c.name === cname) id = i;
+            if (c.subCategories && c.subCategories.length) {
+                _.forEach(c.subCategories, (sc,j)=>{
+                    if (sc.name===cname) {
+                        sid = j;
+                        id = i;
+                    }
+                });
+            }
+        });
+        if (id!==null && sid === null) {
+            if (!this.data.categories[id].photos) {
+                this.data.categories[id].photos = [];
+            }
+            if (_.indexOf(this.data.categories[id].photos, ph)===-1) {
+                this.data.categories[id].photos.push(ph);
+                this.saveData(this.data).then((data)=>{
+                    resolver.resolve(this.data.categories[id].photos);
+                });
+            } else {
+                resolver.reject('such_photo_exist');
+            }
+        }
+        if (id!==null && sid!== null) {
+            if (!this.data.categories[id].subCategories[sid].photos) {
+                this.data.categories[id].subCategories[sid].photos = [];
+            }
+            if (_.indexOf(this.data.categories[id].subCategories[sid].photos, ph)===-1) {
+                this.data.categories[id].subCategories[sid].photos.push(ph);
+                this.saveData(this.data).then((data)=>{
+                    resolver.resolve(this.data.categories[id].subCategories[sid].photos);
+                });
+            } else {
+                resolver.reject('such_photo_exist');
+            }
+        }
+        if (id===null && sid === null) {
+            resolver.reject('no_such_category');
+        }
+        return resolver.promise;
+    },
+    deletePhotoFromCategory: function(ph,cname) {
+        var resolver = Q.defer();
+        var id = null; sid = null;
+        _.forEach(this.data.categories,(c,i)=> {
+            if (c.name === cname) id = i;
+            if (c.subCategories && c.subCategories.length) {
+                _.forEach(c.subCategories, (sc,j)=>{
+                    if (sc.name===cname) {
+                        sid = j;
+                        id = i;
+                    }
+                });
+            }
+        });
+        if (id!==null && sid === null) {
+            if (!this.data.categories[id].photos) {
+                this.data.categories[id].photos = [];
+            }
+            if (_.indexOf(this.data.categories[id].photos, ph)!==-1) {
+                _.remove(this.data.categories[id].photos,(p)=>{
+                    return p===ph;
+                });
+                this.saveData(this.data).then((data)=>{
+                    resolver.resolve(this.data.categories[id].photos);
+                });
+            } else {
+                resolver.reject('such_photo_no_exist');
+            }
+        }
+        if (id!==null && sid!== null) {
+            if (!this.data.categories[id].subCategories[sid].photos) {
+                this.data.categories[id].subCategories[sid].photos = [];
+            }
+            if (_.indexOf(this.data.categories[id].subCategories[sid].photos, ph)!==-1) {
+                _.remove(this.data.categories[id].subCategories[sid].photos,(p)=>{
+                    return p===ph;
+                });
+                this.saveData(this.data).then((data)=>{
+                    resolver.resolve(this.data.categories[id].subCategories[sid].photos);
+                });
+            } else {
+                resolver.reject('such_photo_no_exist');
+            }
+        }
+        if (id===null && sid === null) {
+            resolver.reject('no_such_category');
+        }
+        return resolver.promise;
+    },
+    changeCategoryPhoto: function(ph,nph,cname) {
+        var resolver = Q.defer();
+        var id = null; sid = null;
+        _.forEach(this.data.categories,(c,i)=> {
+            if (c.name === cname) id = i;
+            if (c.subCategories && c.subCategories.length) {
+                _.forEach(c.subCategories, (sc,j)=>{
+                    if (sc.name===cname) {
+                        sid = j;
+                        id = i;
+                    }
+                });
+            }
+        });
+        if (id!==null && sid === null) {
+            var pid = _.indexOf(this.data.categories[id].photos,ph);
+            if (pid!==-1) {
+                this.data.categories[id].photos[pid] = nph;
+                this.saveData(this.data).then((data)=>{
+                    resolver.resolve(this.data.categories[id].photos);
+                });
+            } else {
+                resolver.reject('no_such_photo');
+            }
+        }
+        if (id!==null && sid!== null) {
+            var pid = _.indexOf(this.data.categories[id].subCategories[sid].photos,ph);
+            if (pid!==-1) {
+                this.data.categories[id].subCategories[sid].photos[pid] = nph;
+                this.saveData(this.data).then((data)=>{
+                    resolver.resolve(this.data.categories[id].subCategories[sid].photos);
+                });
+            } else {
+                resolver.reject('no_such_photo');
+            }
+        }
+        if (id===null && sid === null) {
+            resolver.reject('no_such_category');
+        }
         return resolver.promise;
     }
+
 };
 
 module.exports = BE;

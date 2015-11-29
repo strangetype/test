@@ -5,6 +5,7 @@ var {Navigation} = require('react-router');
 var BE = require('utils/BE');
 
 var ImgUploader = require('components/ImgUploader');
+var AutoImg = require('components/AutoImg');
 
 var Component = React.createClass({
     mixins: [
@@ -16,7 +17,8 @@ var Component = React.createClass({
         return {
             photos: [],
             uploadOpened: false,
-            loading: false
+            loading: false,
+            loaded: false
         }
     },
 
@@ -34,7 +36,7 @@ var Component = React.createClass({
 
     updatePhotos: function() {
         BE.getPhotos().then((photos)=>{
-            this.setState({photos: photos, loading: false})
+            this.setState({photos: photos, loading: false, loaded: true})
         });
     },
 
@@ -48,7 +50,7 @@ var Component = React.createClass({
 
     deletePhoto: function(ph,id) {
         this.setState({loading: true});
-        this.refs['img_'+id].getDOMNode().src = 'images/admin-loading.gif';
+        this.refs['img_'+id].setState({processing: true});
         this.refs['delbtn_'+id].getDOMNode().style.display = 'none';
         BE.deletePhoto(ph).then(()=>{
             this.updatePhotos();
@@ -56,7 +58,7 @@ var Component = React.createClass({
     },
 
     render: function() {
-        if (!this.state.photos.length) return <img className="admin-loading" src="images/admin-loading.gif" />;
+        if (!this.state.loaded) return <img className="admin-loading" src="images/admin-loading.gif" />;
 
         return (
             <div className="admin-all-photos" >
@@ -66,8 +68,13 @@ var Component = React.createClass({
                 </div>
                 <div className="admin-photos-container">
                     {this.state.photos.map((ph,id)=>{
-                        return <div className="admin-photo-item">
-                            <img ref={'img_'+id} src={'images/photos/'+ph} />
+                        return <div className="admin-photo-item" key={'_img'+ph}>
+                            <AutoImg ref={'img_'+id}
+                                     showSize={true}
+                                     showSizeClass="admin-photo-item-size"
+                                     className="admin-photo-auto-img"
+                                     loadingPlaceholderSrc = "images/admin-loading.gif"
+                                     src={"images/photos/"+ph} />
                             <button ref={'delbtn_'+id} onClick={this.deletePhoto.bind(this,ph,id)} className="btn admin-photo-delete" >x</button>
                         </div>;
                     })}

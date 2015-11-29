@@ -3,7 +3,6 @@ var cx = require('classnames');
 var _ = require('lodash');
 var BE = require('utils/BE');
 
-var PhotosChooser = require('layouts/Admin/PhotosChooser');
 var Category = require('layouts/Admin/Category');
 
 var AdminController = require('controllers/AdminController');
@@ -187,6 +186,12 @@ var Component = React.createClass({
         });
     },
 
+    openGallery: function(cname) {
+        AdminController.openPhotosGallery.triggerPromise(cname).then(()=>{
+
+        });
+    },
+
     render: function() {
         if (!this.state.categories.length) return <img className="admin-loading" src="images/admin-loading.gif" />;
 
@@ -212,6 +217,7 @@ var Component = React.createClass({
                                          onSubSave={this.saveSubcategory}
                                          onDelete={this.deleteCategory}
                                          onSubDelete={this.deleteSubcategory}
+                                         onOpenGallery={this.openGallery}
                                          category={c}
                                          key={c.name}
                             />

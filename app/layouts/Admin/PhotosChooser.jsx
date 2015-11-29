@@ -6,6 +6,8 @@ var {Navigation} = require('react-router');
 var BE = require('utils/BE');
 var ImgUploader = require('components/ImgUploader');
 var AdminController = require('controllers/AdminController');
+var AutoImg = require('components/AutoImg');
+
 
 var Component = React.createClass({
     mixins: [
@@ -17,7 +19,8 @@ var Component = React.createClass({
         return {
             photos: [],
             uploadOpened: false,
-            loading: false
+            loading: false,
+            loaded: false
         }
     },
 
@@ -35,7 +38,7 @@ var Component = React.createClass({
 
     updatePhotos: function() {
         BE.getPhotos().then((photos)=>{
-            this.setState({photos: photos, loading: false})
+            this.setState({photos: photos, loading: false, loaded: true})
         });
     },
 
@@ -56,7 +59,7 @@ var Component = React.createClass({
     },
 
     render: function() {
-        if (!this.state.photos.length) return <div className="admin-photos-chooser" >
+        if (!this.state.loaded) return <div className="admin-photos-chooser" >
             <h3>Выбор фото: </h3>
             <img className="admin-loading" src="images/admin-loading.gif" />
         </div>;
@@ -72,9 +75,15 @@ var Component = React.createClass({
                 <div className="admin-photos-container">
                     {this.state.photos.map((ph,id)=>{
                         return <div onClick={this.select.bind(this,ph)} className="admin-photo-item">
-                            <img ref={'img_'+id} src={'images/photos/'+ph} />
+                            <AutoImg ref={'img_'+id}
+                                     showSize={true}
+                                     showSizeClass="admin-photo-item-size"
+                                     className="admin-photo-auto-img"
+                                     loadingPlaceholderSrc = "images/admin-loading.gif"
+                                     src={'images/photos/'+ph} />
                         </div>;
                     })}
+                    {(!this.state.photos.length) && <h3>Нет фото</h3>}
                 </div>
                 {(this.state.uploadOpened) && <ImgUploader onSubmit={this.upload} onClose={this.closeUploader} />}
             </div>
