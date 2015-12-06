@@ -427,6 +427,13 @@ var BE = {
             resolver.reject('no_such_category');
         }
         return resolver.promise;
+    },
+    sendMessage: function() {
+        http.post('BE/index.php').set('action','send-email')
+            .send({data: {name: 'name', email: 'email', message: 'message'}})
+            .end((a,b)=>{
+                console.info(a,b);
+            });
     }
 
 };

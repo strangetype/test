@@ -64,14 +64,23 @@ var Gallery = React.createClass({
 
     },
 
-    scrollUp: function() {
+    scrollLeft: function() {
         var el = this.refs.scrollBar.getDOMNode();
-        scroll.top(el, el.scrollTop-100, {duration: 500, ease: 'outCube'});
+        scroll.left(el, el.scrollLeft-100, {duration: 500, ease: 'outCube'});
     },
 
-    scrollDown: function() {
+    scrollRight: function() {
         var el = this.refs.scrollBar.getDOMNode();
-        scroll.top(el, el.scrollTop+100, {duration: 500, ease: 'outCube'});
+        scroll.left(el, el.scrollLeft+100, {duration: 500, ease: 'outCube'});
+    },
+
+    isArrows: function() {
+        if (this.refs.scrollBar) {
+            if (100*this.props.photos.length>this.refs.scrollBar.getDOMNode().offsetWidth) {
+                return true;
+            }
+        }
+        return false;
     },
 
     render: function() {
@@ -80,25 +89,26 @@ var Gallery = React.createClass({
             'layout-gallery--fade-out': this.state.isFadeOut!==false
         });
 
-
         return (
             <div className={layoutClass}>
                 <div ref="bkg" className="photos-bkg">
                     <div ref="scrollBar" className="mini-photos-scrollBar">
+                        <div style={{width: 100*this.props.photos.length+'px', height: '100px'}}>
                         {this.props.photos.map((ph,id)=>{
                             return <div className="mini-photo">
                                 <img src={'images/photos_mini/'+ph} />
                                 <div onClick={this.select.bind(this,id)} className="hover"></div>
                             </div>
                         })}
+                        </div>
                     </div>
+                    {(this.isArrows()) && <div className="scroll-arrows">
+                        <div className="v-arrow left-arrow" onClick={this.scrollLeft}></div>
+                        <div className="v-arrow right-arrow" onClick={this.scrollRight}></div>
+                    </div>}
                     {(!this.state.isSwitching) && <div className="main-photo-container">
                         <img className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />
                         <img className="next-img" onClick={this.choose} src={'images/photos/'+this.props.photos[this.state.nextImgId]} />
-                        <div className="scroll-arrows">
-                            <div className="v-arrow up-arrow" onClick={this.scrollUp}></div>
-                            <div className="v-arrow down-arrow" onClick={this.scrollDown}></div>
-                        </div>
                     </div>}
                 </div>
             </div>

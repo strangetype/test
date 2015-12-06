@@ -7,7 +7,8 @@ var {Navigation} = require('react-router');
 var LayoutCategories= require('layouts/Gallery/Categories');
 var LayoutSubCategories = require('layouts/Gallery/SubCategories');
 var LayoutGallery = require('layouts/Gallery/Gallery');
-var LayoutServices = require('layouts/Gallery/Services');
+var LayoutServices = require('layouts/Services/Services');
+var LayoutContacts = require('layouts/Contacts/Contacts');
 var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
 var BE = require('utils/BE');
@@ -183,6 +184,9 @@ var Component = React.createClass({
             if (this.currentRoute[2]==='services') {
                 this.changeScreen('services');
             }
+            if (this.currentRoute[2]==='contacts') {
+                this.changeScreen('contacts');
+            }
         }
 
     },
@@ -306,6 +310,7 @@ var Component = React.createClass({
                 {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories subCategories={this.subCategories} ref="subCategories" onSelect = {this.subCategoryChoose} />}
                 {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
                 {(this.state.nextScreen==='services' || this.state.prevScreen==='services') && <LayoutServices ref="services"  />}
+                {(this.state.nextScreen==='contacts' || this.state.prevScreen==='contacts') && <LayoutContacts ref="contacts"  />}
 
                 <div className = {leftMenuClass}>
                     <ul>
