@@ -3,6 +3,7 @@ var cx = require('classnames');
 var _ = require('lodash');
 
 var _maxXSize = 4;
+var {Navigation} = require('react-router');
 
 var scroll = require('scroll');
 
@@ -17,12 +18,16 @@ var _getRandomImg = function() {
 
 var Gallery = React.createClass({
 
+    mixins: [
+        Navigation
+    ],
+
     getInitialState: function() {
         return {
             selected: false,
             isFadeOut: false,
-            currentImgId: 0,
-            nextImgId: 0,
+            currentImgId: this.props.params.photoId || 0,
+            nextImgId: this.props.params.photoId || 0,
             isSwitching: false
         }
     },
@@ -40,18 +45,7 @@ var Gallery = React.createClass({
         this.setState({isFadeOut: true});
     },
 
-    choose: function() {
-        var photo = this.props.photos[this.state.nextImgId];
-        var id = this.state.nextImgId;
-
-        this.setState({selected: id, isFadeOut: true},()=>{
-            if (typeof(this.props.onSelect)==='function') {
-                this.props.onSelect(photo,id);
-            }
-        });
-    },
-
-    select: function(id) {
+    changePhoto: function(id) {
         this.setState({
             isSwitching: true
         },()=>{
@@ -61,7 +55,18 @@ var Gallery = React.createClass({
                 currentImgId: this.state.nextImgId
             });
         });
+    },
 
+    componentWillReceiveProps: function(props) {
+        if (this.props.params.photoId!==props.params.photoId) {
+            this.changePhoto(props.params.photoId);
+        }
+    },
+
+    select: function(id) {
+        if (id<0) id = 0;
+        if (id>this.props.photos.length-1) id = this.props.photos.length-1;
+        this.context.router.transitionTo('gallery-photo',{'category': this.props.params.category, photoId: id});
     },
 
     scrollLeft: function() {
@@ -83,6 +88,18 @@ var Gallery = React.createClass({
         return false;
     },
 
+    onClose: function() {
+        this.context.router.transitionTo('gallery');
+    },
+
+    prev: function() {
+        this.select(parseInt(this.props.params.photoId)-1);
+    },
+
+    next: function() {
+        this.select(parseInt(this.props.params.photoId)+1);
+    },
+
     render: function() {
 
         var layoutClass = cx('layout-gallery',{
@@ -92,25 +109,33 @@ var Gallery = React.createClass({
         return (
             <div className={layoutClass}>
                 <div ref="bkg" className="photos-bkg">
-                    <div ref="scrollBar" className="mini-photos-scrollBar">
-                        <div style={{width: 100*this.props.photos.length+'px', height: '100px'}}>
-                        {this.props.photos.map((ph,id)=>{
-                            return <div className="mini-photo">
-                                <img src={'images/photos_mini/'+ph} />
-                                <div onClick={this.select.bind(this,id)} className="hover"></div>
-                            </div>
-                        })}
-                        </div>
-                    </div>
-                    {(this.isArrows()) && <div className="scroll-arrows">
-                        <div className="v-arrow left-arrow" onClick={this.scrollLeft}></div>
-                        <div className="v-arrow right-arrow" onClick={this.scrollRight}></div>
-                    </div>}
                     {(!this.state.isSwitching) && <div className="main-photo-container">
                         <img className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />
                         <img className="next-img" onClick={this.choose} src={'images/photos/'+this.props.photos[this.state.nextImgId]} />
                     </div>}
+                    <div className = "arrows">
+                        {(this.props.params.photoId!=0) && <div onClick={this.prev} className="left-arrow"></div>}
+                        {(this.props.params.photoId<this.props.photos.length-1) && <div onClick={this.next} className="right-arrow"></div>}
+                    </div>
+                    <div onClick={this.onClose} className="close-button"></div>
+                    <div className="gallery-bottom">
+                        <div ref="scrollBar" className="mini-photos-scrollBar">
+                            <div style={{width: 100*this.props.photos.length+'px', height: '100px'}}>
+                                {this.props.photos.map((ph,id)=>{
+                                    return <div className="mini-photo">
+                                        <img src={'images/photos_mini/'+ph} />
+                                        <div onClick={this.select.bind(this,id)} className="hover"></div>
+                                    </div>
+                                })}
+                            </div>
+                        </div>
+                        {(this.isArrows()) && <div className="scroll-arrows">
+                            <div className="v-arrow left-arrow" onClick={this.scrollLeft}></div>
+                            <div className="v-arrow right-arrow" onClick={this.scrollRight}></div>
+                        </div>}
+                    </div>
                 </div>
+
             </div>
         );
     }

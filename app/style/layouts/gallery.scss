@@ -5,8 +5,10 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  padding: 0% 0 0 210px;
+  padding: 0;
   box-sizing: border-box;
+
+  background: rgba(0, 0, 0, 0.8);
 
   line-height: 0;
 
@@ -18,76 +20,85 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background: rgba(255,255,255,0.2);
+    overflow: hidden;
     transition: transform 0.5s, opacity 0.5s;
     box-sizing: border-box;
-    padding-bottom: 100px;
 
     animation: fadein 1s;
 
-    .mini-photos-scrollBar {
+    .gallery-bottom {
       position: absolute;
       left: 0;
-      bottom: 0;
+      bottom: -100px;
       width: 100%;
-      height: 100px;
-      overflow-x: scroll;
-      overflow-y: hidden;
+      height: 110px;
 
-      background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0));
+      transition: 1s bottom;
 
-      @include scrollbars(0, transparent, transparent);
-
-      .mini-photo {
-        position: relative;
-        display: inline-block;
-        .hover {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          left: 0; top: 0;
-          background: #000;
-          opacity: 0.2;
-          cursor: pointer;
-          transition: opacity 0.3s;
-          &:hover {
-            opacity: 0;
-          }
-        };
-      }
-    }
-
-    .scroll-arrows {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 0;
-      .v-arrow {
-        position: absolute;
+      &:hover {
         bottom: 0;
-        width: 2em;
-        height: 2em;
-        color: #aaa;
-        line-height: 2;
-        font-family: consolas;
-        cursor: pointer;
-        transition: color 1s;
-        background: rgba(0,0,0,0.8);
-        &:hover {
-          color: #fff;
-        }
-        &.left-arrow {
-          left: 0;
-          &:before {
-            content: '<';
+      }
+
+      .scroll-arrows {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+        .v-arrow {
+          position: absolute;
+          bottom: 0;
+          width: 2em;
+          height: 2em;
+          color: #aaa;
+          line-height: 2;
+          font-family: consolas;
+          cursor: pointer;
+          transition: color 1s;
+          background: rgba(0, 0, 0, 0.8);
+          &:hover {
+            color: #fff;
+          }
+          &.left-arrow {
+            left: 0;
+            &:before {
+              content: '<';
+            }
+          }
+          &.right-arrow {
+            right: 0;
+            &:before {
+              content: '>';
+            }
           }
         }
-        &.right-arrow {
-          right: 0;
-          &:before {
-            content: '>';
+      }
+
+      .mini-photos-scrollBar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        overflow: hidden;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+
+        .mini-photo {
+          position: relative;
+          display: inline-block;
+          .hover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: #000;
+            opacity: 0.2;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            &:hover {
+              opacity: 0;
+            }
           }
         }
       }
@@ -103,7 +114,10 @@
         max-width: 100%;
         max-height: 100%;
         position: absolute;
-        left: 0; right: 0; top: 0; bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
         margin: auto;
         border-radius: 3px;
         cursor: pointer;
@@ -118,6 +132,69 @@
     }
   }
 
+  .close-button {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    cursor: pointer;
+    color: #444;
+    font-size: 40px;
+    font-family: consolas;
+    line-height: 0.5;
+    transition: color 0.5s;
+    &:hover {
+      color: #fff;
+    }
+    &:before {
+      content: 'x';
+    }
+  }
+
+  .arrows {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    .left-arrow, .right-arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30%;
+      height: 100%;
+      cursor: pointer;
+      color: rgba(0,0,0,0);
+      text-shadow: 0 0 2px rgba(0,0,0,0);
+      transition: text-shadow 0.5s, color 0.5s;
+      &:hover {
+        color: rgba(255,255,255,1);
+        text-shadow: 0 0 10px #000;
+      }
+      &:before {
+        position: absolute;
+        top: 0; bottom: 0;
+        height: 1.4em;
+        margin: auto;
+        font-family: consolas;
+        font-size: 50px;
+      }
+    }
+    .left-arrow {
+      left: 0;
+      &:before {
+        left: 1em;
+        content: '<';
+      }
+    }
+    .right-arrow {
+      right: 0;
+      &:before {
+        right: 1em;
+        content: '>';
+      }
+    }
+  }
+
   &.layout-gallery--fade-out {
     .photos-bkg {
       opacity: 0;
@@ -127,17 +204,29 @@
 }
 
 @keyframes fadein {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes show-photo {
-  0% {opacity: 0; }
+  0% {
+    opacity: 0;
+  }
 
-  100% {opacity: 1; }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes hide-photo {
-  0% {opacity: 1; }
-  100% {opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

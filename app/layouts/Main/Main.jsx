@@ -158,23 +158,12 @@ var Component = React.createClass({
             this.setState({isBlured: true});
             if (this.currentRoute[2]==='gallery') {
                 if (this.props.params) {
-                    if (this.props.params.category && !(this.props.params.photoId || this.props.params.photoId==0)) {
+                    if (this.props.params.category) {
                         var c = this._findCategory(this.props.params.category);
+                        if (!this.props.params.photoId) this.props.params.photoId = 0;
                         if (c) {
                             this.photos = c.photos;
                             this.changeScreen('photos');
-                        }
-                        return;
-                    }
-                    if (this.props.params.category && (this.props.params.photoId || this.props.params.photoId==0)) {
-                        var c = this._findCategory(this.props.params.category);
-                        var id = parseInt(this.props.params.photoId);
-                        if (c) {
-                            this.photos = c.photos;
-                            this.photo = c.photos[id];
-                            if (!c.photos[id+1]) this.isLastPhoto = true;
-                            if (!c.photos[id-1]) this.isFirstPhoto = true;
-                            this.changeScreen('photoPreview');
                         }
                         return;
                     }
@@ -280,7 +269,8 @@ var Component = React.createClass({
         });
 
         var leftMenuClass = cx('left-menu', {
-            'left-menu--hidden': this.state.nextScreen==='photoPreview' || this.state.prevScreen==='photoPreview'
+            'left-menu--hidden':
+            this.state.nextScreen==='photos' || this.state.prevScreen==='photos'
         });
 
         return (
@@ -308,7 +298,6 @@ var Component = React.createClass({
 
                 {(this.state.nextScreen==='categories' || this.state.prevScreen==='categories') && <LayoutCategories categories={this.data.categories} ref="categories" onSelect = {this.categoryChoose} />}
                 {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories subCategories={this.subCategories} ref="subCategories" onSelect = {this.subCategoryChoose} />}
-                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
                 {(this.state.nextScreen==='services' || this.state.prevScreen==='services') && <LayoutServices ref="services"  />}
                 {(this.state.nextScreen==='contacts' || this.state.prevScreen==='contacts') && <LayoutContacts ref="contacts"  />}
 
@@ -329,16 +318,7 @@ var Component = React.createClass({
                     </ul>
                 </div>
 
-                {(this.state.nextScreen==='photoPreview' || this.state.prevScreen==='photoPreview') && <LayoutPhotoPreview
-                    onClose={this.closePhoto}
-                    onNext={this.showNextPhoto}
-                    onPrev={this.showPrevPhoto}
-
-                    disableLeft={this.isFirstPhoto}
-                    disableRight={this.isLastPhoto}
-
-                    photo={this.photo}
-                    ref="photoPreview" />}
+                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery params = {this.props.params} photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
 
             </div>
 
