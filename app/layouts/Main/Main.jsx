@@ -9,6 +9,7 @@ var LayoutSubCategories = require('layouts/Gallery/SubCategories');
 var LayoutGallery = require('layouts/Gallery/Gallery');
 var LayoutServices = require('layouts/Services/Services');
 var LayoutContacts = require('layouts/Contacts/Contacts');
+var LayoutFeedback = require('layouts/Feedback/Feedback');
 var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
 var BE = require('utils/BE');
@@ -99,7 +100,8 @@ var Component = React.createClass({
         {name: 'main', title: 'Главная'},
         {name: 'gallery', title: 'Галерея'},
         {name: 'services', title: 'Услуги'},
-        {name: 'contacts', title: 'Контакты'}
+        {name: 'contacts', title: 'Контакты'},
+        {name: 'feedback', title: 'Отзывы'}
     ],
 
     currentRoute: [],
@@ -175,6 +177,9 @@ var Component = React.createClass({
             }
             if (this.currentRoute[2]==='contacts') {
                 this.changeScreen('contacts');
+            }
+            if (this.currentRoute[2]==='feedback') {
+                this.changeScreen('feedback');
             }
         }
 
@@ -300,6 +305,7 @@ var Component = React.createClass({
                 {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories subCategories={this.subCategories} ref="subCategories" onSelect = {this.subCategoryChoose} />}
                 {(this.state.nextScreen==='services' || this.state.prevScreen==='services') && <LayoutServices ref="services"  />}
                 {(this.state.nextScreen==='contacts' || this.state.prevScreen==='contacts') && <LayoutContacts ref="contacts"  />}
+                {(this.state.nextScreen==='feedback' || this.state.prevScreen==='feedback') && <LayoutFeedback ref="feedback"  />}
 
                 <div className = {leftMenuClass}>
                     <ul>

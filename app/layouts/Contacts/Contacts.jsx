@@ -34,6 +34,7 @@ var Services = React.createClass({
         return (
             <div className={layoutClass}>
                 <div className="content-container">
+                    <img className="contacts-owner-image" src = "images/me.jpg" />
                     <div className="contacts-left-menu">
                         <h2 className="contacts-title">Контакты</h2>
                         <div className="contacts" >
@@ -60,7 +61,6 @@ var Services = React.createClass({
                                 </a>
                             </div>
                         </div>
-                        <hr></hr>
                         <div className="contact-form">
                             <form>
                                 <input type="text" placeholder="*имя" />
@@ -71,9 +71,9 @@ var Services = React.createClass({
                             </form>
                         </div>
                     </div>
+
                     <div className="contacts-right-menu">
-                        <h2>Мария Тропина</h2>
-                        <img className="contacts-owner-image" src = "http://cs618718.vk.me/v618718353/16a/D0Lf79XUZr0.jpg" />
+
                     </div>
                 </div>
             </div>
