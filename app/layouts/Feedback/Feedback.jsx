@@ -9,7 +9,8 @@ var Services = React.createClass({
 
     getInitialState: function() {
         return {
-            isFadeOut: false
+            isFadeOut: false,
+            isAddForm: false
         }
     },
 
@@ -25,6 +26,12 @@ var Services = React.createClass({
         BE.sendMessage();
     },
 
+    toggleForm: function() {
+        this.setState({
+            isAddForm: !this.state.isAddForm
+        });
+    },
+
     render: function() {
 
         var layoutClass = cx('layout-feedback',{
@@ -35,7 +42,7 @@ var Services = React.createClass({
             <div className={layoutClass}>
                 <div className="feedback-actions">
                     <h2 className="feedback-title">Отзывы</h2>
-                    <button className="feedback-btn">Оставить отзыв</button>
+                    <button onClick={this.toggleForm} className="feedback-btn">Оставить отзыв</button>
                 </div>
                 <div className="content-container">
                     {[1,2,3,4,5,6,7].map(()=> {
@@ -48,6 +55,13 @@ var Services = React.createClass({
                         </div>
                     })}
                 </div>
+                {(this.state.isAddForm) && <div className="feedback-add-form">
+                    <form>
+                        <textarea className="feedback-form-text" ></textarea>
+                        <button type="submit" className="feedback-btn btn-submit">отправить</button>
+                        <button onClick={this.toggleForm} type="submit" className="feedback-btn btn-cancel">отмена</button>
+                    </form>
+                </div>}
             </div>
         );
     }
