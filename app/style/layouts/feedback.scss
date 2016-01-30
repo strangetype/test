@@ -4,7 +4,8 @@
   left: 0;
   height: 100%;
   width: 100%;
-  padding: 0 0 0 210px;
+  padding: 50px 0 0 210px;
+  margin-top: -50px;
   box-sizing: border-box;
   line-height: 3;
   color: #fff;
@@ -25,6 +26,7 @@
     box-sizing: border-box;
     overflow: auto;
     padding: 0 30px;
+    @include scrollbars(10px, #222, rgba(0,0,0,0));
   }
 
   .feedback {
@@ -53,8 +55,39 @@
     }
   }
 
+  .feedback-actions {
+    position: relative;
+    height: 50px;
+    background: rgba(0,0,0,0.7);
+    animation: feedbackFadein 1s;
+    .feedback-title {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 1em;
+      line-height: 0;
+    }
+    .feedback-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      border: none;
+      background: #f70;
+      color: #fff;
+      outline: 0;
+      padding: 1em;
+      width: 200px;
+      text-align: center;
+      height: 50px;
+      text-transform: uppercase;
+      &:hover {
+        box-shadow: 0 0 5px #f70;
+      }
+    }
+  }
+
   &.layout-feedback--fade-out {
-    .content-container {
+    > {
       opacity: 0;
     }
   }
