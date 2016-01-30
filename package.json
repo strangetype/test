@@ -31,14 +31,15 @@
   },
   "dependencies": {
     "classnames": "^2.1.5",
+    "file-uploader": "^1.0.0",
     "lodash": "^3.10.1",
     "q": "^1.4.1",
-    "superagent": "^1.4.0",
-    "webpack-dev-server": "^1.12.0",
     "react": "^0.14.0",
     "react-cropper": "0.5.0",
-    "file-uploader": "^1.0.0",
+    "react-timer-mixin": "^0.13.3",
+    "scroll": "^0.0.3",
     "shortid": "^2.2.4",
-    "scroll": "^0.0.3"
+    "superagent": "^1.4.0",
+    "webpack-dev-server": "^1.12.0"
   }
 }

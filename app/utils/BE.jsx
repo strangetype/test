@@ -434,6 +434,28 @@ var BE = {
             .end((a,b)=>{
                 console.info(a,b);
             });
+    },
+    leaveFeedback: function(fb) {
+        var resolver = Q.defer();
+        if (fb && fb.name && fb.text) {
+            fb.confirmed = false;
+            fb.date = Date.now();
+            if (!this.data.feedbacks) this.data.feedbacks = [];
+            this.data.feedbacks.push({
+                name: fb.name,
+                text: fb.text,
+                confirmed: fb.confirmed,
+                date: fb.date
+            });
+            this.saveData(this.data).then((data)=>{
+                resolver.resolve(data.feedbacks);
+            }).catch(()=>{
+                resolver.reject('saving_error');
+            });
+        } else {
+            resolver.reject('incorrect_message');
+        }
+        return resolver.promise;
     }
 
 };

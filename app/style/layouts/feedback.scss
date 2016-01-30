@@ -47,6 +47,7 @@
       margin-left: 120px;
       line-height: 1.5;
       font-size: 16px;
+      min-height: 100px;
       .feedback-client-name {
         position: absolute;
         top: -40px;
@@ -103,22 +104,28 @@
       top: 0;
       bottom: 0;
       margin: auto;
-      .feedback-form-text {
-        width: 100%;
-        min-height: 5em;
-        max-height: 15em;
-        padding: 1em;
-        border: none;
+
+      .feedback-form-text, .feedback-form-name {
+        width: 100%; max-width: 100%;
+        padding: 0.2em 0.5em;
         outline: 0;
         box-sizing: border-box;
         font-size: 20px;
         overflow: auto;
+        margin: 0;
+        border: 1px solid transparent;
         &::selection {
           background: #0f7;
         }
         &:focus {
-          border: 2px solid #0f7;
+          border: 1px solid #0f7;
         }
+      }
+      .feedback-form-text {
+        min-height: 5em;
+        max-height: 15em;
+        border-top: none;
+        padding: 0.5em;
       }
       .feedback-btn {
         float: right;
@@ -144,6 +151,12 @@
           }
         }
       }
+    }
+    .feedback-form-notify {
+      padding: 1em;
+      background: #0a4;
+      text-align: center;
+      text-transform: uppercase;
     }
   }
 

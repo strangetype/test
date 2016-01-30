@@ -305,7 +305,7 @@ var Component = React.createClass({
                 {(this.state.nextScreen==='subCategories' || this.state.prevScreen==='subCategories') && <LayoutSubCategories subCategories={this.subCategories} ref="subCategories" onSelect = {this.subCategoryChoose} />}
                 {(this.state.nextScreen==='services' || this.state.prevScreen==='services') && <LayoutServices ref="services"  />}
                 {(this.state.nextScreen==='contacts' || this.state.prevScreen==='contacts') && <LayoutContacts ref="contacts"  />}
-                {(this.state.nextScreen==='feedback' || this.state.prevScreen==='feedback') && <LayoutFeedback ref="feedback"  />}
+                {(this.state.nextScreen==='feedback' || this.state.prevScreen==='feedback') && <LayoutFeedback ref="feedback" feedbacks={this.data.feedbacks} />}
 
                 <div className = {leftMenuClass}>
                     <ul>

@@ -2,15 +2,23 @@ var React = require('react');
 var cx = require('classnames');
 var _ = require('lodash');
 
+var TimerMixin = require('react-timer-mixin');
+
 var _maxXSize = 4;
 var BE = require('utils/BE');
 
 var Services = React.createClass({
 
+    mixins: [
+        TimerMixin
+    ],
+
     getInitialState: function() {
         return {
             isFadeOut: false,
-            isAddForm: false
+            isAddForm: false,
+            feedback: {},
+            notify: null
         }
     },
 
@@ -22,14 +30,30 @@ var Services = React.createClass({
         this.setState({isFadeOut: true});
     },
 
-    sendMessage: function() {
-        BE.sendMessage();
+    leaveFeedback: function() {
+        BE.leaveFeedback(this.state.feedback).then((fbs)=>{
+            this.setState({
+                notify: "Спасибо за отзыв. Вскоре он появится на сайте."
+            });
+            this.setTimeout(()=>{
+                this.setState({
+                    isAddForm: false,
+                    notify: null
+                });
+            },5000);
+
+        });
     },
 
     toggleForm: function() {
         this.setState({
             isAddForm: !this.state.isAddForm
         });
+    },
+    onInputChange: function(field,ev) {
+        var fb = this.state.feedback;
+        fb[field] = ev.target.value;
+        this.setState({feedback: fb});
     },
 
     render: function() {
@@ -45,21 +69,29 @@ var Services = React.createClass({
                     <button onClick={this.toggleForm} className="feedback-btn">Оставить отзыв</button>
                 </div>
                 <div className="content-container">
-                    {[1,2,3,4,5,6,7].map(()=> {
+                    {(this.props.feedbacks && this.props.feedbacks.length) && this.props.feedbacks.map((f)=> {
+                        if (!f.confirmed) return null;
                         return <div className="feedback">
-                            <img className="feedback-photo" src="images/me.jpg" />
+                            {(!f.photo) && <img className="feedback-photo" src="images/img-placeholder.png" />}
+                            {(f.photo) && <img className="feedback-photo" src={'images/photos_mini/'+f.photo} />}
                             <div className="feedback-message">
-                                <h2 className="feedback-client-name">Некто очень довольный</h2>
-                                Мне очень понравилась фотосессия)) сначала я правда чувствовала себя скованно, т.к. это была первая фотосессия в моей жизни)) а потом Маша исправила ситуацию))) все было очень не официально, классно пообщались, за что спасибо))) от этого и фото просто чудесные получились, потому что я почувствовала нашего любимого фотографа "своим человеком")) короче, умеет найти подход, фото супер, ракурс то что надо, цвета, ретушь...все отлично!))
+                                <h2 className="feedback-client-name">{f.name}</h2>
+                                {f.text}
                             </div>
                         </div>
                     })}
                 </div>
                 {(this.state.isAddForm) && <div className="feedback-add-form">
-                    <form>
-                        <textarea className="feedback-form-text" ></textarea>
-                        <button type="submit" className="feedback-btn btn-submit">отправить</button>
-                        <button onClick={this.toggleForm} type="submit" className="feedback-btn btn-cancel">отмена</button>
+                    <form onSubmit={this.leaveFeedback}>
+                        {(!this.state.notify) && <div>
+                            <input placeholder="ваше имя" className="feedback-form-name" onChange={this.onInputChange.bind(this,'name')} />
+                            <textarea placeholder="отзыв" onChange={this.onInputChange.bind(this,'text')} className="feedback-form-text" ></textarea>
+                            <button type="submit" className="feedback-btn btn-submit">отправить</button>
+                            <button onClick={this.toggleForm} type="submit" className="feedback-btn btn-cancel">отмена</button>
+                        </div>}
+                        {(this.state.notify) && <div className = "feedback-form-notify">
+                            {this.state.notify}
+                        </div>}
                     </form>
                 </div>}
             </div>
