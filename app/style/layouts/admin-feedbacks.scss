@@ -1,0 +1,37 @@
+.layout-admin {
+  .admin-feedbacks {
+    overflow: auto;
+    background: #000;
+    .admin-feedbacks-container {
+      border-top: 1px solid #444;
+
+      .feedback {
+        position: relative;
+        border-bottom: 1px solid #444;
+        padding-bottom: 20px;
+        margin-top: 40px;
+        .feedback-photo {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+        .feedback-message {
+          position: relative;
+          margin-left: 120px;
+          line-height: 1.5;
+          font-size: 16px;
+          min-height: 100px;
+          .feedback-client-name {
+            position: absolute;
+            top: -40px;
+            left: 0;
+          }
+        }
+      }
+
+    }
+  }
+}
