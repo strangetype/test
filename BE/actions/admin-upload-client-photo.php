@@ -7,11 +7,10 @@ if ($isAuth) {
     if ( !empty( $_FILES ) ) {
         $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];
         $newFileName = $Chiper->getUniqueId();
-        $uploadPath = PHOTOS_PATH.$newFileName;
-        $uploadMiniPath =  PHOTOS_MINI_PATH.$newFileName;
-        move_uploaded_file( $tempPath, $uploadPath );
+        $uploadPath = PHOTOS_CLIENT_PATH.$newFileName;
 
-        $size = getimagesize ( $uploadPath );
+
+        $size = getimagesize ( $tempPath );
         $fileWidth = $size[0];
         $fileHeight = $size[1];
         $fileSmallerSize = $fileWidth;
@@ -23,6 +22,8 @@ if ($isAuth) {
         $x = $dx; $y = $dy;
         $w = $fileSmallerSize; $h = $fileSmallerSize;
 
+        echo $_POST['data']; exit;
+
         $DATA = (object) json_decode($_POST['data']);
 
         if ($DATA->x) $x = $DATA->x;
@@ -33,17 +34,18 @@ if ($isAuth) {
         $thumb = imagecreatetruecolor(100, 100);
         switch ($size["mime"]) {
             case 'image/jpeg':
-                $source = imagecreatefromjpeg($uploadPath);
+                $source = imagecreatefromjpeg($tempPath);
             break;
             case 'image/png':
-                $source = imagecreatefrompng($uploadPath);
+                $source = imagecreatefrompng($tempPath);
             break;
             case 'image/gif':
-                $source = imagecreatefromgif($uploadPath);
+                $source = imagecreatefromgif($tempPath);
             break;
             default:
             break;
         }
+
         imagecopyresized(
             $thumb, $source,
             0, 0,
@@ -54,13 +56,13 @@ if ($isAuth) {
 
         switch ($size["mime"]) {
             case 'image/jpeg':
-                imagejpeg($thumb, $uploadMiniPath);
+                imagejpeg($thumb, $uploadPath);
             break;
             case 'image/png':
-                imagepng($thumb, $uploadMiniPath);
+                imagepng($thumb, $uploadPath);
             break;
             case 'image/gif':
-                imagegif($thumb, $uploadMiniPath);
+                imagegif($thumb, $uploadPath);
             break;
             default:
             break;

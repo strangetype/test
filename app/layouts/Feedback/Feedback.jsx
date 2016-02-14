@@ -73,7 +73,7 @@ var Services = React.createClass({
                         if (!f.confirmed) return null;
                         return <div className="feedback">
                             {(!f.photo) && <img className="feedback-photo" src="images/img-placeholder.png" />}
-                            {(f.photo) && <img className="feedback-photo" src={'images/photos_mini/'+f.photo} />}
+                            {(f.photo) && <img className="feedback-photo" src={'images/client_photo/'+f.photo} />}
                             <div className="feedback-message">
                                 <h2 className="feedback-client-name">{f.name}</h2>
                                 {f.text}

@@ -94,6 +94,26 @@ var BE = {
             });
         return resolver.promise;
     },
+    uploadClientPhoto: function(file,type,crop) {
+        var cr = {};
+        if (crop) cr = {x: Math.round(crop.x), y: Math.round(crop.y),
+            w: Math.round(crop.width), h: Math.round(crop.height)};
+        var resolver = Q.defer();
+        var fd = new FormData();
+        if (type==='dataURI') {
+            file = this._dataURItoBlob(file);
+        }
+        fd.append('file',file);
+        fd.append('data',JSON.stringify(cr));
+        http
+            .post(this.url).set('action','admin-upload-client-photo')
+            .send(fd)
+            .end((a,b)=>{
+                console.log('upload result: ',a,b);
+                resolver.resolve(b.body);
+            });
+        return resolver.promise;
+    },
     addPhotoToBkg: function(id) {
         var resolver = Q.defer();
         if (_.indexOf(this.data.bkgPhotos,id)===-1) {
@@ -454,6 +474,28 @@ var BE = {
             });
         } else {
             resolver.reject('incorrect_message');
+        }
+        return resolver.promise;
+    },
+    saveFeedback: function(fb,id) {
+        var resolver = Q.defer();
+        if (!this.data.feedbacks) this.data.feedbacks = [];
+        if (this.data.feedbacks[id]) {
+            var nfb = {
+                text: fb.text,
+                name: fb.name,
+                confirmed: fb.confirmed,
+                date: fb.date,
+                photo: fb.photo
+            };
+            this.data.feedbacks[id] = nfb;
+            this.saveData(this.data).then((data)=>{
+                resolver.resolve(data.feedbacks);
+            }).catch(()=>{
+                resolver.reject('saving_error');
+            });
+        } else {
+            resolver.reject('incorrect_id');
         }
         return resolver.promise;
     }
