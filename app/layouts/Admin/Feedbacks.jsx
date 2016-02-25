@@ -22,7 +22,7 @@ var AdminPhotosGallery = React.createClass({
             feedbacks: [],
             loading: false,
             uploadOpened: false,
-            filter: 2
+            filter: 0
         }
     },
 
@@ -96,7 +96,12 @@ var AdminPhotosGallery = React.createClass({
             var fb = this.state.feedbacks[this._cfbphid];
             fb.photo = data.newFileName;
             console.log('saving: ', fb, this._cfbphid);
-            BE.saveFeedback(fb,this._cfbphid).then(this.updateFeedbacks);
+            BE.saveFeedback(fb,this._cfbphid).then(()=> {
+                this.updateFeedbacks();
+                this.setState({loading: false});
+            }).catch(()=>{
+                this.setState({loading: false});
+            });
         });
     },
 
@@ -121,7 +126,7 @@ var AdminPhotosGallery = React.createClass({
                 <div className="actions">
                     {(this.state.loading) && <img className="admin-loading" src="images/admin-loading.gif" />}
                     <select className="btn admin-margin-1" onChange={this.changeFilter}>
-                        <option value="0" >неподтвержденные</option>
+                        <option selected value="0" >неподтвержденные</option>
                         <option value="1" >подтвержденные</option>
                         <option value="2" >все</option>
                     </select>

@@ -22,8 +22,6 @@ if ($isAuth) {
         $x = $dx; $y = $dy;
         $w = $fileSmallerSize; $h = $fileSmallerSize;
 
-        echo $_POST['data']; exit;
-
         $DATA = (object) json_decode($_POST['data']);
 
         if ($DATA->x) $x = $DATA->x;
