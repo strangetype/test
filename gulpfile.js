@@ -15,6 +15,8 @@ var config = require('./webpack.config.js');
 
 var exec = require('child_process').execFile;
 
+var fs = require('fs-extra');
+
 gulp.task('build', function () {
     var compiler = webpack(config);
     compiler.run(function (err, stats) {
@@ -65,6 +67,31 @@ gulp.task('server', function () {
      }
      });
      */
+});
+
+gulp.task('export', function () {
+    var exportData = [
+        'index.html',
+        './images',
+        './build',
+        './BE'
+    ];
+
+    var exportFolder = 'export/';
+
+    for (var i=0; i<exportData.length; i++) {
+        fs.copy(exportData[i], exportFolder+exportData[i], { replace: false }, function (err) {
+            var p = exportData[i];
+            if (err) {
+                console.log("ERROR: export "+p+" failed");
+                throw err;
+            }
+            console.log("export "+p+" success");
+        });
+    }
+
+
+
 });
 
 gulp.task('default', ['server', 'build', 'styles', 'watch']);

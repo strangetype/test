@@ -4,4 +4,6 @@
 /bower_components/
 /node_modules/
 /images/**
+/_source_images/**
 /export/**
+/BE-source/**
