@@ -116,6 +116,20 @@ var AdminPhotosGallery = React.createClass({
         this.setState({uploadOpened: false});
     },
 
+    deleteFeedback: function (f) {
+        var res = confirm("Удалить отзыв ? ты уверена ?");
+        if (res) {
+            f.text = f._text;
+            f.loading = true;
+            this.forceUpdate();
+            BE.deleteFeedback(f).then(function(fbs) {
+                this.setState({
+                    feedbacks: fbs
+                });
+            });
+        }
+    },
+
     render: function() {
         if (!this.state.loaded) return <div className="admin-feedbacks" >
             <img className="admin-loading" src="images/admin-loading.gif" />
@@ -153,7 +167,9 @@ var AdminPhotosGallery = React.createClass({
                             <div>
                                 {(!f.confirmed && !f.loading) && <button onClick={this.confirmFeedback.bind(this, f, id)} className="btn admin-margin-1" >подтвердить</button>}
                                 {(f.confirmed && !f.loading) && <button onClick={this.hideFeedback.bind(this, f, id)} className="btn admin-margin-1" >спрятать</button>}
+                                {(!f.confirmed) && <div className="admin-fresh-feedback-label"></div>}
                             </div>
+                            <button onClick={this.deleteFeedback.bind(this, f)} className="btn admin-btn-delete">x</button>
                         </div>
                     })}
                 </div>

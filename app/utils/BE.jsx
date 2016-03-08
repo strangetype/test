@@ -515,8 +515,30 @@ var BE = {
             resolver.reject('incorrect_id');
         }
         return resolver.promise;
+    },
+    deleteFeedback: function (f) {
+        var resolver = Q.defer();
+        if (!this.data.feedbacks) {
+            this.data.feedbacks = [];
+            resolver.reject('no_feedbacks');
+        }
+        var fid = _.findIndex(this.data.feedbacks, function(_f) {
+            return (_f.name===f.name && _f.date===f.date);
+        });
+        if (fid!==-1) {
+            _.remove(this.data.feedbacks, function(_f,id) {
+                return id === fid;
+            });
+            this.saveData(this.data).then((data)=>{
+                resolver.resolve(data.feedbacks);
+            }).catch(()=>{
+                resolver.reject('saving_error');
+            });
+        } else {
+            resolver.reject('no_such_feedback');
+        }
+        return resolver.promise;
     }
-
 };
 
 module.exports = BE;
