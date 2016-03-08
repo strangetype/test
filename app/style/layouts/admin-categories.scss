@@ -11,6 +11,7 @@
         border: 1px solid transparent;
         box-sizing: border-box;
         cursor: pointer;
+        display: inline-block;
         &:hover {
           border-color: #fff;
         }

@@ -89,7 +89,11 @@ var Gallery = React.createClass({
     },
 
     onClose: function() {
-        this.context.router.transitionTo('gallery');
+        if (this.props.categoriesCount>1) {
+            this.context.router.transitionTo('gallery');
+        } else {
+            this.context.router.transitionTo('main');
+        }
     },
 
     prev: function() {

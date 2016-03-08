@@ -118,9 +118,9 @@ var Component = React.createClass({
 
         return (
             <div className="admin-category">
-                <div onClick={this.imgSelect} >
+                <a onClick={this.imgSelect} >
                     <AutoImg className="admin-category-image"  src={'images/photos/'+this.props.category.imgSrc} />
-                </div>
+                </a>
                 <div className="admin-category-info">
                     <div className="admin-category-field-name" >Название: </div>
                     <input type="text" className="admin-category-field-value" onChange={this.change.bind(this,'title')} value={this.state.title} />
@@ -136,12 +136,12 @@ var Component = React.createClass({
                     <button onClick={this.deleteCategory} className="btn admin-btn-delete">x</button>
                 </div>
                 {(this.state.scOpened) && <div className="admin-subcategories">
-                    {(!this.state.newSubcategoryOpened) && <button className="btn admin-margin-1" onClick={this.openNewSubcategory} >создать категорию</button>}
+                    {(!this.state.newSubcategoryOpened) && <button className="btn admin-margin-1" onClick={this.openNewSubcategory} >создать подкатегорию</button>}
                     {(this.state.newSubcategoryOpened) && <div>
                         <label>Имя: </label><input className="admin-input" type="text" value={this.newScat.name} onChange={this.changeNewScatField.bind(this,'name')} />
                         <label>Название: </label><input className="admin-input" type="text" value={this.newScat.title} onChange={this.changeNewScatField.bind(this,'title')} />
                         <button className="btn admin-margin-1" onClick={this.closeNewSubcategory} >отмена</button>
-                        <button className="btn admin-margin-1" onClick={this.addNewSubcategory} >создать категорию</button>
+                        <button className="btn admin-margin-1" onClick={this.addNewSubcategory} >создать подкатегорию</button>
                     </div>}
                     {(this.state.error) && <div className="admin-error-message">{this.state.error}</div>}
                     {(this.props.category.subCategories && !!this.props.category.subCategories.length) && this.props.category.subCategories.map((sc,id)=>{

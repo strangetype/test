@@ -170,6 +170,10 @@ var Component = React.createClass({
                         return;
                     }
                 }
+                if (this.data.categories && this.data.categories.length===1) {
+                    this.context.router.transitionTo('gallery-photos',{'category': this.data.categories[0].name});
+                    return;
+                }
                 this.changeScreen('categories');
             }
             if (this.currentRoute[2]==='services') {
@@ -324,7 +328,7 @@ var Component = React.createClass({
                     </ul>
                 </div>
 
-                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery params = {this.props.params} photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
+                {(this.state.nextScreen==='photos' || this.state.prevScreen==='photos') && <LayoutGallery categoriesCount={this.data.categories.length} params = {this.props.params} photos={this.photos} ref="photos" onSelect={this.photoChoose} />}
 
             </div>
 

@@ -75,7 +75,8 @@ gulp.task('export', function () {
         //'./images',
         './build',
         './BE/actions',
-        './BE/library'
+        './BE/library',
+        './BE/index.php'
     ];
 
     var exportFolder = 'export/';
