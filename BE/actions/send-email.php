@@ -1,6 +1,7 @@
 <?php
 if ($DATA->name && $DATA->message && $DATA->email) {
-    $mailRes = mail("macsimusfactorre@gmail.com", "Письмо с сайта: ".$DATA->email." ".$DATA->name, $DATA->message);
+    $mess = $DATA->message." /n ".$DATA->email." ".$DATA->name." ".$DATA->phone;
+    $mailRes = mail("macsimusfactorre@gmail.com", "Письмо с фото-сайта от ".$DATA->name, $DATA->message);
     $RESPONSE['result'] = $mailRes;
 } else {
     $RESPONSE['error'] = 1;

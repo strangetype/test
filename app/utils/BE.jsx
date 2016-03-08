@@ -465,12 +465,14 @@ var BE = {
         }
         return resolver.promise;
     },
-    sendMessage: function() {
+    sendMessage: function(message) {
+        var resolver = Q.defer();
         http.post('BE/index.php').set('action','send-email')
-            .send({data: {name: 'name', email: 'email', message: 'message'}})
+            .send({data: {name: message.name, email: message.email, message: message.message, phone: message.phone}})
             .end((a,b)=>{
-                console.info(a,b);
+                resolver.resolve(b);
             });
+        return resolver.promise;
     },
     leaveFeedback: function(fb) {
         var resolver = Q.defer();

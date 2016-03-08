@@ -41,7 +41,6 @@ var Services = React.createClass({
                     notify: null
                 });
             },5000);
-
         });
     },
 

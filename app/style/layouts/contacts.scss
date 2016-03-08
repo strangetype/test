@@ -64,8 +64,19 @@
         color: #fff;
         background: rgba(0,0,0,0.5);
       }
+      input[type="submit"] {
+        cursor: pointer;
+        &:hover {
+          box-shadow: 0 0 5px #aaa
+        }
+      }
       textarea {
         height: 5em;
+      }
+      .tip {
+        background: rgba(0,0,0,0.8);
+        padding: 0.5em;
+        color: #fa0;
       }
     }
     .contacts {
@@ -85,6 +96,29 @@
           bottom: 0;
         }
       }
+    }
+  }
+
+  .contacts-notify-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,0.8);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    .contacts-notify {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 0; right: 0;
+      width: 50%;
+      min-width: 400px;
+      height: 3em;
+      margin: auto;
+      padding: 1em;
+      background: rgba(0,255,150,0.5);;
+      text-align: center;
+      text-transform: uppercase;
     }
   }
 

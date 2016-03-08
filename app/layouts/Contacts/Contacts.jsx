@@ -5,11 +5,20 @@ var _ = require('lodash');
 var _maxXSize = 4;
 var BE = require('utils/BE');
 
+var TimerMixin = require('react-timer-mixin');
+
 var Services = React.createClass({
+
+    mixins: [
+        TimerMixin
+    ],
 
     getInitialState: function() {
         return {
-            isFadeOut: false
+            isFadeOut: false,
+            message: {},
+            tip: false,
+            notify: null
         }
     },
 
@@ -22,7 +31,31 @@ var Services = React.createClass({
     },
 
     sendMessage: function() {
-        BE.sendMessage();
+        this.setState({
+            tip: false
+        });
+        if (this.state.message.name && this.state.message.email && this.state.message.message) {
+            BE.sendMessage(this.state.message).then(()=>{
+                this.setState({
+                    notify: "ПИСЬМО ОТПРАВЛЕНО"
+                });
+                this.setTimeout(()=>{
+                    this.setState({
+                        notify: null
+                    });
+                },5000);
+            });
+        } else {
+            this.setState({
+                tip: true
+            });
+        }
+    },
+
+    onInputChange: function(field,ev) {
+        var message = this.state.message;
+        message[field] = ev.target.value;
+        this.setState({message: message});
     },
 
     render: function() {
@@ -63,11 +96,14 @@ var Services = React.createClass({
                         </div>
                         <div className="contact-form">
                             <form>
-                                <input type="text" placeholder="*имя" />
-                                <input type="text" placeholder="телефон" />
-                                <input type="text" placeholder="*Email" />
-                                <textarea  placeholder="*сообщение" />
+                                <input type="text" onChange={this.onInputChange.bind(this,'name')} placeholder="*имя" />
+                                <input type="text" onChange={this.onInputChange.bind(this,'phone')}  placeholder="телефон" />
+                                <input type="text" onChange={this.onInputChange.bind(this,'email')}  placeholder="*Email" />
+                                <textarea onChange={this.onInputChange.bind(this,'message')}  placeholder="*сообщение" />
                                 <input onClick={this.sendMessage} type="submit" />
+                                {!!(this.state.tip) && <div className="tip">
+                                    <i>введите ваше имя, текст сообщения и ваш email</i>
+                                </div>}
                             </form>
                         </div>
                     </div>
@@ -76,6 +112,11 @@ var Services = React.createClass({
 
                     </div>
                 </div>
+                {(!!this.state.notify) && <div className="contacts-notify-screen">
+                    <div className = "contacts-notify">
+                        {this.state.notify}
+                    </div>
+                </div>}
             </div>
         );
     }
