@@ -78,10 +78,13 @@
       outline: 0;
       text-transform: uppercase;
       opacity: 1;
-      &:hover, &.active {
-        background: #000;
+      &.active {
+        background: #00f;
         color: #fff;
         opacity: 1;
+      }
+      &:hover{
+        background: #88f;
       }
     }
   }

@@ -47,13 +47,20 @@ var Services = React.createClass({
 
     toggleForm: function() {
         this.setState({
-            isAddForm: !this.state.isAddForm
+            isAddForm: !this.state.isAddForm,
+            tip: false
         });
     },
     onInputChange: function(field,ev) {
         var fb = this.state.feedback;
         fb[field] = ev.target.value;
         this.setState({feedback: fb});
+    },
+
+    showTip: function() {
+        this.setState({
+            tip: true
+        });
     },
 
     render: function() {
@@ -69,7 +76,7 @@ var Services = React.createClass({
                     <button onClick={this.toggleForm} className="feedback-btn">Оставить отзыв</button>
                 </div>
                 <div className="content-container">
-                    {(this.props.feedbacks && this.props.feedbacks.length) && this.props.feedbacks.map((f)=> {
+                    {!!(this.props.feedbacks && this.props.feedbacks.length) && this.props.feedbacks.map((f)=> {
                         if (!f.confirmed) return null;
                         return <div className="feedback">
                             {(!f.photo) && <img className="feedback-photo" src="images/img-placeholder.png" />}
@@ -86,8 +93,12 @@ var Services = React.createClass({
                         {(!this.state.notify) && <div>
                             <input placeholder="ваше имя" className="feedback-form-name" onChange={this.onInputChange.bind(this,'name')} />
                             <textarea placeholder="отзыв" onChange={this.onInputChange.bind(this,'text')} className="feedback-form-text" ></textarea>
-                            <button type="submit" className="feedback-btn btn-submit">отправить</button>
+                            {!!(this.state.feedback.name && this.state.feedback.text) && <button type="submit" className="feedback-btn btn-submit">отправить</button>}
+                            {!(this.state.feedback.name && this.state.feedback.text) && <button onClick={this.showTip} className="feedback-btn btn-submit btn-disabled">отправить</button>}
                             <button onClick={this.toggleForm} type="submit" className="feedback-btn btn-cancel">отмена</button>
+                            {!!(this.state.tip) && <div className="tip">
+                                <i>введите ваше имя и текст отзыва</i>
+                            </div>}
                         </div>}
                         {(this.state.notify) && <div className = "feedback-form-notify">
                             {this.state.notify}

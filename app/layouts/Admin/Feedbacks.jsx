@@ -132,7 +132,7 @@ var AdminPhotosGallery = React.createClass({
                     </select>
                 </div>
                 <div className="admin-feedbacks-container">
-                    {(this.state.feedbacks && this.state.feedbacks.length) && this.state.feedbacks.map((f,id)=> {
+                    {!!(this.state.feedbacks && this.state.feedbacks.length) && this.state.feedbacks.map((f,id)=> {
                         if (!f._text) f._text = f.text;
                         if ((this.state.filter == 2) ||
                             (this.state.filter == 1 && f.confirmed) ||

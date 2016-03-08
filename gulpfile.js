@@ -72,25 +72,54 @@ gulp.task('server', function () {
 gulp.task('export', function () {
     var exportData = [
         'index.html',
-        './images',
+        //'./images',
         './build',
-        './BE'
+        './BE/actions',
+        './BE/library'
     ];
 
     var exportFolder = 'export/';
 
-    for (var i=0; i<exportData.length; i++) {
-        fs.copy(exportData[i], exportFolder+exportData[i], { replace: false }, function (err) {
-            var p = exportData[i];
-            if (err) {
-                console.log("ERROR: export "+p+" failed");
-                throw err;
+    function _emptyExportDir(cl) {
+        fs.emptyDir('./export', function (err) {
+            if (!err) {
+                console.log('success!');
+                if (typeof(cl)==='function') cl();
             }
-            console.log("export "+p+" success");
         });
     }
 
+    function _exportFiles(cl) {
+        for (var i=0; i<exportData.length; i++) {
+            try {
+                fs.copySync(exportData[i], exportFolder+exportData[i], { replace: false });
+                console.log("export "+exportData[i]+" success");
+            } catch (err) {
+                console.log("ERROR: export "+p+" failed");
+                return;
+            }
+        }
+        if (typeof(cl)==='function') cl();
+    }
 
+    function _removeLocalDB(cl) {
+        fs.remove('./export/BE/library/DB.php', function (err) {
+            if (err) {
+                console.log("ERROR: delete DB.php failed");
+            } else {
+                console.log('export: delete DB.php: success!');
+                if (typeof(cl)==='function') cl();
+            }
+        })
+    }
+
+    _emptyExportDir(function() {
+        _exportFiles(function() {
+            _removeLocalDB(function() {
+                console.log("EXPORT DONE");
+            });
+        });
+    });
 
 });
 

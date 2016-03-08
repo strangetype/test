@@ -1,12 +1,29 @@
 var http = require('superagent');
-
 var Q = require('q');
-
 var _ = require('lodash');
+var md5 = require('js-md5');
 
 var BE = {
     url: 'BE/index.php',
     data: null,
+    isAuth: function () {
+        var resolver = Q.defer();
+        http.get('BE/index.php').set('action','admin-is-auth')
+            .end((a,res)=>{
+                resolver.resolve(res.body.isAuth);
+            });
+        return resolver.promise;
+    },
+    login: function (login, pass) {
+        var resolver = Q.defer();
+        http.post('BE/index.php').set('action','admin-authorisation').send({data: {
+            username: login, password: md5(pass)
+        }})
+            .end((a,b)=>{
+                resolver.resolve(b.body);
+            });
+        return resolver.promise;
+    },
     _dataURItoBlob: function (dataURI) {
         var byteString;
         if (dataURI.split(',')[0].indexOf('base64') >= 0)

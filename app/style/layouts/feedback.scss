@@ -73,7 +73,7 @@
       right: 0;
       top: 0;
       border: none;
-      background: #f70;
+      background: rgba(255,155,0,0.25);
       color: #fff;
       outline: 0;
       padding: 1em;
@@ -81,7 +81,9 @@
       text-align: center;
       height: 50px;
       text-transform: uppercase;
+      transition: background 0.5s;
       &:hover {
+        background: rgba(255,155,0,1);
         box-shadow: 0 0 5px #f70;
       }
     }
@@ -118,7 +120,7 @@
           background: #0f7;
         }
         &:focus {
-          border: 1px solid #0f7;
+          background: #eee;
         }
       }
       .feedback-form-text {
@@ -139,9 +141,9 @@
         text-transform: uppercase;
         margin-left: 1em;
         &.btn-submit {
-          background: #0f7;
+          background: #0a4;
           &:hover {
-            box-shadow: 0 0 5px #0f7;
+            box-shadow: 0 0 5px #0a4;
           }
         }
         &.btn-cancel {

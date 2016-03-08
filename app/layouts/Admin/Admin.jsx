@@ -5,6 +5,8 @@ var {Navigation} = require('react-router');
 var BE = require('utils/BE');
 var Reflux = require('reflux');
 
+var TimerMixin = require('react-timer-mixin');
+
 var ImgUploader = require('components/ImgUploader');
 
 var PhotosChooser = require('layouts/Admin/PhotosChooser');
@@ -28,6 +30,7 @@ var menu = [
 var Component = React.createClass({
     mixins: [
         Navigation,
+        TimerMixin,
         React.addons.LinkedStateMixin,
         Reflux.listenTo(AdminController.openPhotosChooser,'openPhotosChooser'),
         Reflux.listenTo(AdminController.openPhotosGallery,'openPhotosGallery'),
@@ -41,17 +44,50 @@ var Component = React.createClass({
             tab: 'allPhotos',
             photosChooserOpened: false,
             photosGalleryOpened: false,
-            galleryCategory: null
+            galleryCategory: null,
+            login: null,
+            pass: null,
+            loginErrorMessage: null,
+            isAuth: false,
+            isLoginWaiting: false
         }
     },
 
     data: null,
 
     componentDidMount: function() {
-        BE.getData().then((data)=>{
-            console.info(data);
-            this.data = data;
-            this.forceUpdate();
+        this._loadData();
+        this._startAuthCheck();
+    },
+
+    _startAuthCheck: function() {
+        this.setInterval(()=>{
+            if (this.state.isAuth) {
+                BE.isAuth().then((res)=> {
+                    this.setState({
+                        isAuth: res
+                    });
+                    if (!res) {
+                        this.setState({
+                            loginErrorMessage: "сбой авторизации, войдите заново"
+                        });
+                    }
+                });
+            }
+        },5000);
+    },
+
+    _loadData: function() {
+        BE.isAuth().then((res)=> {
+            this.setState({
+                isAuth: res
+            });
+            if (res) {
+                BE.getData().then((data)=>{
+                    this.data = data;
+                    this.forceUpdate();
+                });
+            }
         });
     },
 
@@ -79,8 +115,52 @@ var Component = React.createClass({
         this.setState({photosGalleryOpened: false});
     },
 
+    changeLogin: function(e) {
+        this.setState({
+            login: e.target.value
+        });
+    },
+
+    changePassword: function(e) {
+        this.setState({
+            pass: e.target.value
+        });
+    },
+
+    login: function() {
+        this.setState({
+            loginErrorMessage: null
+        });
+        BE.login(this.state.login, this.state.pass).then((data)=>{
+            if (data.error) {
+                this.setState({
+                    loginErrorMessage: data.errorMessage
+                });
+            } else {
+                this.setState({
+                    isAuth: data.isAuth,
+                    loginErrorMessage: null
+                });
+                this._loadData();
+            }
+        });
+    },
+
     render: function() {
-        if (!this.data) return <img className="admin-loading admin-margin-1" src="images/admin-loading.gif" />;
+        if (!this.data && this.state.isAuth) return <img className="admin-loading admin-margin-1" src="images/admin-loading.gif" />;
+
+        if (!this.state.isAuth) return <div className="layout-admin">
+                <div className="admin-login-form">
+                    <h3>Вход в Админку</h3>
+                    <input className="admin-input" value={this.state.login} onChange={this.changeLogin} type="text" placeholder="login" />
+                    <input className="admin-input" value={this.state.pass} onChange={this.changePassword} type="password" placeholder="password" />
+                    {(!this.state.isLoginWaiting) && <label className="admin-input" style={{"cursor": "pointer"}} onClick={this.login} >вход</label>}
+                    {(this.state.isLoginWaiting) && <img className="admin-loading admin-margin-1" src="images/admin-loading.gif" />}
+                    {!!(this.state.loginErrorMessage) && <div><div className="admin-error-message admin-margin-1">
+                        {this.state.loginErrorMessage}
+                    </div></div>}
+                </div>
+        </div>;
 
         return (
             <div className="layout-admin" >

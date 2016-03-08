@@ -1,18 +1,1 @@
-{
-  "bkgPhotos": [
-    "1456387340367991184656"
-  ],
-  "categories": [
-    {
-      "name": "all",
-      "title": "\u0432\u0441\u0435 \u0444\u043e\u0442\u043e",
-      "imgSrc": "1448812953243885892628",
-      "photos": [
-        "1456387340367991184656"
-      ]
-    }
-  ],
-  "feedbacks": [
-
-  ]
-}
+{"bkgPhotos":["1456387340367991184656"],"categories":[{"name":"all","title":"\u0432\u0441\u0435 \u0444\u043e\u0442\u043e","imgSrc":"1456387340367991184656","photos":["1456387340367991184656"]}],"feedbacks":[{"text":"sdfgh","name":"dfgbn","confirmed":false,"date":1.45744028461e+12}]}
