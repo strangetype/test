@@ -7,6 +7,8 @@ var BE = require('utils/BE');
 
 var TimerMixin = require('react-timer-mixin');
 
+var ClickToSelect = require("react-click-to-select");
+
 var Services = React.createClass({
 
     mixins: [
@@ -73,19 +75,19 @@ var Services = React.createClass({
                         <div className="contacts" >
                             <div className="contact-item">
                                 <img src="images/mobile.png" />
-                                +7(903)596-05-12
+                                <ClickToSelect>+7(903)596-05-12</ClickToSelect>
                             </div>
                             <div className="contact-item">
                                 <img src="images/viber.png" />
-                                +7(903)506-05-12
+                                <ClickToSelect>+7(903)506-05-12</ClickToSelect>
                             </div>
                             <div className="contact-item">
                                 <img src="images/whatsapp.png" />
-                                +7(903)506-05-12
+                                <ClickToSelect>+7(903)506-05-12</ClickToSelect>
                             </div>
                             <div className="contact-item">
                                 <img src="images/gmail.png" />
-                                mtropinamoscow@gmail.com
+                                <ClickToSelect className="" >mtropinamoscow@gmail.com</ClickToSelect>
                             </div>
                             <div className="contact-item">
                                 <a target="blank" href="https://www.instagram.com/mtropina/">
