@@ -37,10 +37,10 @@ var AdminPhotosGallery = React.createClass({
         }
     },
 
-    addPhoto: function() {
+    addPhoto: function(order) {
         AdminController.openPhotosChooser.triggerPromise().then((ph,id)=>{
             this.setState({loading: true});
-            BE.addPhotoToCategory(ph,this.props.categoryName).then((photos)=>{
+            BE.addPhotoToCategory(ph, this.props.categoryName, order).then((photos)=>{
                 this.setState({
                     loading: false,
                     photos: photos
@@ -113,18 +113,21 @@ var AdminPhotosGallery = React.createClass({
                 </div>
                 <div className="admin-photos-gallery-container">
                     {this.state.photos.map((ph,id)=>{
-                        return <div key={ph+this.props.categoryName} className="admin-gallery-photo-item">
-                            <AutoImg ref={'img_'+id}
-                                     showSize={true}
-                                     showSizeClass="admin-photo-item-size"
-                                     className="admin-photo-auto-img"
-                                     loadingPlaceholderSrc = "images/admin-loading.gif"
-                                     src={'images/photos/'+ph} />
-                            <div className = "admin-gallery-item-menu">
-                                <div><img className="admin-item-mini-img" src={'images/photos_mini/'+ph} /></div>
-                                <div><button className="btn" onClick={this.changePhoto.bind(this,ph)}>другое фото</button></div>
+                        return <div style={{'text-align': 'left'}}>
+                            <div key={ph+this.props.categoryName} className="admin-gallery-photo-item">
+                                <AutoImg ref={'img_'+id}
+                                         showSize={true}
+                                         showSizeClass="admin-photo-item-size"
+                                         className="admin-photo-auto-img"
+                                         loadingPlaceholderSrc = "images/admin-loading.gif"
+                                         src={'images/photos/'+ph} />
+                                <div className = "admin-gallery-item-menu">
+                                    <div><img className="admin-item-mini-img" src={'images/photos_mini/'+ph} /></div>
+                                    <div><button className="btn" onClick={this.changePhoto.bind(this,ph)}>другое фото</button></div>
+                                </div>
+                                <button onClick={this.removePhoto.bind(this,ph)} className="btn admin-btn-delete">x</button>
                             </div>
-                            <button onClick={this.removePhoto.bind(this,ph)} className="btn admin-btn-delete">x</button>
+                            <button className="btn admin-margin-1" onClick={this.addPhoto.bind(null,id+1)} >добавить фото под этим</button>
                         </div>;
                     })}
                     {(!this.state.photos.length) && <h2>Категория пуста</h2>}

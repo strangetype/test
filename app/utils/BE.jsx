@@ -330,9 +330,10 @@ var BE = {
         });
         return photos;
     },
-    addPhotoToCategory: function(ph,cname) {
+    addPhotoToCategory: function(ph,cname, order) {
         var resolver = Q.defer();
         var id = null; sid = null;
+        if (!order) order = 0;
         _.forEach(this.data.categories,(c,i)=> {
             if (c.name === cname) id = i;
             if (c.subCategories && c.subCategories.length) {
@@ -349,7 +350,7 @@ var BE = {
                 this.data.categories[id].photos = [];
             }
             if (_.indexOf(this.data.categories[id].photos, ph)===-1) {
-                this.data.categories[id].photos.push(ph);
+                this.data.categories[id].photos.splice(order,0,ph);
                 this.saveData(this.data).then((data)=>{
                     resolver.resolve(this.data.categories[id].photos);
                 });
@@ -362,7 +363,7 @@ var BE = {
                 this.data.categories[id].subCategories[sid].photos = [];
             }
             if (_.indexOf(this.data.categories[id].subCategories[sid].photos, ph)===-1) {
-                this.data.categories[id].subCategories[sid].photos.push(ph);
+                this.data.categories[id].subCategories[sid].photos.splice(order,0,ph);
                 this.saveData(this.data).then((data)=>{
                     resolver.resolve(this.data.categories[id].subCategories[sid].photos);
                 });

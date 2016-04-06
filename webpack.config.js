@@ -17,12 +17,13 @@ var config = {
 
   resolve: {
     root: path.resolve(__dirname, 'app'),
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    modulesDirectories: [ "node_modules", "bower_components"],
   },
-  modulesDirectories: [ "node_modules", "bower_components"],
+
   module: {
     loaders: [
-      { test: /\.jsx$/, loader: 'jsx-loader?harmony' },
+      { test: /\.jsx|\.js$/, loader: 'jsx-loader?harmony' },
       { test: /\.css$/, loader: "style-loader!css-loader" }
       , { test: /react-intl\.js$/ , loader: "imports?this=>window,intl,react!exports?ReactIntl" }
 

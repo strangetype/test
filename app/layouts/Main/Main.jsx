@@ -10,6 +10,7 @@ var LayoutGallery = require('layouts/Gallery/Gallery');
 var LayoutServices = require('layouts/Services/Services');
 var LayoutContacts = require('layouts/Contacts/Contacts');
 var LayoutFeedback = require('layouts/Feedback/Feedback');
+var LayoutAdvices = require('layouts/Advices/Advices');
 var LayoutPhotoPreview = require('layouts/Gallery/PhotoPreview');
 
 var BE = require('utils/BE');
