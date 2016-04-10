@@ -150,7 +150,7 @@ var Component = React.createClass({
         this.isFirstPhoto = false;
         this.isLastPhoto = false;
 
-        if (!this.currentRoute[2]) {
+        if (!this.currentRoute[1]) {
             this.pushImagesChanging();
             this.setState({
                 isBlured: false
@@ -159,7 +159,7 @@ var Component = React.createClass({
         } else {
             this.stopImagesChanging();
             this.setState({isBlured: true});
-            if (this.currentRoute[2]==='gallery') {
+            if (this.currentRoute[1]==='gallery') {
                 if (this.props.params) {
                     if (this.props.params.category) {
                         var c = this._findCategory(this.props.params.category);
@@ -177,13 +177,13 @@ var Component = React.createClass({
                 }
                 this.changeScreen('categories');
             }
-            if (this.currentRoute[2]==='services') {
+            if (this.currentRoute[1]==='services') {
                 this.changeScreen('services');
             }
-            if (this.currentRoute[2]==='contacts') {
+            if (this.currentRoute[1]==='contacts') {
                 this.changeScreen('contacts');
             }
-            if (this.currentRoute[2]==='feedback') {
+            if (this.currentRoute[1]==='feedback') {
                 this.changeScreen('feedback');
             }
         }
@@ -316,10 +316,10 @@ var Component = React.createClass({
                     <ul>
                         {this.routes.map((r,i)=>{
                             var c = '';
-                            if (r.name===this.currentRoute[2]) {
+                            if (r.name===this.currentRoute[1]) {
                                 c = "active";
                             } else {
-                                if (i===0 && !this.currentRoute[2]) c = "active";
+                                if (i===0 && !this.currentRoute[1]) c = "active";
                             };
                             return <li className={c} onClick={this.context.router.transitionTo.bind(this,r.name)} >
                                 {r.title}

@@ -8,8 +8,9 @@ var AdminLayout = require('layouts/Admin/Admin');
 var TestLayout = require('layouts/Test/Test');
 
 var routes = (
-    <Route name="app" path="main"  >
-        <DefaultRoute handler = {MainLayout} name="main" ></DefaultRoute>
+    <Route name="main" path="/" handler = {MainLayout}  >
+        <DefaultRoute  path="main" ></DefaultRoute>
+
         <Route handler = {MainLayout} name="gallery" path="gallery">
         </Route>
         <Route handler = {MainLayout} name="gallery-photos" path="gallery/:category">
