@@ -541,6 +541,22 @@ var BE = {
             resolver.reject('no_such_feedback');
         }
         return resolver.promise;
+    },
+    getServicesInfo: function() {
+        var resolver = Q.defer();
+        http.get('BE/services-info.html').set('content-type', 'html').end((a,b)=>{
+            resolver.resolve(b.text);
+        });
+        return resolver.promise;
+    },
+    saveServicesInfo: function(servicesInfo) {
+        var resolver = Q.defer();
+        http.post('BE/index.php').set('action','admin-save-services-info').send({data: {
+            servicesInfo: servicesInfo
+        }}).end((a,b)=>{
+                resolver.resolve(b.body);
+            });
+        return resolver.promise;
     }
 };
 

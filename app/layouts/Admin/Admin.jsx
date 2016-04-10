@@ -15,6 +15,7 @@ var MainCollection = require('layouts/Admin/MainCollection');
 var Feedbacks = require('layouts/Admin/Feedbacks');
 var AllPhotos = require('layouts/Admin/AllPhotos');
 var Categories = require('layouts/Admin/Categories');
+var Services = require('layouts/Admin/Services');
 
 var AdminController = require('controllers/AdminController');
 
@@ -22,8 +23,8 @@ var menu = [
     {tab: 'allPhotos',title: 'все фото'},
     {tab: 'categories',title: 'категории'},
     {tab: 'main',title: 'главная'},
-    {tab: 'feedbacks',title: 'отзывы'}
-   // {tab: 'service',title: 'услуги'},
+    {tab: 'feedbacks',title: 'отзывы'},
+    {tab: 'services',title: 'услуги'},
    // {tab: 'contacts',title: 'контакты'}
 ];
 
@@ -174,6 +175,7 @@ var Component = React.createClass({
                     {(this.state.tab==='categories') && <Categories />}
                     {(this.state.tab==='main') && <MainCollection />}
                     {(this.state.tab==='feedbacks') && <Feedbacks />}
+                    {(this.state.tab==='services') && <Services />}
                 </div>
                 {(this.state.photosGalleryOpened) && <PhotosGallery categoryName = {this.state.galleryCategory} />}
                 {(this.state.photosChooserOpened) && <PhotosChooser  />}

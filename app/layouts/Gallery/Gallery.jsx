@@ -124,7 +124,7 @@ var Gallery = React.createClass({
                     <div onClick={this.onClose} className="close-button"></div>
                     <div className="gallery-bottom">
                         <div ref="scrollBar" className="mini-photos-scrollBar">
-                            <div style={{width: 100*this.props.photos.length+'px', height: '100px'}}>
+                            <div style={{width: 102*this.props.photos.length+'px', height: '104px'}}>
                                 {this.props.photos.map((ph,id)=>{
                                     return <div className="mini-photo">
                                         <img src={'images/photos_mini/'+ph} />
