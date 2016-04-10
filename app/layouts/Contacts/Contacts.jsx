@@ -77,10 +77,6 @@ var Services = React.createClass({
                                 <ClickToSelect>+7(903)596-05-12</ClickToSelect>
                             </div>
                             <div className="contact-item">
-                                <img src="images/gmail.png" />
-                                <ClickToSelect className="" >mtropinamoscow@gmail.com</ClickToSelect>
-                            </div>
-                            <div className="contact-item">
                                 <a target="blank" href="https://www.instagram.com/tropina_maria/">
                                     <img src="images/instagram.png" />
                                     tropina_maria

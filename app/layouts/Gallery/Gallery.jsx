@@ -113,31 +113,34 @@ var Gallery = React.createClass({
         return (
             <div className={layoutClass}>
                 <div ref="bkg" className="photos-bkg">
-                    {(!this.state.isSwitching) && <div className="main-photo-container">
-                        <img className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />
-                        <img className="next-img" onClick={this.choose} src={'images/photos/'+this.props.photos[this.state.nextImgId]} />
-                    </div>}
                     <div className = "arrows">
                         {(this.props.params.photoId!=0) && <div onClick={this.prev} className="left-arrow"></div>}
                         {(this.props.params.photoId<this.props.photos.length-1) && <div onClick={this.next} className="right-arrow"></div>}
                     </div>
                     <div onClick={this.onClose} className="close-button"></div>
-                    <div className="gallery-bottom">
-                        <div ref="scrollBar" className="mini-photos-scrollBar">
-                            <div style={{width: 102*this.props.photos.length+'px', height: '104px'}}>
-                                {this.props.photos.map((ph,id)=>{
-                                    return <div className="mini-photo">
-                                        <img src={'images/photos_mini/'+ph} />
-                                        <div onClick={this.select.bind(this,id)} className="hover"></div>
-                                    </div>
-                                })}
+
+                    {(!this.state.isSwitching) && <div className="main-photo-container">
+                        <img className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />
+                        <img style={{position: 'relative'}} className="next-img" onClick={this.choose} src={'images/photos/'+this.props.photos[this.state.nextImgId]} />
+
+                        <div className="gallery-bottom">
+                            <div ref="scrollBar" className="mini-photos-scrollBar">
+                                <div style={{width: 102*this.props.photos.length+'px', height: '104px'}}>
+                                    {this.props.photos.map((ph,id)=>{
+                                        return <div className="mini-photo">
+                                            <img src={'images/photos_mini/'+ph} />
+                                            <div onClick={this.select.bind(this,id)} className="hover"></div>
+                                        </div>
+                                    })}
+                                </div>
                             </div>
+                            {(this.isArrows()) && <div className="scroll-arrows">
+                                <div className="v-arrow left-arrow" onClick={this.scrollLeft}></div>
+                                <div className="v-arrow right-arrow" onClick={this.scrollRight}></div>
+                            </div>}
                         </div>
-                        {(this.isArrows()) && <div className="scroll-arrows">
-                            <div className="v-arrow left-arrow" onClick={this.scrollLeft}></div>
-                            <div className="v-arrow right-arrow" onClick={this.scrollRight}></div>
-                        </div>}
-                    </div>
+
+                    </div>}
                 </div>
 
             </div>
