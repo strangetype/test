@@ -69,33 +69,28 @@ var Services = React.createClass({
         return (
             <div className={layoutClass}>
                 <div className="content-container">
-                    <img className="contacts-owner-image" src = "images/me.jpg" />
                     <div className="contacts-left-menu">
-                        <h2 className="contacts-title">Контакты</h2>
-                        <div className="contacts" >
+                        <h2 className="contacts-title">Мария Тропина</h2>
+                        <div className="contacts"  >
                             <div className="contact-item">
                                 <img src="images/mobile.png" />
                                 <ClickToSelect>+7(903)596-05-12</ClickToSelect>
-                            </div>
-                            <div className="contact-item">
-                                <img src="images/viber.png" />
-                                <ClickToSelect>+7(903)506-05-12</ClickToSelect>
-                            </div>
-                            <div className="contact-item">
-                                <img src="images/whatsapp.png" />
-                                <ClickToSelect>+7(903)506-05-12</ClickToSelect>
                             </div>
                             <div className="contact-item">
                                 <img src="images/gmail.png" />
                                 <ClickToSelect className="" >mtropinamoscow@gmail.com</ClickToSelect>
                             </div>
                             <div className="contact-item">
-                                <a target="blank" href="https://www.instagram.com/mtropina/">
+                                <a target="blank" href="https://www.instagram.com/tropina_maria/">
                                     <img src="images/instagram.png" />
-                                    mtropina
+                                    tropina_maria
                                 </a>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="contacts-right-menu">
+                        <h3 >Отправить сообщение</h3>
                         <div className="contact-form">
                             <form>
                                 <input type="text" onChange={this.onInputChange.bind(this,'name')} placeholder="*имя" />
@@ -108,10 +103,6 @@ var Services = React.createClass({
                                 </div>}
                             </form>
                         </div>
-                    </div>
-
-                    <div className="contacts-right-menu">
-
                     </div>
                 </div>
                 {(!!this.state.notify) && <div className="contacts-notify-screen">
