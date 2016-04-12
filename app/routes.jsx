@@ -8,22 +8,24 @@ var AdminLayout = require('layouts/Admin/Admin');
 var TestLayout = require('layouts/Test/Test');
 
 var routes = (
-    <Route name="main" path="/" handler = {MainLayout}  >
-        <DefaultRoute  path="main" ></DefaultRoute>
+    <Route >
+        <Route name="main" path="/" handler = {MainLayout}  >
+            <DefaultRoute  path="main" ></DefaultRoute>
 
-        <Route handler = {MainLayout} name="gallery" path="gallery">
-        </Route>
-        <Route handler = {MainLayout} name="gallery-photos" path="gallery/:category">
-        </Route>
-        <Route handler = {MainLayout} name="gallery-photo" path="gallery/:category/:photoId">
-        </Route>
+            <Route handler = {MainLayout} name="gallery" path="gallery">
+            </Route>
+            <Route handler = {MainLayout} name="gallery-photos" path="gallery/:category">
+            </Route>
+            <Route handler = {MainLayout} name="gallery-photo" path="gallery/:category/:photoId">
+            </Route>
 
-        <Route name="services" handler = {MainLayout} ></Route>
-        <Route name="feedback" handler = {MainLayout} ></Route>
-        <Route name="contacts" handler = {MainLayout} ></Route>
+            <Route name="services" handler = {MainLayout} ></Route>
+            <Route name="feedback" handler = {MainLayout} ></Route>
+            <Route name="contacts" handler = {MainLayout} ></Route>
 
-        <Route handler = {AdminLayout} name="admin"></Route>
-        <Route handler = {TestLayout} name="test"></Route>
+        </Route>
+        <Route handler = {AdminLayout} name="admin">
+        </Route>
     </Route>
 );
 

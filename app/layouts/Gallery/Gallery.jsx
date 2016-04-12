@@ -119,9 +119,11 @@ var Gallery = React.createClass({
                     </div>
                     <div onClick={this.onClose} className="close-button"></div>
 
-                    {(!this.state.isSwitching) && <div className="main-photo-container">
-                        <img className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />
-                        <img style={{position: 'relative'}} className="next-img" onClick={this.choose} src={'images/photos/'+this.props.photos[this.state.nextImgId]} />
+                    <div className="main-photo-container">
+
+                        {(!this.state.isSwitching) && <img className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />}
+                        {(!this.state.isSwitching) && <img className="next-img" onClick={this.choose} src={'images/photos/'+this.props.photos[this.state.nextImgId]} />}
+                        <img style={{visibility: 'hidden', position: 'relative'}} className="current-img" src={'images/photos/'+this.props.photos[this.state.currentImgId]} />
 
                         <div className="gallery-bottom">
                             <div ref="scrollBar" className="mini-photos-scrollBar">
@@ -140,7 +142,7 @@ var Gallery = React.createClass({
                             </div>}
                         </div>
 
-                    </div>}
+                    </div>
                 </div>
 
             </div>
