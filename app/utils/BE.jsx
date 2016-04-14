@@ -10,7 +10,7 @@ var BE = {
     data: null,
     isAuth: function () {
         var resolver = Q.defer();
-        http.get('BE/index.php').use(no_cache).set('action','admin-is-auth')
+        http.get('BE/index.php').set('action','admin-is-auth')
             .end((a,res)=>{
                 resolver.resolve(res.body.isAuth);
             });
@@ -41,7 +41,7 @@ var BE = {
     },
     getData: function() {
         var resolver = Q.defer();
-        http.get('BE/data.json')
+        http.get('BE/data.json').use(no_cache)
             .end((a,b)=>{
                 this.data = b.body;
                 resolver.resolve(b.body);
