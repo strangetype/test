@@ -80,7 +80,7 @@ var AdminPhotosGallery = React.createClass({
                 </div>
                 <div className="admin-services-container">
 
-                    <EditableDiv className="admin-services-editor rich-editor" content={this.state.servicesInfo} onChange={this.onChange} />
+                    <EditableDiv ref="editor" className="admin-services-editor rich-editor" content={this.state.servicesInfo} onChange={this.onChange} />
                 </div>
             </div>
         );

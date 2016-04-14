@@ -3,12 +3,14 @@ var Q = require('q');
 var _ = require('lodash');
 var md5 = require('js-md5');
 
+var no_cache = require('superagent-no-cache');
+
 var BE = {
     url: 'BE/index.php',
     data: null,
     isAuth: function () {
         var resolver = Q.defer();
-        http.get('BE/index.php').set('action','admin-is-auth')
+        http.get('BE/index.php').use(no_cache).set('action','admin-is-auth')
             .end((a,res)=>{
                 resolver.resolve(res.body.isAuth);
             });

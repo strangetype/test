@@ -16,10 +16,10 @@
         transition: color 0.5s, text-shadow 0.5s;
         color: #eee;
         text-shadow: 0 0 3px #000;
-        font-family: "Taurus";
+        font-family: "Taurus", calibri;
         line-height: 3;
         >span {
-          font-family: "Taurus";
+          font-family: "Taurus", calibri;
         }
         text-transform: uppercase;
         &:hover, &.active {

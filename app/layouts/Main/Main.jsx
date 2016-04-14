@@ -297,9 +297,7 @@ var Component = React.createClass({
 
                 <div className="main-image-shadow"></div>
                 <div className="photographer-title hide-on-blur">
-                    <h1 >Мария Тропина</h1>
                     <img className="framing" src="images/framing.png" />
-                    <h2 >детский фотограф</h2>
                 </div>
                 <div className = "arrows hide-on-blur">
                     <div onClick={this.prevBkg} className="left-arrow"></div>

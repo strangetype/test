@@ -6,6 +6,8 @@ var _maxXSize = 4;
 
 var scroll = require('scroll');
 
+var $ = require('jquery');
+
 var _getRandomImg = function() {
     this.img = {
         x: Math.round(Math.random()*(_maxXSize-3))+1,
@@ -29,6 +31,13 @@ var Services = React.createClass({
 
     fadeOut: function() {
         this.setState({isFadeOut: true});
+    },
+
+    componentDidMount: function() {
+        $('iframe').load( function() {
+            $('iframe').contents().find("head")
+                .append($("<style type='text/css'>  *{color: #fff;}  </style>"));
+        });
     },
 
     render: function() {
