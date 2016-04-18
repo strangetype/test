@@ -483,17 +483,16 @@ var BE = {
             fb.confirmed = false;
             fb.date = Date.now();
             if (!this.data.feedbacks) this.data.feedbacks = [];
-            this.data.feedbacks.push({
+            var feedback = {
                 name: fb.name,
                 text: fb.text,
                 confirmed: fb.confirmed,
                 date: fb.date
-            });
-            this.saveData(this.data).then((data)=>{
-                resolver.resolve(data.feedbacks);
-            }).catch(()=>{
-                resolver.reject('saving_error');
-            });
+            };
+            http.post('BE/index.php').set('action','leave-feedback').send({data: feedback})
+                .end((a,b)=>{
+                    resolver.resolve(b.body);
+                });
         } else {
             resolver.reject('incorrect_message');
         }

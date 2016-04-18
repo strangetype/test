@@ -36,7 +36,7 @@ var Services = React.createClass({
     componentDidMount: function() {
         $('iframe').load( function() {
             $('iframe').contents().find("head")
-                .append($("<style type='text/css'>  *{color: #fff; font-family: calibri, arial;} body{padding: 2em} </style>"));
+                .append($("<style type='text/css'>  *{color: #fff; font-family: calibri, arial; text-shadow: 0 0 5px #000;} body{padding: 2em} ul{margin: 0;} p{margin: 0.3em;} </style>"));
         });
     },
 
