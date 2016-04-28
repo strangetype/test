@@ -44,7 +44,7 @@ if ($isAuth) {
             default:
             break;
         }
-        imagecopyresized(
+        imagecopyresampled(
             $thumb, $source,
             0, 0,
             $x, $y,

@@ -73,12 +73,12 @@ var Services = React.createClass({
                         <h2 className="contacts-title">Мария Тропина</h2>
                         <div className="contacts"  >
                             <div className="contact-item">
-                                <img src="images/mobile.png" />
+                                <i className="fa fa-phone" ></i>
                                 <ClickToSelect>+7(903)596-05-12</ClickToSelect>
                             </div>
                             <div className="contact-item">
                                 <a target="blank" href="https://www.instagram.com/tropina_maria/">
-                                    <img src="images/instagram.png" />
+                                    <i className="fa fa-instagram" ></i>
                                     tropina_maria
                                 </a>
                             </div>
@@ -95,7 +95,7 @@ var Services = React.createClass({
                                 <textarea onChange={this.onInputChange.bind(this,'message')}  placeholder="*сообщение" />
                                 <input onClick={this.sendMessage} type="submit" />
                                 {!!(this.state.tip) && <div className="tip">
-                                    <i>введите ваше имя, текст сообщения и ваш email</i>
+                                    <i>введите Ваше имя, текст сообщения и Ваш email</i>
                                 </div>}
                             </form>
                         </div>

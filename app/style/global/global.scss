@@ -1,11 +1,12 @@
 @font-face {
-  font-family: "Taurus";
-  src:  url("../../fonts/taurus_normal") format('truetype');
+  font-family: Taurus;
+  src: url(../../fonts/taurus.ttf) format('truetype');
+  src: url(../../fonts/taurus.woff) format('woff');
 }
 
 * {
   margin: 0; padding: 0;
-  font-family: "Taurus", 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+  font-family: Calibri, Arial;
   &::selection {
     background: rgba(255,150,0,1);
   }
@@ -33,6 +34,10 @@
 
 body {
   background: #000;
+}
+
+a {
+  color: #fff;
 }
 
 a:visited {

@@ -90,13 +90,13 @@ var Services = React.createClass({
                 {(this.state.isAddForm) && <div className="feedback-add-form">
                     <form onSubmit={this.leaveFeedback}>
                         {(!this.state.notify) && <div>
-                            <input placeholder="ваше имя" className="feedback-form-name" onChange={this.onInputChange.bind(this,'name')} />
+                            <input placeholder="Ваше имя" className="feedback-form-name" onChange={this.onInputChange.bind(this,'name')} />
                             <textarea placeholder="отзыв" onChange={this.onInputChange.bind(this,'text')} className="feedback-form-text" ></textarea>
                             {!!(this.state.feedback.name && this.state.feedback.text) && <button type="submit" className="feedback-btn btn-submit">отправить</button>}
                             {!(this.state.feedback.name && this.state.feedback.text) && <button onClick={this.showTip} className="feedback-btn btn-submit btn-disabled">отправить</button>}
                             <button onClick={this.toggleForm} type="submit" className="feedback-btn btn-cancel">отмена</button>
                             {!!(this.state.tip) && <div className="tip">
-                                <i>введите ваше имя и текст отзыва</i>
+                                <i>введите Ваше имя и текст отзыва</i>
                             </div>}
                         </div>}
                         {(this.state.notify) && <div className = "feedback-form-notify">
