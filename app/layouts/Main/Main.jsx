@@ -297,7 +297,7 @@ var Component = React.createClass({
 
                 <div className="main-image-shadow"></div>
                 <div className="photographer-title hide-on-blur">
-                    <h2 >детский фотограф</h2>
+                    <h2 >семейный фотограф</h2>
                     <h1 >Мария Тропина</h1>
                     <h3 >подберу ключик к каждому ребенку</h3>
                     <img style={{width: '70px'}} className="framing" src="images/framing.png" />
