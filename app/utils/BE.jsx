@@ -152,6 +152,30 @@ var BE = {
         }
         return resolver.promise;
     },
+    addPhotoToBkgAbove: function(id, pointId) {
+        var resolver = Q.defer();
+        if (_.indexOf(this.data.bkgPhotos, id)===-1) {
+            this.getPhotos().then((photos)=>{
+                var i = _.indexOf(photos,id);
+                if (i!==-1) {
+                    var pointIndex = _.indexOf(this.data.bkgPhotos, pointId);
+                    if (pointIndex!==-1) {
+                        this.data.bkgPhotos.splice(pointIndex, 0, id);
+                        this.saveData(this.data).then((a)=>{
+                            resolver.resolve(this.data);
+                        });
+                    } else {
+                        resolver.reject('no such point photo: '+pointId);
+                    }
+                } else {
+                    resolver.reject('no such photo: '+id);
+                }
+            });
+        } else {
+            resolver.reject('duplicated photo: '+id);
+        }
+        return resolver.promise;
+    },
     removePhotoFromBkg: function(ph) {
         var resolver = Q.defer();
         _.remove(this.data.bkgPhotos,(p)=>{

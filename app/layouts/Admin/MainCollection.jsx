@@ -56,6 +56,25 @@ var AdminPhotosGallery = React.createClass({
         });
     },
 
+    addPhotoAbove: function(phPoint) {
+        AdminController.openPhotosChooser.triggerPromise().then((ph,id)=>{
+            this.setState({loading: true});
+            BE.addPhotoToBkgAbove(ph, phPoint).then((data)=>{
+                this.setState({
+                    loading: false,
+                    photos: data.bkgPhotos
+                });
+            }).catch((er)=>{
+                console.warn(er);
+                this.setState({
+                    loading: false
+                });
+            });
+        }).catch((res)=>{
+
+        });
+    },
+
     changePhoto: function(ph) {
         AdminController.openPhotosChooser.triggerPromise().then((nph,id)=>{
             this.setState({loading: true});
@@ -119,6 +138,7 @@ var AdminPhotosGallery = React.createClass({
                             <div className = "admin-main-gallery-item-menu">
                                 <h2>{id+1}</h2>
                                 <div><button className="btn" onClick={this.changePhoto.bind(this,ph)}>другое фото</button></div>
+                                <div><button className="btn" onClick={this.addPhotoAbove.bind(this,ph)}>добавить фото выше</button></div>
                             </div>
                             <button onClick={this.removePhoto.bind(this,ph,id)} className="btn admin-btn-delete">x</button>
                         </div>;
